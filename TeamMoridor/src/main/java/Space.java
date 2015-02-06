@@ -3,6 +3,7 @@
  */
 package main.java;
 
+
 public class Space {
 	//Fields
 	private int xCoordinate;
@@ -21,7 +22,5 @@ public class Space {
 	// Returns y coordinate
 	public int getY() {
 		return this.yCoordinate;
-	}
-	
-	
+	}	
 }
