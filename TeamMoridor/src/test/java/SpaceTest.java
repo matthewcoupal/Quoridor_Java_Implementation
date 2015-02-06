@@ -1,7 +1,5 @@
 package test.java;
 
-import static org.junit.Assert.*;
-
 import main.java.Space;
 
 import org.junit.Test;
