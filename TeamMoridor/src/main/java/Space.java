@@ -22,5 +22,13 @@ public class Space {
 	// Returns y coordinate
 	public int getY() {
 		return this.yCoordinate;
-	}	
+	}
+
+	public int setX(int x) {
+		return 0;
+	}
+
+	public int setY(int y) {
+		return 0;
+	}
 }
