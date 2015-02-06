@@ -13,5 +13,5 @@ repositories {
 
 // Name the libraries different phases of the build depend on
 dependencies {
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 }

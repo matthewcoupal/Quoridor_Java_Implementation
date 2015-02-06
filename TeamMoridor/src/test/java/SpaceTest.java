@@ -1,8 +1,8 @@
-package test;
+package test.java;
 
 import static org.junit.Assert.*;
 
-import main.Space;
+import main.java.Space;
 
 import org.junit.Test;
 
