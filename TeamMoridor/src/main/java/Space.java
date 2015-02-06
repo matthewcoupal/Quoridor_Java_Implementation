@@ -4,18 +4,23 @@
 package main.java;
 
 public class Space {
+	//Fields
+	private int xCoordinate;
+	private int yCoordinate;
 	
 	public Space (int x, int y){
-		
+		this.xCoordinate = x;
+		this.yCoordinate = y;
 	}
+	
 	// Returns x coordinate
 	public int getX() {
-		return 0;
+		return this.xCoordinate;
 	}
 	
 	// Returns y coordinate
 	public int getY() {
-		return 0;
+		return this.yCoordinate;
 	}
 	
 	
