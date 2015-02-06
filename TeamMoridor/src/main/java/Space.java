@@ -24,11 +24,9 @@ public class Space {
 		return this.yCoordinate;
 	}
 
-	public int setX(int x) {
-		return 0;
+	public void setX(int x) {
 	}
 
-	public int setY(int y) {
-		return 0;
+	public void setY(int y) {
 	}
 }
