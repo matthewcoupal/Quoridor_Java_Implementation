@@ -24,5 +24,11 @@ public class EdgeTest {
 		Edge wall = new Edge(1,2,3,2);
 		assertEquals(3, wall.getBeginY());
 	}
+	
+	@Test
+	public void edgeCanGetEndX() {
+		Edge wall = new Edge(1,2,3,2);
+		assertEquals(2, wall.getEndX());
+	}
 
 }
