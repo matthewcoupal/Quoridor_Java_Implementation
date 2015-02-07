@@ -1,3 +1,6 @@
+/*
+ * Author: Matthew Coupal
+ */
 package main.java;
 
 public class Edge {
@@ -29,5 +32,9 @@ public class Edge {
 
 	public int getEndX() {
 		return this.endXCoordinate;
+	}
+
+	public int getEndY() {
+		return 0;
 	}
 }
