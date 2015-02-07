@@ -37,4 +37,7 @@ public class Edge {
 	public int getEndY() {
 		return this.endYCoordinate;
 	}
+
+	public void setBeginX(int x) {
+	}
 }
