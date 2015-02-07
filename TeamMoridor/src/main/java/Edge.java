@@ -24,6 +24,6 @@ public class Edge {
 	}
 
 	public int getBeginY() {
-		return 0;
+		return this.beginYCoordinate;
 	}
 }

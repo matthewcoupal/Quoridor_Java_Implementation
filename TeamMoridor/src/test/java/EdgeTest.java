@@ -22,7 +22,7 @@ public class EdgeTest {
 	@Test
 	public void edgeCanGetBeginY() {
 		Edge wall = new Edge(1,2,3,2);
-		assertEquals(2, wall.getBeginY());
+		assertEquals(3, wall.getBeginY());
 	}
 
 }
