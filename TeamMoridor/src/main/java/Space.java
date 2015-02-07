@@ -25,8 +25,10 @@ public class Space {
 	}
 
 	public void setX(int x) {
+		this.xCoordinate = x;
 	}
 
 	public void setY(int y) {
+		this.yCoordinate = y;
 	}
 }
