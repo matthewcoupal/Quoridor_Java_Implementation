@@ -20,6 +20,6 @@ public class Edge {
 	}
 
 	public int getBeginX() {
-		return 0;
+		return this.beginXCoordinate;
 	}
 }
