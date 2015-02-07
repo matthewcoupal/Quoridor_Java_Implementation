@@ -46,6 +46,7 @@ public class Edge {
 		this.beginYCoordinate = y;
 	}
 
-	public void setEndX(int x) {		
+	public void setEndX(int x) {
+		this.endXCoordinate= x;
 	}
 }
