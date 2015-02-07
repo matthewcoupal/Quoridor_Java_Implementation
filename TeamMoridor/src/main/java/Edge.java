@@ -51,5 +51,6 @@ public class Edge {
 	}
 
 	public void setEndY(int y) {
+		this.endYCoordinate = y;
 	}
 }
