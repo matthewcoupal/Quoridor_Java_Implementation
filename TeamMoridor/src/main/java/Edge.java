@@ -43,5 +43,6 @@ public class Edge {
 	}
 
 	public void setBeginY(int y) {
+		this.beginYCoordinate = y;
 	}
 }
