@@ -50,5 +50,12 @@ public class EdgeTest {
 		wall.setBeginY(7);
 		assertEquals(7, wall.getBeginY());
 	}
+	
+	@Test
+	public void edgeCanSetEndX() {
+		Edge wall = new Edge(1,5,3,2);
+		wall.setEndX(7);
+		assertEquals(7, wall.getEndX());
+	}
 
 }
