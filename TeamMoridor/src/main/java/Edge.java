@@ -18,4 +18,8 @@ public class Edge {
 		this.endXCoordinate = endX;
 		this.endYCoordinate = endY;
 	}
+
+	public int getBeginX() {
+		return 0;
+	}
 }
