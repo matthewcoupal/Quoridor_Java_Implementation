@@ -7,6 +7,11 @@ public class Board {
 	private ArrayList<Space> occupiedSpaces; //List of occupied spaces
 	private ArrayList<Edge> occupiedEdges; //List of wall locations
 	
+	//If no board size is given, a 2-player setup is initiated.
+	public Board() {
+		this(2);
+	}
+
 	public Board(int numberOfPlayers){
 		this.occupiedSpaces = new ArrayList<Space>();
 		this.occupiedEdges = new ArrayList<Edge>();
