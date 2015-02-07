@@ -13,5 +13,10 @@ public class BoardTest {
 		Board board1 = new Board(2);
 		Board board2 = new Board(4);
 	}
+	
+	@Test
+	public void boardCanBeConstructedWithoutValues() {
+		Board board = new Board();
+	}
 
 }
