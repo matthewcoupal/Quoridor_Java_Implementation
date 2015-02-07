@@ -28,6 +28,6 @@ public class Edge {
 	}
 
 	public int getEndX() {
-		return 0;
+		return this.endXCoordinate;
 	}
 }
