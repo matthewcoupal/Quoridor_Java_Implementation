@@ -25,4 +25,8 @@ public class Board {
 			this.occupiedSpaces.add(new Space(9,5));
 		}
 	}
+
+	public boolean isOutOfBounds(Space currentPosition, Space PotentialPostion) {
+		return true;
+	}
 }
