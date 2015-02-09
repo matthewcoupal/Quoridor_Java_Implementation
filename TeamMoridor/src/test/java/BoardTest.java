@@ -23,7 +23,7 @@ public class BoardTest {
 	@Test
 	public void boardWillTestForPlayerMovingOutOfBoundaries () {
 		Board board = new Board();
-		assertFalse(board.isOutOfBounds(new Space(0,1), new Space(-1,1)));
+		assertFalse(board.isOutOfBounds(new Space(-1,1)));
 	}
 
 }

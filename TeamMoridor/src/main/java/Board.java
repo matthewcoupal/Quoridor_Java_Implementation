@@ -26,7 +26,10 @@ public class Board {
 		}
 	}
 
-	public boolean isOutOfBounds(Space currentPosition, Space PotentialPostion) {
+	public boolean isOutOfBounds(Space potentialPosition) {
+		if(potentialPosition.getX() < 0 || potentialPosition.getX() > 9 && potentialPosition.getY() < 0 || potentialPosition.getY() > 9 ) {
+			return false;
+		}
 		return true;
 	}
 }
