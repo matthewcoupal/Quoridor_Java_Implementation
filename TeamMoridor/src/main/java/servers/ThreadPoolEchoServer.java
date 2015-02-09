@@ -22,7 +22,7 @@ public class ThreadPoolEchoServer {
     /**
      * Default port number; used if none is provided.
      */
-    public final static int DEFAULT_PORT_NUMBER = 3939;
+    public final static int DEFAULT_PORT_NUMBER = 4567;
     /**
      * Default machine name is the local machine; used if none provided.
      */

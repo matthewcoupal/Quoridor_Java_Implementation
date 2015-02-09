@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.BoardTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2015-02-08T23:18:46" hostname="dBOT" time="0.0">
+  <properties/>
+  <testcase name="boardCanBeConstructedWithValues" classname="test.java.BoardTest" time="0.0"/>
+  <testcase name="boardCanBeConstructedWithoutValues" classname="test.java.BoardTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
