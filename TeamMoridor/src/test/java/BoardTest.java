@@ -31,5 +31,11 @@ public class BoardTest {
         Board board = new Board();
         assertTrue(board.isMoveDiagonal(new Space(0,0), new Space(1,1)));
     }
+    
+    @Test
+    public void boardCanTestForPlayerMovingIntoAnOccupiedSpace() {
+    	Board board = new Board();
+    	assertTrue(board.isPlayerHere(new Space(5,9)));
+    }
 
 }

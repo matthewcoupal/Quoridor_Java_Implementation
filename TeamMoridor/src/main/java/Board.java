@@ -69,4 +69,14 @@ public class Board {
     	}
         return false;
     }
+	public boolean isPlayerHere(Space potentialPosition) {
+		for(int i = 0; i < occupiedSpaces.size(); i++) {
+			if(occupiedSpaces.get(i).getX() == potentialPosition.getX() && occupiedSpaces.get(i).getY() == potentialPosition.getY()) {
+				return true;
+			}
+		}
+		return false;
+	}
+    
+    
 }
