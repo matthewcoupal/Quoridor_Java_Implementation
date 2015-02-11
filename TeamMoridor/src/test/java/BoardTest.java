@@ -21,9 +21,15 @@ public class BoardTest {
 	}
 	
 	@Test
-	public void boardWillTestForPlayerMovingOutOfBoundaries () {
+	public void boardWillTestForPlayerMovingOutOfBoundaries() {
 		Board board = new Board();
-		assertFalse(board.isOutOfBounds(new Space(-1,1)));
+		assertTrue(board.isOutOfBounds(new Space(-1,1)));
 	}
+
+    @Test
+    public void boardCanTestForPlayerMovingDiagonally() {
+        Board board = new Board();
+        assertTrue(board.isMoveDiagonal(new Space(0,0), new Space(1,1)));
+    }
 
 }
