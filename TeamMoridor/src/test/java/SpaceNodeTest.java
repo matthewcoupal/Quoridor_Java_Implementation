@@ -14,10 +14,11 @@ public class SpaceNodeTest {
 		SpaceNode spacenode = new SpaceNode(new Space(1,1));
 	}
 	
-	/*@Test
+	@Test
 	public void SpaceNodeCanGetCoordinates() {
 		SpaceNode node = new SpaceNode(new Space(1,1));
-		
-	}*/
+		assertEquals(1, node.getCoordinates().getX());
+		assertEquals(1, node.getCoordinates().getY());
+	}
 
 }

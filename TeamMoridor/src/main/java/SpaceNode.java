@@ -14,9 +14,9 @@ public class SpaceNode {
 		coordinates = spaceCoordinates;
 	}
 
-	/*
+	
 	public Space getCoordinates() {
-		return new Space(0,0);
-	}*/
+		return coordinates;
+	}
 
 }
