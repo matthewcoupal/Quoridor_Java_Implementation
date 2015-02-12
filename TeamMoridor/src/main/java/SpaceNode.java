@@ -19,4 +19,19 @@ public class SpaceNode {
 		return coordinates;
 	}
 
+
+	public void setCoordinates(Space spaceCoordinates) {
+		coordinates = spaceCoordinates;
+	}
+	
+/*
+	public Space getTopCoordinates() {
+		return top.getCoordinates();
+	}
+
+
+	public void setTopCoordinates(Space space) {
+		
+	}*/
+
 }
