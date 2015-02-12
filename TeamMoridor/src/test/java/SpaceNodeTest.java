@@ -16,9 +16,9 @@ public class SpaceNodeTest {
 	
 	@Test
 	public void SpaceNodeCanGetCoordinates() {
-		SpaceNode node = new SpaceNode(new Space(1,1));
-		assertEquals(1, node.getCoordinates().getX());
-		assertEquals(1, node.getCoordinates().getY());
+		Space space = new Space(1,1);
+		SpaceNode node = new SpaceNode(space);
+		assertEquals(space, node.getCoordinates());
 	}
 
 }
