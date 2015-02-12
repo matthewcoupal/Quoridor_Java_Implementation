@@ -29,12 +29,13 @@ public class SpaceNodeTest {
 		assertEquals(space, node.getCoordinates());
 	}
 	
-	/*
+	//Coupled test for setting and getting coordinates. Hope to change this.
 	@Test
-	public void spaceNodeCanGetandSetTopCoordinates() {
+	public void spaceNodeCanGetandSetTopNode() {
 		SpaceNode node = new SpaceNode(new Space(1,1));
 		Space space = new Space(2,2);
-		node.setTopCoordinates(space);
-		assertEquals(space, node.getTopCoordinates());
-	}*/
+		SpaceNode node2 = new SpaceNode(space);
+		node.setTopNode(node2);
+		assertEquals(node2, node.getTopNode());
+	}
 }

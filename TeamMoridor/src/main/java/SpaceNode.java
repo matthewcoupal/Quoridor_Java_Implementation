@@ -2,7 +2,10 @@ package main.java;
 
 
 public class SpaceNode {
-
+	
+	//Coordinates that are outside the board, which will be the default
+	//    positions for the reference fields.
+	private SpaceNode defaultRefNode;
 	private Space coordinates;
 	private SpaceNode top;
 	private SpaceNode right;
@@ -12,6 +15,10 @@ public class SpaceNode {
 	
 	public SpaceNode(Space spaceCoordinates) {
 		coordinates = spaceCoordinates;
+		top = defaultRefNode = null;
+		right = defaultRefNode = null;
+		bottom = defaultRefNode = null;
+		left = defaultRefNode = null;
 	}
 
 	
@@ -21,17 +28,17 @@ public class SpaceNode {
 
 
 	public void setCoordinates(Space spaceCoordinates) {
-		coordinates = spaceCoordinates;
+		this.coordinates = spaceCoordinates;
 	}
 	
-/*
-	public Space getTopCoordinates() {
-		return top.getCoordinates();
+
+	public SpaceNode getTopNode() {
+		return top;
 	}
 
 
-	public void setTopCoordinates(Space space) {
-		
-	}*/
+	public void setTopNode(SpaceNode nodeSpace) {
+		this.top = nodeSpace;
+	}
 
 }
