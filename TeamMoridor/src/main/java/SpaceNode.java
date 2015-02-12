@@ -23,7 +23,7 @@ public class SpaceNode {
 
 	
 	public Space getCoordinates() {
-		return coordinates;
+		return this.coordinates;
 	}
 
 
@@ -33,12 +33,23 @@ public class SpaceNode {
 	
 
 	public SpaceNode getTopNode() {
-		return top;
+		return this.top;
 	}
 
 
-	public void setTopNode(SpaceNode nodeSpace) {
-		this.top = nodeSpace;
+	public void setTopNode(SpaceNode nodeReference) {
+		this.top = nodeReference;
+	}
+
+
+	public void setRightNode(SpaceNode nodeReference) {
+		this.bottom = nodeReference;
+		
+	}
+
+
+	public SpaceNode getRightNode() {
+		return this.bottom;
 	}
 
 }

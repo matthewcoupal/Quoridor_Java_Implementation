@@ -38,4 +38,12 @@ public class SpaceNodeTest {
 		node.setTopNode(node2);
 		assertEquals(node2, node.getTopNode());
 	}
+	
+	@Test
+	public void spaceNodeCanGetRightNode() {
+		SpaceNode node = new SpaceNode(new Space(1,1));
+		SpaceNode node2 = new SpaceNode(new Space(2,2));
+		node.setRightNode(node2);
+		assertEquals(node2, node.getRightNode());
+	}
 }
