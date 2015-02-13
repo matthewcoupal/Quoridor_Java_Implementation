@@ -33,17 +33,24 @@ public class SpaceNodeTest {
 	@Test
 	public void spaceNodeCanGetandSetTopNode() {
 		SpaceNode node = new SpaceNode(new Space(1,1));
-		Space space = new Space(2,2);
-		SpaceNode node2 = new SpaceNode(space);
+		SpaceNode node2 = new SpaceNode(new Space(2,2));
 		node.setTopNode(node2);
 		assertEquals(node2, node.getTopNode());
 	}
 	
 	@Test
-	public void spaceNodeCanGetRightNode() {
+	public void spaceNodeCanGetandSetRightNode() {
 		SpaceNode node = new SpaceNode(new Space(1,1));
 		SpaceNode node2 = new SpaceNode(new Space(2,2));
 		node.setRightNode(node2);
 		assertEquals(node2, node.getRightNode());
+	}
+	
+	@Test
+	public void spaceNodeCanGetandSetBottomNode() {
+		SpaceNode node = new SpaceNode(new Space(1,1));
+		SpaceNode node2 = new SpaceNode(new Space(2,2));
+		node.setBottomNode(node2);
+		assertEquals(node2, node.getBottom());
 	}
 }
