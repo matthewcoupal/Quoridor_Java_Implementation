@@ -51,6 +51,14 @@ public class SpaceNodeTest {
 		SpaceNode node = new SpaceNode(new Space(1,1));
 		SpaceNode node2 = new SpaceNode(new Space(2,2));
 		node.setBottomNode(node2);
-		assertEquals(node2, node.getBottom());
+		assertEquals(node2, node.getBottomNode());
+	}
+	
+	@Test
+	public void spaceNodeCanGetAndSetLeftNode() {
+		SpaceNode node = new SpaceNode(new Space(1,1));
+		SpaceNode node2 = new SpaceNode(new Space(2,2));
+		node.setLeftNode(node2);
+		assertEquals(node2, node.getLeftNode());
 	}
 }

@@ -73,20 +73,44 @@ public class SpaceNode {
 
 	/**
 	 * Gets the reference of the right field.
-	 * @return The right field's reference
+	 * @return The right field's reference.
 	 */
 	public SpaceNode getRightNode() {
 		return this.right;
 	}
 
-	
+	/**
+	 * Sets the reference of the bottom field.
+	 * @param nodeReference    The node being linked to the right field.
+	 */
 	public void setBottomNode(SpaceNode nodeReference) {
 		this.bottom = nodeReference;
 		
 	}
 
-	public SpaceNode getBottom() {
+	/**
+	 * Gets the reference of the bottom field.
+	 * @return The bottom field's reference.
+	 */
+	public SpaceNode getBottomNode() {
 		return this.bottom;
+	}
+
+	/**
+	 * Sets the reference of the left field.
+	 * @param nodeReference    The node being linked to the left field.   
+	 */
+	public void setLeftNode(SpaceNode nodeReference) {
+		this.left = nodeReference;
+		
+	}
+
+	/**
+	 * Gets the reference of the left field.
+	 * @return The left field's reference.
+	 */
+	public SpaceNode getLeftNode() {
+		return this.left;
 	}
 
 }
