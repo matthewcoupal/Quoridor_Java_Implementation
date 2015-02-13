@@ -30,5 +30,15 @@ public class SpaceLinkedListTest {
 		list.add(new SpaceNode(new Space(2,2)));
 		assertEquals(2, list.size());
 	}
+	
+	@Test
+	public void spaceLinkedListCanReferenceNodeBasedOnCoordinates() {
+		SpaceLinkedList list = new SpaceLinkedList();
+		list.add(new SpaceNode(new Space(1,1)));
+		SpaceNode node = new SpaceNode(new Space(2,2));
+		list.add(node);
+		assertEquals(node, list.spaceAt(2,2));
+		assertNull(list.indexOf(4, 4));
+	}
 
 }
