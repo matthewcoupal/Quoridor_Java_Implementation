@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class Board {
 	//Instance Variables
 	private ArrayList<Space> occupiedSpaces; //List of occupied spaces
-	private ArrayList<Edge> occupiedEdges; //List of wall locations
+	//private ArrayList<Edge> occupiedEdges; //List of wall locations
+	public SpaceLinkedList boardConfiguration;
 	
 	//If no board size is given, a 2-player setup is initiated.
 	public Board() {
@@ -27,7 +28,7 @@ public class Board {
  */
 	public Board(int numberOfPlayers){
 		this.occupiedSpaces = new ArrayList<Space>();
-		this.occupiedEdges = new ArrayList<Edge>();
+		//this.occupiedEdges = new ArrayList<Edge>();
 		if(numberOfPlayers == 2) {
 			this.occupiedSpaces.add(new Space(5,0));
 			this.occupiedSpaces.add(new Space(5,9));
@@ -37,6 +38,64 @@ public class Board {
 			this.occupiedSpaces.add(new Space(0,5));
 			this.occupiedSpaces.add(new Space(9,5));
 		}
+		makeGrid(9);
+	}
+	
+	/**
+	 * Creates a grid of requested n by n size.
+	 * @param size    The length and width of the grid requested.
+	 */
+	public void makeGrid(int size) {
+		this.boardConfiguration = new SpaceLinkedList();
+		
+		// Creates a string of nodes with the proper numbering
+		// (Columns are stacked on each other)
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				SpaceNode node = new SpaceNode(new Space(i, j));
+				this.boardConfiguration.add(node);
+			}
+		}
+		
+		// Starting from the beginning of the list and moving up, assign the 
+		// bottom, left, and right nodes, depending on whether or not the
+		// spaces are on the edges.
+		SpaceNode current = this.boardConfiguration.spaceAt(0, 0);
+		int x = current.getCoordinates().getX();
+		int y = current.getCoordinates().getY();
+		
+		if(y != 0)
+			current.setBottomNode(boardConfiguration.spaceAt(x, y - 1));
+		if(x != 0)
+			current.setLeftNode(boardConfiguration.spaceAt(x-1, y));
+		if(x != size - 1)
+			current.setRightNode(boardConfiguration.spaceAt(x + 1, y));
+		
+		while (current.getTopNode() != null) {
+			current = current.getTopNode();
+			x = current.getCoordinates().getX();
+			y = current.getCoordinates().getY();
+			
+			if(y != 0)
+				current.setBottomNode(boardConfiguration.spaceAt(x, y - 1));
+			if(x != 0)
+				current.setLeftNode(boardConfiguration.spaceAt(x-1, y));
+			if(x != size - 1)
+				current.setRightNode(boardConfiguration.spaceAt(x + 1, y));
+			
+		}
+		
+		//Goes to each node and sets the top node to null since the linked list
+		// adds nodes from the top.
+		for(int i = 0; i < size; i++) {
+			current = this.boardConfiguration.spaceAt(i, size - 1);
+			current.setTopNode(null);
+		}
+		
+	}
+	
+	public int size() {
+		return this.boardConfiguration.size();
 	}
 
 	/**
@@ -76,6 +135,11 @@ public class Board {
 			}
 		}
 		return false;
+	}
+	
+	public SpaceLinkedList getGrid() {
+		return this.boardConfiguration;
+		
 	}
     
     

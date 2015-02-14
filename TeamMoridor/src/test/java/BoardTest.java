@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import main.java.Board;
 import main.java.Space;
+import main.java.SpaceLinkedList;
 
 import org.junit.Test;
 
@@ -19,6 +20,13 @@ public class BoardTest {
 	public void boardCanBeConstructedWithoutValues() {
 		Board board = new Board();
 	}
+	
+	@Test
+	public void boardCanBeConsturctedWithGrid() {
+		Board board = new Board();
+		board.makeGrid(3);
+	}
+	
 	
 	@Test
 	public void boardWillTestForPlayerMovingOutOfBoundaries() {
@@ -37,5 +45,40 @@ public class BoardTest {
     	Board board = new Board();
     	assertTrue(board.isPlayerHere(new Space(5,9)));
     }
+    
+    @Test
+    public void boardCanPassGrid() {
+    	Board board = new Board();
+    	SpaceLinkedList list = board.getGrid();
+    	assertEquals(81, list.size());
+    }
+    
+    
+    @Test
+    public void boardCanCreateGrid() {
+    	Board board = new Board();
+    	
+    	SpaceLinkedList list = board.getGrid();
+    	assertNull(list.spaceAt(9, 9));
+    	assertEquals(list.spaceAt(1, 2), list.spaceAt(2, 2).getLeftNode());
+    	assertEquals(list.spaceAt(4, 5), list.spaceAt(4, 4).getTopNode());
+    	assertEquals(list.spaceAt(3, 4), list.spaceAt(4,4).getLeftNode());
+    	assertEquals(list.spaceAt(5, 4), list.spaceAt(4, 4).getRightNode());
+    	assertEquals(list.spaceAt(4, 3), list.spaceAt(4,4).getBottomNode());
+    	
+    	assertEquals(list.spaceAt(8, 7), list.spaceAt(8, 8).getBottomNode());
+    	assertEquals(list.spaceAt(7, 8), list.spaceAt(8, 8).getLeftNode());
+    	assertNull(list.spaceAt(8, 8).getTopNode());
+    	assertNull(list.spaceAt(-1, 7));
+    	
+    	assertEquals(list.spaceAt(8, 8), list.spaceAt(8,7).getTopNode());
+    	assertEquals(list.spaceAt(8,8), list.spaceAt(7, 8).getRightNode());
+
+    	assertNull(list.spaceAt(4, 8).getTopNode());
+    	assertNull(list.spaceAt(4, 0).getBottomNode());
+    	assertEquals(list.spaceAt(4, 1), list.spaceAt(4, 0).getTopNode());
+    	assertEquals(list.spaceAt(4,0), list.spaceAt(4, 1).getBottomNode());
+    }
+    
 
 }
