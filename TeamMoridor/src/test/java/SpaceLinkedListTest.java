@@ -51,6 +51,25 @@ public class SpaceLinkedListTest {
 		assertNull(list.spaceAt(100, 100));
 	}
 	
+	@Test
+	public void spaceLinkedListCanReferenceNodeWithCoordinatesAndStartingNode() {
+		SpaceLinkedList list = new SpaceLinkedList();
+		list.add(new SpaceNode(new Space(1,1)));
+		SpaceNode node = new SpaceNode(new Space (2,2));
+		SpaceNode node2 = new SpaceNode(new Space(7,7));
+		list.add(node);
+		list.add(node2);
+		list.add(new SpaceNode(new Space(5,5)));
+		assertEquals(node2, list.spaceAt(7, 7, node));
+		assertNull(list.spaceAt(2, 2, node2));
+		
+		Board board = new Board();
+		SpaceLinkedList list2 = board.getGrid();
+		assertNotNull(list2.spaceAt(0, 0, list2.spaceAt(8,8)));
+		assertNotNull(list2.spaceAt(0,0, new SpaceNode(new Space(8,8))));
+		assertNull(list2.spaceAt(0,0, new SpaceNode(new Space(8,9))));
+	}
+	
 	
 	
 

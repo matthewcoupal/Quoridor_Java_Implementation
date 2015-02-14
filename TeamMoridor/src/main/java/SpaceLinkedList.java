@@ -31,7 +31,7 @@ public class SpaceLinkedList {
 		}
 	}
 
-
+	// @Deprecated Version
 	/*public SpaceNode spaceAt(int x, int y) {
 		SpaceNode current = front;
 		for(int i = 0; i < count; i++) {
@@ -43,16 +43,44 @@ public class SpaceLinkedList {
 		return null;
 	}*/
 	
+	
 	/**
-	 * Traverses through the a linked list, even with multiple node references, to find the space matching the x and y coordinates
+	 * Traversed through the linked list, even with multiple node references,
+	 * to find the space matching the x and y coordinates.
 	 * @param x    The x coordinate to find
 	 * @param y    The y coordinate to find
-	 * @return     The SpaceNode which matched the coordinates specified; null if not found.
+	 * @return     The SpaceNode which matched the coordinates specified; null
+	 * if not found.
 	 */
 	public SpaceNode spaceAt(int x, int y) {
+		return spaceAt(x, y, front);
+	}
+	
+	
+	
+	/**
+	 * Traverses through the a linked list, even with multiple node references,
+	 * to find the space matching the x and y coordinates. Note that if this is
+	 * used in a default linked list, the search cannot see the nodes behind
+	 * its starting point.
+	 * @param x    The x coordinate to find
+	 * @param y    The y coordinate to find
+	 * @param startingNode    The node to begin searching at
+	 * @return     The SpaceNode which matched the coordinates specified; null
+	 * if not found.
+	 */
+	public SpaceNode spaceAt(int x, int y, SpaceNode startingNode) {
+		
+		//Added this so that if startingNode is passed a SpaceNode not in the 
+		//string, but within the coordinates, it will still run. Will return
+		//null if not in the coordinates.
+		if(startingNode != front) {
+			startingNode = this.spaceAt(startingNode.getCoordinates().getX(), startingNode.getCoordinates().getY());
+		}
+		
 		Stack<SpaceNode> nodesToVisit = new Stack<SpaceNode>();
 		ArrayList<SpaceNode> nodesVisited = new ArrayList<SpaceNode>();
-		SpaceNode current = front;
+		SpaceNode current = startingNode;
 		
 		// Adds the first references to the stack if the references are not 
 		// null
