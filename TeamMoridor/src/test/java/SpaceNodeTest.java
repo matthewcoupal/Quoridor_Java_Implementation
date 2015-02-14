@@ -3,6 +3,7 @@ package test.java;
 import static org.junit.Assert.*;
 
 import main.java.Space;
+import main.java.SpaceLinkedList;
 import main.java.SpaceNode;
 
 import org.junit.Test;
@@ -60,5 +61,15 @@ public class SpaceNodeTest {
 		SpaceNode node2 = new SpaceNode(new Space(2,2));
 		node.setLeftNode(node2);
 		assertEquals(node2, node.getLeftNode());
+	}
+	
+	@Test
+	public void spaceLinkedListHasToStringForNodeReferences() {
+		SpaceNode node = new SpaceNode(new Space(1,1));
+		node.setBottomNode(new  SpaceNode(new Space(2,2)));
+		node.setTopNode(new SpaceNode(new Space(3,3)));
+		node.setRightNode(new SpaceNode(new Space(4,4)));
+		node.setLeftNode(new SpaceNode( new Space(5,5)));
+		assertEquals("Node: 1,1\nTop: 3,3\nRight: 4,4\nBottom: 2,2\nLeft: 5,5", node.toString());
 	}
 }

@@ -112,5 +112,26 @@ public class SpaceNode {
 	public SpaceNode getLeftNode() {
 		return this.left;
 	}
+	
+	public String toString() {
+		//Node
+		int nodeX = this.coordinates.getX();
+		int nodeY = this.coordinates.getY();
+		//Top
+		int topX = this.top.getCoordinates().getX();
+		int topY = this.top.getCoordinates().getY();
+		//Right
+		int rightX = this.right.getCoordinates().getX();
+		int rightY = this.right.getCoordinates().getY();
+		//Bottom
+		int bottomX = this.bottom.getCoordinates().getX();
+		int bottomY = this.bottom.getCoordinates().getY();
+		//Left
+		int leftX = this.left.getCoordinates().getX();
+		int leftY = this.left.getCoordinates().getY();
+		
+		return "Node: " + nodeX + "," + nodeY + "\nTop: " + topX + "," + topY +
+				"\nRight: " + rightX + "," + rightY + "\nBottom: " + bottomX + "," + bottomY + "\nLeft: " + leftX + "," + leftY;
+	}
 
 }
