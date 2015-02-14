@@ -1,5 +1,8 @@
 package main.java;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 public class SpaceLinkedList {
 
 	private SpaceNode front = null;
@@ -20,22 +23,72 @@ public class SpaceLinkedList {
 			count = count + 1;
 		}else {
 			SpaceNode current = front;
-			while(current.getBottomNode() != null) {
-				current = current.getBottomNode();
+			while(current.getTopNode() != null) {
+				current = current.getTopNode();
 			}
-			current.setBottomNode(newNode);
+			current.setTopNode(newNode);
 			count = count + 1;
 		}
 	}
 
 
-	public SpaceNode spaceAt(int x, int y) {
+	/*public SpaceNode spaceAt(int x, int y) {
 		SpaceNode current = front;
 		for(int i = 0; i < count; i++) {
 			if (current.getCoordinates().getX() == x && current.getCoordinates().getY() == y) {
 				return current;
 			}
-			current = current.getBottomNode();
+			current = current.getTopNode();
+		}
+		return null;
+	}*/
+	
+	/**
+	 * Traverses through the a linked list, even with multiple node references, to find the space matching the x and y coordinates
+	 * @param x    The x coordinate to find
+	 * @param y    The y coordinate to find
+	 * @return     The SpaceNode which matched the coordinates specified; null if not found.
+	 */
+	public SpaceNode spaceAt(int x, int y) {
+		Stack<SpaceNode> nodesToVisit = new Stack<SpaceNode>();
+		ArrayList<SpaceNode> nodesVisited = new ArrayList<SpaceNode>();
+		SpaceNode current = front;
+		
+		// Adds the first references to the stack if the references are not 
+		// null
+		if(current != null) {
+			if(current.getCoordinates().getX() == x && current.getCoordinates().getY() == y)
+				return current;
+			if(current.getTopNode() != null)
+				nodesToVisit.push(current.getTopNode());
+			if(current.getBottomNode() != null)
+				nodesToVisit.push(current.getBottomNode());
+			if(current.getRightNode() != null)
+				nodesToVisit.push(current.getRightNode());
+			if(current.getLeftNode() != null)
+				nodesToVisit.push(current.getLeftNode());
+			// Adds current to the list of visited nodes
+			nodesVisited.add(current);
+		}
+		
+		// Takes the next reference off the stack if the node has not been
+		// visited, then added its references to the stack if not null
+		while(!nodesToVisit.empty()) {
+			current = nodesToVisit.pop();
+			if(current != null && !nodesVisited.contains(current)) {
+				if(current.getCoordinates().getX() == x && current.getCoordinates().getY() == y)
+					return current;
+				if(current.getTopNode() != null || !nodesVisited.contains(current.getTopNode()))
+					nodesToVisit.push(current.getTopNode());
+				if(current.getBottomNode() != null || !nodesVisited.contains(current.getBottomNode()))
+					nodesToVisit.push(current.getBottomNode());
+				if(current.getRightNode() != null || !nodesVisited.contains(current.getRightNode()))
+					nodesToVisit.push(current.getRightNode());
+				if(current.getLeftNode() != null || !nodesVisited.contains(current.getLeftNode()))
+					nodesToVisit.push(current.getLeftNode());
+				// Adds current to the list of visited nodes
+				nodesVisited.add(current);
+			}	
 		}
 		return null;
 	}

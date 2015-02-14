@@ -2,6 +2,7 @@ package test.java;
 
 import static org.junit.Assert.*;
 
+import main.java.Board;
 import main.java.Space;
 import main.java.SpaceLinkedList;
 import main.java.SpaceNode;
@@ -38,7 +39,19 @@ public class SpaceLinkedListTest {
 		SpaceNode node = new SpaceNode(new Space(2,2));
 		list.add(node);
 		assertEquals(node, list.spaceAt(2,2));
-		assertNull(list.indexOf(4, 4));
+		assertNull(list.spaceAt(4, 4));
 	}
+	
+	@Test
+	public void spaceLinkedListCanReferenceNodeBasedOnCoordinatesInGrid() {
+		Board board = new Board();
+		SpaceLinkedList list = board.getGrid();
+		assertEquals(8, list.spaceAt(8, 8).getCoordinates().getX());
+		assertEquals(7, list.spaceAt(7, 7).getCoordinates().getY());
+		assertNull(list.spaceAt(100, 100));
+	}
+	
+	
+	
 
 }
