@@ -64,12 +64,30 @@ public class SpaceNodeTest {
 	}
 	
 	@Test
-	public void spaceLinkedListHasToStringForNodeReferences() {
+	public void spaceNodeHasToStringForNodeReferences() {
 		SpaceNode node = new SpaceNode(new Space(1,1));
 		node.setBottomNode(new  SpaceNode(new Space(2,2)));
 		node.setTopNode(new SpaceNode(new Space(3,3)));
 		node.setRightNode(new SpaceNode(new Space(4,4)));
 		node.setLeftNode(new SpaceNode( new Space(5,5)));
 		assertEquals("Node: 1,1\nTop: 3,3\nRight: 4,4\nBottom: 2,2\nLeft: 5,5", node.toString());
+	}
+	
+	@Test
+	public void spaceNodeCanSetReferencesToNull() {
+		SpaceNode node = new  SpaceNode(new Space(1,1));
+		node.setBottomNode(new  SpaceNode(new Space(2,2)));
+		node.setTopNode(new SpaceNode(new Space(3,3)));
+		node.setRightNode(new SpaceNode(new Space(4,4)));
+		node.setLeftNode(new SpaceNode( new Space(5,5)));
+		node.setBottomNode(null);
+		node.setTopNode(null);
+		node.setRightNode(null);
+		node.setLeftNode(null);
+		assertNull(node.getBottomNode());
+		assertNull(node.getTopNode());
+		assertNull(node.getRightNode());
+		assertNull(node.getLeftNode());
+		assertTrue(node.getRightNode() == null);
 	}
 }
