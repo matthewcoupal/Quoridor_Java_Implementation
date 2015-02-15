@@ -20,5 +20,13 @@ public class PlayerTest {
 		Player player = new Player(4, 5, 10);
 		assertEquals(10, player.getWalls());
 	}
+	
+	@Test
+	public void playerHasWinningSpaces() {
+		Player player = new Player(4,0,10);
+		for(int i = 0; i < 9; i++) {
+			assertEquals(i, player.end[i].getX());
+		}
+	}
 
 }
