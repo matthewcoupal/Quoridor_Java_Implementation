@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Board {
 	//Instance Variables
-	private ArrayList<Space> occupiedSpaces; //List of occupied spaces
+	private ArrayList<Player> occupiedSpaces; //List of occupied spaces
 	//private ArrayList<Edge> occupiedEdges; //List of wall locations
 	public SpaceLinkedList boardConfiguration;
 	
@@ -27,16 +27,16 @@ public class Board {
  * @param numberOfPlayers    The total number of players using this board. 
  */
 	public Board(int numberOfPlayers){
-		this.occupiedSpaces = new ArrayList<Space>();
+		this.occupiedSpaces = new ArrayList<Player>();
 		//this.occupiedEdges = new ArrayList<Edge>();
 		if(numberOfPlayers == 2) {
-			this.occupiedSpaces.add(new Space(5,0));
-			this.occupiedSpaces.add(new Space(5,9));
+			this.occupiedSpaces.add(new Player(4,0,10));
+			this.occupiedSpaces.add(new Player(4,9,10));
 		} else if (numberOfPlayers == 4) {
-			this.occupiedSpaces.add(new Space(5,0));
-			this.occupiedSpaces.add(new Space(5,9));
-			this.occupiedSpaces.add(new Space(0,5));
-			this.occupiedSpaces.add(new Space(9,5));
+			this.occupiedSpaces.add(new Player(4,0,10));
+			this.occupiedSpaces.add(new Player(4,9,10));
+			this.occupiedSpaces.add(new Player(0,5,10));
+			this.occupiedSpaces.add(new Player(9,5,10));
 		}
 		makeGrid(9);
 	}
@@ -82,7 +82,6 @@ public class Board {
 				current.setLeftNode(boardConfiguration.spaceAt(x-1, y));
 			if(x != size - 1)
 				current.setRightNode(boardConfiguration.spaceAt(x + 1, y));
-			
 		}
 		
 		//Goes to each node and sets the top node to null since the linked list
@@ -115,19 +114,43 @@ public class Board {
 	}
 
 	/**
-	 * Checks to see whether the space being moved is diagonal or not.
+	 * Checks to see whether the space being moved is a legal diagonal or not.
 	 * 
 	 * @param currentPosititon    The current position of the player.
 	 * @param potentialPosition    The position the player wants to move to.
 	 * 
-	 * @return    True if the absolute value of the slope of the two spaces is 1, and is false otherwise.
+	 * @return    True if the jump is diagonal and a player on the space needed to jump to, and is false otherwise.
 	 */
-    public boolean  isMoveDiagonal(Space currentPosititon, Space potentialPosition) {
-    	if(Math.abs((potentialPosition.getY() - currentPosititon.getY()/ potentialPosition.getX() - currentPosititon.getX())) == 1) {
+    public boolean  isMoveLegalDiagonal(Space currentPosition, Space potentialPosition) {
+    	int slope = (potentialPosition.getY() - currentPosition.getY()/ potentialPosition.getX() - currentPosition.getX());
+    	if(Math.abs(slope) == 1) {
+    		if(slope == 1)
+    			return isPlayerHere(new Space(potentialPosition.getX() - 1, potentialPosition.getY()));
+    		else if(slope == -1)
+    			return isPlayerHere(new Space(potentialPosition.getX() + 1, potentialPosition.getY()));
+    	}
+    	return false;
+    }
+    
+    /**
+     * Checks to see whether the space being moved is a diagonal jump or not.
+     * 
+     * @param currentPosition    The current position of the player.
+     * @param potentialPosition    The position the player wants to move to.
+     * @return    True the space is diagonal; False otherwise.
+     */
+    public boolean isMoveDiagonal(Space currentPosition, Space potentialPosition) {
+    	if(Math.abs((potentialPosition.getY() - currentPosition.getY()/ potentialPosition.getX() - currentPosition.getX())) == 1) {
     		return true;
     	}
         return false;
     }
+    
+    /**
+     * Checks to see if a player is at a given position
+     * @param potentialPosition    The space the current player wants to move to.
+     * @return    True if a player is located on the space; False if there is no player located at that space.
+     */
 	public boolean isPlayerHere(Space potentialPosition) {
 		for(int i = 0; i < occupiedSpaces.size(); i++) {
 			if(occupiedSpaces.get(i).getX() == potentialPosition.getX() && occupiedSpaces.get(i).getY() == potentialPosition.getY()) {
@@ -137,6 +160,14 @@ public class Board {
 		return false;
 	}
 	
+	
+	
+	/**
+	 * Passes the grid. 
+	 * (Feel like this should be looked at closer. The reference will be 
+	 * passed, therefore I feel like anyone can edit the board.)
+	 * @return   The grid (linked list) the board is using.
+	 */
 	public SpaceLinkedList getGrid() {
 		return this.boardConfiguration;
 		

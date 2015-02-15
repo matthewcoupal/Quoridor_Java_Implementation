@@ -3,6 +3,7 @@ package test.java;
 import static org.junit.Assert.*;
 
 import main.java.Board;
+import main.java.Player;
 import main.java.Space;
 import main.java.SpaceLinkedList;
 
@@ -38,12 +39,14 @@ public class BoardTest {
     public void boardCanTestForPlayerMovingDiagonally() {
         Board board = new Board();
         assertTrue(board.isMoveDiagonal(new Space(0,0), new Space(1,1)));
+        assertFalse(board.isMoveDiagonal(new Space(0,0), new Space(1,0)));
+        assertFalse(board.isMoveLegalDiagonal(new Space(0,0), new Space(1,1)));
     }
     
     @Test
     public void boardCanTestForPlayerMovingIntoAnOccupiedSpace() {
     	Board board = new Board();
-    	assertTrue(board.isPlayerHere(new Space(5,9)));
+    	assertTrue(board.isPlayerHere(new Player(4,9,10)));
     }
     
     @Test
@@ -80,5 +83,9 @@ public class BoardTest {
     	assertEquals(list.spaceAt(4,0), list.spaceAt(4, 1).getBottomNode());
     }
     
+    @Test
+    public void boardCanCheckIfPlayerCanReachTheSpace() {
+    	
+    }
 
 }
