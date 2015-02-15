@@ -25,8 +25,15 @@ public class PlayerTest {
 	public void playerHasWinningSpaces() {
 		Player player = new Player(4,0,10);
 		for(int i = 0; i < 9; i++) {
-			assertEquals(i, player.end[i].getX());
+			assertEquals(i, player.getWinSpace(i).getX());
 		}
+	}
+	
+	@Test
+	public void playerCanDisplayWinningSpaceFromIndexNumber() {
+		Player player = new Player(4,9,10);
+		for(int i = 0; i < 9; i++)
+			assertEquals(i, player.getWinSpace(i).getX());
 	}
 
 }

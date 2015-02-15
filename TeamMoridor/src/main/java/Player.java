@@ -11,7 +11,7 @@ public class Player extends Space {
 	
 	//Inherits coordinate x and coordinate y
 	private int wallsLeft;
-	public Space[] end = new Space[9]; //Spaces where the player can win
+	private Space[] end = new Space[9]; //Spaces where the player can win
 	
 	
 	
@@ -46,6 +46,10 @@ public class Player extends Space {
 	 */
 	public int getWalls() {
 		return wallsLeft;
+	}
+
+	public Space getWinSpace(int winIndex) {
+		return end[winIndex];
 	}
 	
 	//Has Methods:
