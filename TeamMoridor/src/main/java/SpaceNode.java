@@ -113,6 +113,10 @@ public class SpaceNode {
 		return this.left;
 	}
 	
+	/**
+	 * Overrides the Object's toString method and outputs the coordinates of
+	 * the node and its surrounding nodes.
+	 */
 	public String toString() {
 		//Node
 		int nodeX = this.coordinates.getX();

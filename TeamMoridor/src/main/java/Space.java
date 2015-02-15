@@ -1,5 +1,5 @@
-/*
- * Author: Matthew Coupal
+/**
+ * @author coupalme198
  */
 package main.java;
 
