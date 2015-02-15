@@ -172,6 +172,23 @@ public class Board {
 		return this.boardConfiguration;
 		
 	}
+	
+	/**
+	 * Checks if Player can reach their winning spaces.
+	 * @param player    The player to check for a winning path
+	 * @return   True if at least one winning space has an open path to it;
+	 *            False if no paths can be found;
+	 */
+	public boolean canReachEnd(Player player) {
+		SpaceNode node = new SpaceNode(player);
+		for(int i = 0; i < Math.sqrt(this.boardConfiguration.size()); i++) {
+			int x = player.getWinSpace(i).getX();
+			int y = player.getWinSpace(i).getY();
+			if(this.boardConfiguration.spaceAt(x, y, node) != null)
+				return true;
+		}
+		return false;
+	}
     
     
 }

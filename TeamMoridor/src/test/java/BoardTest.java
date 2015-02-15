@@ -84,8 +84,13 @@ public class BoardTest {
     }
     
     @Test
-    public void boardCanCheckIfPlayerCanReachTheSpace() {
-    	
+    public void boardCanCheckIfPlayerCanReachTheEnd() {
+    	Board board = new Board();
+    	Player player = new Player(4,0,10);
+    	assertTrue(board.canReachEnd(player));
+    	player.setX(9);
+    	player.setY(9);
+    	assertFalse(board.canReachEnd(player));
     }
 
 }

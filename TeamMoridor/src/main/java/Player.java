@@ -27,14 +27,14 @@ public class Player extends Space {
 		wallsLeft = wallstoStart;
 		if(x == 0) {
 			for(int i = 0; i < end.length; i++)
-				end[i] = new Space(9, i);
-		} else if(x == 9) {
+				end[i] = new Space(8, i);
+		} else if(x == 8) {
 			for(int i = 0; i < end.length; i++)
 				end[i] = new Space(0, i);
 		} else if(y == 0) {
 			for(int i = 0; i < end.length; i++)
-				end[i] = new Space(i,9);
-		} else if(y == 9) {
+				end[i] = new Space(i,8);
+		} else if(y == 8) {
 			for(int i = 0; i < end.length; i++)
 				end[i] = new Space(i, 0);
 		}
@@ -48,6 +48,11 @@ public class Player extends Space {
 		return wallsLeft;
 	}
 
+	/**
+	 * Getter for retrieving the winning spaces.
+	 * @param winIndex    The index of the winning space
+	 * @return    The winning space found in that index
+	 */
 	public Space getWinSpace(int winIndex) {
 		return end[winIndex];
 	}
