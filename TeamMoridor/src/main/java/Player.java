@@ -6,7 +6,7 @@ package main.java;
  * @author coupalme198
  *
  */
-public class Player extends Space {
+public class Player extends Space implements PlayerInterface{
 
 	
 	//Inherits coordinate x and coordinate y

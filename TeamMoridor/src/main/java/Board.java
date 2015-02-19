@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author coupalme198
  *
  */
-public class Board {
+public class Board implements BoardInterface, RulesInterface{
 	//Instance Variables
 	private ArrayList<Player> occupiedSpaces; //List of occupied spaces
 	//private ArrayList<Edge> occupiedEdges; //List of wall locations
@@ -187,6 +187,49 @@ public class Board {
 			if(this.boardConfiguration.spaceAt(x, y, node) != null)
 				return true;
 		}
+		return false;
+	}
+	
+	/**
+	 * Checks to see if a wall can be placed between the surrounding spaces.
+	 * @param startingSpace1    A space representing the first half of one side of the wall
+	 * @param startingSpace2    A space representing the first half of the other side of the wall
+	 * @param endingSpace3      A space representing the second half of one side of the wall
+	 * @param endingSpace4      A space representing the second half of the other side of the wall
+	 */
+	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2, Space endingSpace3, Space endingSpace4) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	/**
+	 * Checks to see if a wall is between the two spaces.
+	 * @param startingSpace1    A space on one side of the wall-half being tested
+	 * @param startingSpace2    A space on the opposite of the wall-half being tested
+	 */
+	public boolean isWallHere(Space startingSpace1, Space startingSpace2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	/**
+	 * Checks to see if moving two spaces is a legal.
+	 * @param currentPosition    The current space the player moving is positioned
+	 * @param potentialPosition  The space the player wants to move to
+	 */
+	public boolean isLegalDoubleMove(Space currentPosition,
+			Space potentialPosition) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	/**
+	 * Checks if a move meets all the move criteria
+	 * @param currentPosition    The current space the player moving is positioned
+	 * @param potentialPosition  The space the player wants to move to
+	 */
+	public boolean isLegalMove(Space currentPosition, Space potentialPosition) {
+		// TODO Auto-generated method stub
 		return false;
 	}
     
