@@ -92,5 +92,12 @@ public class BoardTest {
     	player.setY(9);
     	assertFalse(board.canReachEnd(player));
     }
+    
+    @Test
+    public void boardCanSeeIfAWallIsBetweenTwoNodes() throws Exception {
+    	Board board = new Board();
+    	assertFalse(board.isWallHere(new Space(4,4), new Space(4,5)));
+    	//Make more asserts when more methods are completed.
+    }
 
 }

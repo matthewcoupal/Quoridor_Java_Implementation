@@ -207,8 +207,26 @@ public class Board implements BoardInterface, RulesInterface{
 	 * @param startingSpace1    A space on one side of the wall-half being tested
 	 * @param startingSpace2    A space on the opposite of the wall-half being tested
 	 */
-	public boolean isWallHere(Space startingSpace1, Space startingSpace2) {
-		// TODO Auto-generated method stub
+	public boolean isWallHere(Space startingSpace1, Space startingSpace2) throws Exception {
+		int startingX = startingSpace1.getX();
+		int startingY = startingSpace1.getY();
+		int otherSideX = startingSpace2.getX();
+		int otherSideY = startingSpace2.getY();
+		if(startingSpace2.getX() - startingSpace1.getX() == 1) {
+			if(boardConfiguration.spaceAt(startingX, startingY).getRightNode() == null)
+				return true;
+		} else if(startingSpace2.getX() - startingSpace1.getX() == -1) {
+			if(boardConfiguration.spaceAt(startingX, startingY).getLeftNode() == null)
+				return true;
+		} else if(startingSpace2.getY() - startingSpace1.getY() == 1) {
+			if(boardConfiguration.spaceAt(startingX, startingY).getTopNode() == null)
+				return true;
+		} else if(startingSpace2.getY() - startingSpace1.getY() == -1) {
+			if(boardConfiguration.spaceAt(startingX, startingY).getBottomNode() == null)
+				return true;
+		} else {
+			throw new IllegalArgumentException();
+		}
 		return false;
 	}
 	
