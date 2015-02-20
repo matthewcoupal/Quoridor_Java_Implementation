@@ -251,9 +251,17 @@ public class Board implements BoardInterface, RulesInterface{
 		return false;
 	}
 	
-	
+	/**
+	* Checks if the player's current position is within a victory space
+	* @param player    The player whose position is going to be tested
+	*/
 	public boolean isWinner(Player player) {
-		// TODO Auto-generated method stub
+		Space current = new Space (player.getX(), player.getY());
+		for (int i = 0; i < 9; i++) {
+		    if (player.getWinSpace(i).getX() == current.getX() && player.getWinSpace(i).getY() == current.getY()) {
+		        return true;
+		    }
+		}
 		return false;
 	}
 	

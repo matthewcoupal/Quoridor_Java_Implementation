@@ -100,6 +100,28 @@ public class BoardTest {
     	//Make more asserts when more methods are completed.
     }
     
+    @Test
+    public void playerIsInWinSpace() {
+        Board board = new Board();
+	Player player1 = new Player(4, 0, 10);
+	assertFalse(board.isWinner(player1));
+	player1.setY(8);
+	assertTrue(board.isWinner(player1));
+	Player player2 = new Player(4, 8, 10);
+	assertFalse(board.isWinner(player2));
+	player2.setY(0);
+	assertTrue(board.isWinner(player2));
+	Player player3 = new Player(0, 4, 10);
+	assertFalse(board.isWinner(player3));
+	player3.setX(8);
+	assertTrue(board.isWinner(player3));
+	Player player4 = new Player(8, 4, 10);
+	assertFalse(board.isWinner(player4));
+	player4.setX(0);
+	assertTrue(board.isWinner(player4));
+    }
+
+
    /* @Test
     public void boardCanSeeIfADoubleJumpIsLegal() {
     	Board board = new Board();
@@ -109,5 +131,7 @@ public class BoardTest {
     	assertTrue(board.is)
     	
     } */
+
+
 
 }
