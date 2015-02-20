@@ -1,6 +1,8 @@
 import javax.swing.JFrame;
 import javax.swing.JButton; 
 import java.awt.GridLayout; 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 //Joseph Santantasio and Brabim Baral
 
 
@@ -21,8 +23,13 @@ public class BoardGrid {
 	
 	for(int i = 0; i < length; i++){
 	    for(int j = 0; j< breadth; j++){
-		boardgrid[j][i] = new JButton("("+j+","+i+")"); 
-		
+		final String coordinates = "(" + j + "," + i + ")";
+		boardgrid[j][i] = new JButton(coordinates); 
+		boardgrid[j][i].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			    System.out.println(coordinates);
+			}
+		});
 		//Adds buttons to frame as grids
 		frame.add(boardgrid[j][i]); 
 	    }
@@ -34,10 +41,13 @@ public class BoardGrid {
 	frame.setVisible(true); 
     }
     
+    
     // Creates the BoardGrid.
     public static void main(String[] args) {
 	new BoardGrid(9,9);
     }
+
+    
 }
 
 
