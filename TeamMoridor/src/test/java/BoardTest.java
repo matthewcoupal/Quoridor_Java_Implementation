@@ -99,5 +99,15 @@ public class BoardTest {
     	assertFalse(board.isWallHere(new Space(4,4), new Space(4,5)));
     	//Make more asserts when more methods are completed.
     }
+    
+   /* @Test
+    public void boardCanSeeIfADoubleJumpIsLegal() {
+    	Board board = new Board();
+    	Player player = new Player(2,5,10);
+    	assertFalse(board.isDoubleJumpLegal(player, new Space(4, 5)));
+    	Player player2 = new Player(3,5,10);
+    	assertTrue(board.is)
+    	
+    } */
 
 }

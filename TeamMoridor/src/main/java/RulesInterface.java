@@ -14,9 +14,11 @@ public interface RulesInterface {
 	
 	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2, Space endingSpace3, Space endingSpace4);
 	
-	public boolean isWallHere(Space startingSpace1, Space startingSpace2);
+	public boolean isWallHere(Space startingSpace1, Space startingSpace2) throws Exception;
 	
 	public boolean isLegalDoubleMove(Space currentPosition, Space potentialPosition);
 	
 	public boolean isLegalMove(Space currentPosition, Space potentialPosition);
+	
+	public boolean isWinner(Player player);
 }

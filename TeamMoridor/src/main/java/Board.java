@@ -250,6 +250,18 @@ public class Board implements BoardInterface, RulesInterface{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	
+	public boolean isWinner(Player player) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
+	public boolean isDoubleJumpLegal(Player player, Space space) {
+		// TODO Auto-generated method stub
+		return false;
+	}
     
     
 }
