@@ -93,6 +93,9 @@ public class Board implements BoardInterface, RulesInterface{
 		
 	}
 	
+	/**
+	 * @return The total number of spaces the board contains.
+	 */
 	public int size() {
 		return this.boardConfiguration.size();
 	}
@@ -196,6 +199,7 @@ public class Board implements BoardInterface, RulesInterface{
 	 * @param startingSpace2    A space representing the first half of the other side of the wall
 	 * @param endingSpace3      A space representing the second half of one side of the wall
 	 * @param endingSpace4      A space representing the second half of the other side of the wall
+	 * @return True if a wall can be placed in between the two spaces; False otherwise.
 	 */
 	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2, Space endingSpace3, Space endingSpace4) {
 		// TODO Auto-generated method stub
@@ -206,6 +210,7 @@ public class Board implements BoardInterface, RulesInterface{
 	 * Checks to see if a wall is between the two spaces.
 	 * @param startingSpace1    A space on one side of the wall-half being tested
 	 * @param startingSpace2    A space on the opposite of the wall-half being tested
+	 * @return True if a wall is between the spaces; False if not.
 	 */
 	public boolean isWallHere(Space startingSpace1, Space startingSpace2) throws Exception {
 		int startingX = startingSpace1.getX();
@@ -232,8 +237,9 @@ public class Board implements BoardInterface, RulesInterface{
 	
 	/**
 	 * Checks to see if moving two spaces is a legal.
-	 * @param currentPosition    The current space the player moving is positioned
-	 * @param potentialPosition  The space the player wants to move to
+	 * @param currentPosition    The current space the player moving is positioned.
+	 * @param potentialPosition  The space the player wants to move to.
+	 * @return True if moving two spaces is legal; False otherwise.
 	 */
 	public boolean isLegalDoubleMove(Space currentPosition,
 			Space potentialPosition) {
@@ -245,6 +251,7 @@ public class Board implements BoardInterface, RulesInterface{
 	 * Checks if a move meets all the move criteria
 	 * @param currentPosition    The current space the player moving is positioned
 	 * @param potentialPosition  The space the player wants to move to
+	 * @return True if the move to the specified space from the current space is legal; False otherwise.
 	 */
 	public boolean isLegalMove(Space currentPosition, Space potentialPosition) {
 		// TODO Auto-generated method stub
@@ -254,6 +261,7 @@ public class Board implements BoardInterface, RulesInterface{
 	/**
 	* Checks if the player's current position is within a victory space
 	* @param player    The player whose position is going to be tested
+	* @return True if a specified player is located at a winning space; False otherwise.
 	*/
 	public boolean isWinner(Player player) {
 		Space current = new Space (player.getX(), player.getY());
@@ -265,9 +273,28 @@ public class Board implements BoardInterface, RulesInterface{
 		return false;
 	}
 	
-	
+	/**
+	 * Checks to see if a player can make a legal double jump.
+	 * @param player    The player that wants to make the jump.
+	 * @param space    The space the player wants to move to.
+	 * @return    True if the move space is exactly 2 in one direction and another player is in the direction.
+	 * 			   False otherwise.
+	 */
 	public boolean isDoubleJumpLegal(Player player, Space space) {
-		// TODO Auto-generated method stub
+		if(space.getX() - player.getX() == 2 && (space.getY() - player.getY()) == 0)
+			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX() + 1, player.getY()).getCoordinates()))
+				return true;
+		else if(space.getX() - player.getX() == -2 && (space.getY() - player.getY()) == 0)
+			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX() - 1, player.getY()).getCoordinates()))
+				return true;
+		else if(space.getY() - player.getY() == 2 && (space.getX() - player.getX()) == 0)
+			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX(), player.getY() + 1).getCoordinates()))
+				return true;
+		else if (space.getY() - player.getY() == -2 && (space.getX() - player.getX()) == 0)
+			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX(), player.getY() - 1).getCoordinates()))
+				return true;
+		else
+			return false;
 		return false;
 	}
     

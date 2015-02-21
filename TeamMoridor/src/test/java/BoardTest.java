@@ -1,13 +1,29 @@
 package test.java;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import main.java.Board;
 import main.java.Player;
 import main.java.Space;
 import main.java.SpaceLinkedList;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.testng.PowerMockTestCase;
+import org.powermock.reflect.Whitebox;
+
+import static org.mockito.Mockito.times;
+
+@PrepareForTest({Board.class})
+@RunWith(PowerMockRunner.class)
 
 public class BoardTest {
 
@@ -25,7 +41,7 @@ public class BoardTest {
 	@Test
 	public void boardCanBeConsturctedWithGrid() {
 		Board board = new Board();
-		board.makeGrid(3);
+		assertTrue(board.size() == 81);
 	}
 	
 	
@@ -122,14 +138,14 @@ public class BoardTest {
     }
 
 
-   /* @Test
+    /*@Test
     public void boardCanSeeIfADoubleJumpIsLegal() {
+    	
     	Board board = new Board();
     	Player player = new Player(2,5,10);
     	assertFalse(board.isDoubleJumpLegal(player, new Space(4, 5)));
     	Player player2 = new Player(3,5,10);
-    	assertTrue(board.is)
-    	
+    	assertTrue(board.isDoubleJumpLegal(player, new Space(4,5)));
     } */
 
 

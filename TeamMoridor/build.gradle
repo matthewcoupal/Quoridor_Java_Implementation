@@ -9,9 +9,12 @@ apply plugin: 'eclipse'
 // Where to find jar files for external library dependencies
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 // Name the libraries different phases of the build depend on
 dependencies {
     testCompile 'junit:junit:4.12'
+     testCompile "org.mockito:mockito-core:1.+"
+    testCompile "org.powermock:powermock-mockito-release-full:1.6.1"
 }
