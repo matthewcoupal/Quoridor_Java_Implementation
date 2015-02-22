@@ -135,16 +135,30 @@ public class BoardTest {
 	assertTrue(board.isWinner(player4));
     }
 
-
-    /*@Test
+    
+    @Test
+    public void boardCanMakePlayerMove() {
+    	Board board = Mockito.spy(new Board());
+    	Player player = Mockito.mock(Player.class);
+    	Space space = Mockito.mock(Space.class);
+    	board.makeMove(player, space);
+    	Mockito.verify(board, times(1)).isLegalMove(player, space);
+    }
+    
+    
+    /*
+    @Test
     public void boardCanSeeIfADoubleJumpIsLegal() {
-    	
-    	Board board = new Board();
+    	Board board = Mockito.spy(new Board());
+    	Player playermock = Mockito.mock(Player.class);
+    	Space space = Mockito.mock(Space.class);
+    	board.isDoubleJumpLegal(playermock, space);
     	Player player = new Player(2,5,10);
     	assertFalse(board.isDoubleJumpLegal(player, new Space(4, 5)));
-    	Player player2 = new Player(3,5,10);
     	assertTrue(board.isDoubleJumpLegal(player, new Space(4,5)));
-    } */
+    }
+    */
+    
     @Test
     public void boardCanCheckIfAWallPlacementIsLegal() {
     	Board board = Mockito.spy(new Board());
