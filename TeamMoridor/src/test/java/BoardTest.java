@@ -4,15 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.NoSuchElementException;
+
 import main.java.Board;
 import main.java.Player;
 import main.java.Space;
 import main.java.SpaceLinkedList;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -136,15 +142,17 @@ public class BoardTest {
     }
 
     
-    @Test
-    public void boardCanMakePlayerMove() {
+    @Test(expected=IllegalArgumentException.class)
+    public void boardCanMakeProperPlayerMoveCalls() throws Exception {
     	Board board = Mockito.spy(new Board());
     	Player player = Mockito.mock(Player.class);
     	Space space = Mockito.mock(Space.class);
+    	when(board.isLegalMove(player, space)).thenReturn(true).thenReturn(false);
     	board.makeMove(player, space);
-    	Mockito.verify(board, times(1)).isLegalMove(player, space);
+    	board.makeMove(player, space);
+    	Mockito.verify(board, times(2)).isLegalMove(player, space);
+    	Mockito.verify(board, times(1)).bootPlayer(player);
     }
-    
     
     /*
     @Test
@@ -181,13 +189,16 @@ public class BoardTest {
     	Mockito.verify(board, times(1)).canPlaceWall(space, space, space, space);
     }
 
+   
+    
     @Test
-    public void boardCanCallAllNeededMethodsCheckIfAMoveIsLegal () {
+    public void boardCanCallAllNeededMethodsCheckIfAMoveIsLegal () throws Exception  {
     	Board board = Mockito.spy(new Board());
     	Player player = Mockito.mock(Player.class);
     	Space space = Mockito.mock(Space.class);
     	board.makeMove(player, space);
     	Mockito.verify(board, times(1)).isLegalMove(player, space);
+    	
     }
 
 }

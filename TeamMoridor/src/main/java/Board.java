@@ -1,6 +1,7 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -300,10 +301,19 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	}
 	
 	
-	public void makeMove(Player player, Space potentialPosition) {
-		this.isLegalMove(player, potentialPosition);
-		// TODO Auto-generated method stub
-		
+	public void makeMove(Player player, Space potentialPosition) throws Exception {
+		if(!this.isLegalMove(player, potentialPosition)) {
+			this.bootPlayer(player);
+			return;
+		}
+		for(int i = 0; i < this.occupiedSpaces.size(); i++ ) {
+			if((this.occupiedSpaces.get(i).getX() == player.getX()) && (this.occupiedSpaces.get(i).getY() == player.getY())) {
+				this.occupiedSpaces.get(i).setX(potentialPosition.getX());
+				this.occupiedSpaces.get(i).setY(potentialPosition.getY());
+				return;
+			}
+		}
+		throw new IllegalArgumentException("The Player specified is not in this game or the servers and client are out of sync!");
 	}
 	
 	
