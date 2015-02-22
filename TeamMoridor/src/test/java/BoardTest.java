@@ -108,7 +108,7 @@ public class BoardTest {
     }
     
     @Test
-    public void boardCanSeeIfAWallIsBetweenTwoNodes() throws Exception {
+    public void boardCanSeeIfAWallIsBetweenTwoNodes() {
     	Board board = new Board();
     	assertFalse(board.isWallHere(new Space(4,4), new Space(4,5)));
     	//Make more asserts when more methods are completed.
@@ -145,9 +145,21 @@ public class BoardTest {
     	Player player2 = new Player(3,5,10);
     	assertTrue(board.isDoubleJumpLegal(player, new Space(4,5)));
     } */
+    @Test
+    public void boardCanCheckIfAWallPlacementIsLegal() {
+    	Board board = Mockito.spy(new Board());
+    	Space space1 = new Space(2,2);
+    	Space space2 = new Space(2,1);
+    	Space space3 = new Space(3,2);
+    	Space space4 = new Space(3,1);
+    	Player player = new Player(4,0,10);
+    	board.placeWall(player, space1, space2, space3, space4);
+    	Mockito.verify(board, times(0)).bootPlayer(player);
+    	//Need to add another method to be able to test a call to the boot player method.
+    }
     
     @Test
-    public void boardCanSeeIfAWallCanBePlaced() throws Exception {
+    public void boardCanSeeIfAWallCanBePlaced() {
     	Board board = Mockito.spy(new Board());
     	Space space = Mockito.mock(Space.class);
     	Player player = Mockito.mock(Player.class);

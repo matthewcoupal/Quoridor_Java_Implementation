@@ -14,7 +14,7 @@ public interface RulesInterface {
 	
 	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2, Space endingSpace3, Space endingSpace4);
 	
-	public boolean isWallHere(Space startingSpace1, Space startingSpace2) throws Exception;
+	public boolean isWallHere(Space startingSpace1, Space startingSpace2);
 	
 	public boolean isLegalDoubleMove(Space currentPosition, Space potentialPosition);
 	

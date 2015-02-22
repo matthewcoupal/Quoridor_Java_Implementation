@@ -38,7 +38,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			this.occupiedSpaces.add(new Player(0,5,10));
 			this.occupiedSpaces.add(new Player(9,5,10));
 		}
-		makeGrid(9);
+		this.makeGrid(9);
 	}
 	
 	/**
@@ -200,10 +200,13 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @param endingSpace3      A space representing the second half of one side of the wall
 	 * @param endingSpace4      A space representing the second half of the other side of the wall
 	 * @return True if a wall can be placed in between the two spaces; False otherwise.
+	 * @throws Exception 
 	 */
 	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2, Space endingSpace3, Space endingSpace4) {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.isWallHere(startingSpace1, startingSpace2) || this.isWallHere(endingSpace3, endingSpace4)) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -212,7 +215,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @param startingSpace2    A space on the opposite of the wall-half being tested
 	 * @return True if a wall is between the spaces; False if not.
 	 */
-	public boolean isWallHere(Space startingSpace1, Space startingSpace2) throws Exception {
+	public boolean isWallHere(Space startingSpace1, Space startingSpace2) {
 		int startingX = startingSpace1.getX();
 		int startingY = startingSpace1.getY();
 		int otherSideX = startingSpace2.getX();
@@ -229,8 +232,6 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		} else if(startingSpace2.getY() - startingSpace1.getY() == -1) {
 			if(boardConfiguration.spaceAt(startingX, startingY).getBottomNode() == null)
 				return true;
-		} else {
-			throw new IllegalArgumentException();
 		}
 		return false;
 	}
@@ -307,7 +308,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	
 	
 	public void placeWall(Player player, Space starting1, Space starting2,
-			Space ending1, Space ending2) throws Exception {
+			Space ending1, Space ending2) {
 		if(!this.canPlaceWall(starting1, starting2, ending1, ending2)) {
 			this.bootPlayer(player);
 			return;
