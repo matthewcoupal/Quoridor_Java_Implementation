@@ -9,4 +9,6 @@ public interface MasterInterface {
 	public void bootPlayer(Player player);
 	
 	public void setCurrentPlayer(Player player);
+	
+	public Player currentPlayer(int playerNumber) throws Exception;
 }

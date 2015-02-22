@@ -300,7 +300,12 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		return false;
 	}
 	
-	
+	/**
+	 * The main component to make an official move by a player.
+	 * @param player The player will be moving.
+	 * @param potentialPosition   The position the player wants to move to.
+	 * @throws NoSuchElementException When a player makes a legal move, but the player is not found in the list of players.
+	 */
 	public void makeMove(Player player, Space potentialPosition) throws Exception {
 		if(!this.isLegalMove(player, potentialPosition)) {
 			this.bootPlayer(player);
@@ -313,7 +318,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 				return;
 			}
 		}
-		throw new IllegalArgumentException("The Player specified is not in this game or the servers and client are out of sync!");
+		throw new NoSuchElementException("The Player specified is not in this game or the servers and client are out of sync!");
 	}
 	
 	
@@ -333,6 +338,17 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	public void setCurrentPlayer(Player player) {
 		// TODO Auto-generated method stub
 		
+	}
+	/**
+	 * Passes the player whom is located at the specified index.
+	 * @param playerNumber the player number in the current game.
+	 * @return The player with the specified number.
+	 * @throws IndexOutOfBoundsException When the player number is larger or smaller than the total number of players.
+	 */
+	public Player currentPlayer(int playerNumber) throws Exception {
+		if(playerNumber < 0 || playerNumber > this.occupiedSpaces.size())
+			throw new IndexOutOfBoundsException("This player does not exist in the current list of players");
+		return this.occupiedSpaces.get(playerNumber);
 	}
     
     

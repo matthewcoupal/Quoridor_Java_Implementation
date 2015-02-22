@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import main.java.Board;
@@ -142,7 +143,7 @@ public class BoardTest {
     }
 
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NoSuchElementException.class)
     public void boardCanMakeProperPlayerMoveCalls() throws Exception {
     	Board board = Mockito.spy(new Board());
     	Player player = Mockito.mock(Player.class);
@@ -152,6 +153,15 @@ public class BoardTest {
     	board.makeMove(player, space);
     	Mockito.verify(board, times(2)).isLegalMove(player, space);
     	Mockito.verify(board, times(1)).bootPlayer(player);
+    }
+
+    @Test(expected=IndexOutOfBoundsException.class)
+    public void boardCanReturnThePlayerBasedOnTheirNumber() throws Exception {
+    	Board board = PowerMockito.spy(new Board());
+    	Player player = board.currentPlayer(0);
+    	ArrayList<Player> innerPlayer = Whitebox.getInternalState(board, "occupiedSpaces");
+    	Player thisPlayerDoesNotExist = board.currentPlayer(-1);
+    	assertEquals(innerPlayer.get(0), player);
     }
     
     /*
