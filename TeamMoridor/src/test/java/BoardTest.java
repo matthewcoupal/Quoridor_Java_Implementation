@@ -12,14 +12,12 @@ import main.java.SpaceLinkedList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.testng.PowerMockTestCase;
-import org.powermock.reflect.Whitebox;
-
+import org.powermock.reflect.Whitebox; 
 import static org.mockito.Mockito.times;
 
 @PrepareForTest({Board.class})
@@ -148,6 +146,13 @@ public class BoardTest {
     	assertTrue(board.isDoubleJumpLegal(player, new Space(4,5)));
     } */
 
-
+    @Test
+    public void boardCanCallAllNeededMethodsCheckIfAMoveIsLegal () {
+    	Board board = Mockito.spy(new Board());
+    	Player player = Mockito.mock(Player.class);
+    	Space space = Mockito.mock(Space.class);
+    	board.makeMove(player, space);
+    	Mockito.verify(board, times(1)).isLegalMove(player, space);
+    }
 
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author coupalme198
  *
  */
-public class Board implements BoardInterface, RulesInterface{
+public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	//Instance Variables
 	private ArrayList<Player> occupiedSpaces; //List of occupied spaces
 	//private ArrayList<Edge> occupiedEdges; //List of wall locations
@@ -296,6 +296,30 @@ public class Board implements BoardInterface, RulesInterface{
 		else
 			return false;
 		return false;
+	}
+	
+	
+	public void makeMove(Player player, Space potentialPosition) {
+		this.isLegalMove(player, potentialPosition);
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	public void placeWall(Player player, Space starting1, Space starting2,
+			Space ending1, Space ending2) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void bootPlayer(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void setCurrentPlayer(Player player) {
+		// TODO Auto-generated method stub
+		
 	}
     
     
