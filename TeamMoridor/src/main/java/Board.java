@@ -307,9 +307,11 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	
 	
 	public void placeWall(Player player, Space starting1, Space starting2,
-			Space ending1, Space ending2) {
-		// TODO Auto-generated method stub
-		
+			Space ending1, Space ending2) throws Exception {
+		if(!this.canPlaceWall(starting1, starting2, ending1, ending2)) {
+			this.bootPlayer(player);
+			return;
+		}
 	}
 	
 	public void bootPlayer(Player player) {

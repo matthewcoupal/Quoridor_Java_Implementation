@@ -145,6 +145,15 @@ public class BoardTest {
     	Player player2 = new Player(3,5,10);
     	assertTrue(board.isDoubleJumpLegal(player, new Space(4,5)));
     } */
+    
+    @Test
+    public void boardCanSeeIfAWallCanBePlaced() throws Exception {
+    	Board board = Mockito.spy(new Board());
+    	Space space = Mockito.mock(Space.class);
+    	Player player = Mockito.mock(Player.class);
+    	board.placeWall(player, space, space, space, space);
+    	Mockito.verify(board, times(1)).canPlaceWall(space, space, space, space);
+    }
 
     @Test
     public void boardCanCallAllNeededMethodsCheckIfAMoveIsLegal () {
