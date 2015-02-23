@@ -8,7 +8,7 @@ public interface MasterInterface {
 	
 	public void bootPlayer(Player player);
 	
-	public void setCurrentPlayer(Player player);
+	public void setCurrentPlayer(int playerNumber) throws Exception;
 	
-	public Player currentPlayer(int playerNumber) throws Exception;
+	public Player currentPlayer();
 }

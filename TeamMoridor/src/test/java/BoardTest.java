@@ -156,13 +156,14 @@ public class BoardTest {
     }
 
     @Test(expected=IndexOutOfBoundsException.class)
-    public void boardCanReturnThePlayerBasedOnTheirNumber() throws Exception {
+    public void boardCanSetAndGetTheCurrentPlayer() throws Exception {
     	Board board = PowerMockito.spy(new Board());
     	ArrayList<Player> innerPlayer = Whitebox.getInternalState(board, "occupiedSpaces");
-    	Player thisPlayerDoesNotExist = board.currentPlayer(-1);
+    	board.setCurrentPlayer(-1);
     	for(int i = 0; i < innerPlayer.size(); i++) {
-    	Player player = board.currentPlayer(i);
-    	assertEquals(innerPlayer.get(i), player);
+    		board.setCurrentPlayer(i);
+    		Player player = board.currentPlayer();
+    		assertEquals(innerPlayer.get(i), player);
     	}
     }
     
@@ -172,14 +173,17 @@ public class BoardTest {
     	
     	Board board = Mockito.spy(new Board());
     	Space space = Mockito.mock(Space.class);
-    	assertFalse(board.isDoubleJumpLegal(board.currentPlayer(0), space));
-    	when(board.isLegalMove(board.currentPlayer(1), space)).thenReturn(true);
+    	board.setCurrentPlayer(0);
+    	assertFalse(board.isDoubleJumpLegal(board.currentPlayer(), space));
+    	board.setCurrentPlayer(1);
+    	when(board.isLegalMove(board.currentPlayer(), space)).thenReturn(true);
     	when(space.getX()).thenReturn(4);
     	when(space.getY()).thenReturn(1, 2);
-    	board.makeMove(board.currentPlayer(1), space);
-    	assertEquals(4, board.currentPlayer(1).getX());
-    	assertEquals(1, board.currentPlayer(1).getY());
-    	assertTrue(board.isDoubleJumpLegal(board.currentPlayer(0), space));
+    	board.makeMove(board.currentPlayer(), space);
+    	assertEquals(4, board.currentPlayer().getX());
+    	assertEquals(1, board.currentPlayer().getY());
+    	board.setCurrentPlayer(0);
+    	assertTrue(board.isDoubleJumpLegal(board.currentPlayer(), space));
     }
     
     @Test
