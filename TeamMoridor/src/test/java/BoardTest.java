@@ -145,14 +145,14 @@ public class BoardTest {
     	Board board = Mockito.spy(new Board());
     	Player player = Mockito.mock(Player.class);
     	Space space = Mockito.mock(Space.class);
+    	when(space.getX()).thenReturn(1);
     	when(space.getY()).thenReturn(1);
     	when(player.getY()).thenReturn(2);
-    	//board.makeMove(player, space).doNothing();
-    	when(board.isLegalMove(player, space)).thenReturn(true,false);
+    	when(player.getX()).thenReturn(1);
     	board.makeMove(player, space);
-    	board.makeMove(player, space);
-    	Mockito.verify(board, times(2)).isLegalMove(player, space);
-    	Mockito.verify(board, times(1)).bootPlayer(player);
+    	//board.makeMove(player, space);
+    	Mockito.verify(board, times(1)).isLegalMove(player, space);
+    	Mockito.verify(board, times(0)).bootPlayer(player);
     }
 
     @Test(expected=IndexOutOfBoundsException.class)
@@ -217,20 +217,23 @@ public class BoardTest {
     	
     }
 
-    /*
+    
     @Test
     public void boardCanCheckIfAMoveIsFullyLegal() {
     	Board board = Mockito.spy(new Board());
-    	Space space = Mockito.mock(Space.class);
-    	Player player = Mockito.mock(Player.class);
-    	when(board.isDoubleJumpLegal(player, space)).thenReturn(false);
-    	when(board.isMoveLegalDiagonal(player, space)).thenReturn(false);
-    	assertFalse(board.isLegalMove(player, space));
+    	Space space = new Space(1,1);
+    	Player player = new Player(2,1,10);
+    	assertTrue(board.isLegalMove(player, space));
+    	space.setX(8);
+    	space.setY(7);
+    	player.setX(1);
+    	player.setY(3);
+    	assertFalse(board.isLegalMove(player,space));
+    	Mockito.verify(board, times(2)).isOutOfBounds(space);
+    	Mockito.verify(board, times(2)).isLegalSingleMove(player, space);
     	Mockito.verify(board, times(1)).isDoubleJumpLegal(player, space);
-    	//Mockito.verify(board, times(1)).isLegalMove(player, space);
     	Mockito.verify(board, times(1)).isMoveLegalDiagonal(player, space);
     }
-    */
     
     @Test
     public void boardCanCheckIfASingleMoveIsLegal() {

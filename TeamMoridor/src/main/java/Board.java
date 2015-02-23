@@ -247,11 +247,15 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @return True if the move to the specified space from the current space is legal; False otherwise.
 	 */
 	public boolean isLegalMove(Player currentPlayer, Space potentialPosition) {
-		/*if(this.isDoubleJumpLegal(currentPlayer, potentialPosition)) {
-			return true;
-		}else if(this.isMoveLegalDiagonal(currentPlayer, potentialPosition)){
+		if(!this.isOutOfBounds(potentialPosition)) {
+			if(this.isLegalSingleMove(currentPlayer, potentialPosition)) {
 				return true;
-		}*/
+			}else if(this.isDoubleJumpLegal(currentPlayer, potentialPosition)){
+				return true;
+			}else if(this.isMoveLegalDiagonal(currentPlayer, potentialPosition)) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -359,9 +363,9 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		int potentialX = potentialPosition.getX();
 		int potentialY = potentialPosition.getY();
 		
-		if(Math.abs(potentialX - playerX) == 1) {
+		if(Math.abs(potentialX - playerX) == 1 && potentialY - playerY == 0) {
 			return !this.isWallHere(currentPlayer, potentialPosition);
-		}else if(Math.abs(potentialY - playerY) == 1) {
+		}else if(Math.abs(potentialY - playerY) == 1 && potentialX - playerX == 0) {
 			return !this.isWallHere(currentPlayer, potentialPosition);
 		}
 		return false;
