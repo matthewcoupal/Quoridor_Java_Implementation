@@ -36,8 +36,8 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		} else if (numberOfPlayers == 4) {
 			this.occupiedSpaces.add(new Player(4,0,10));
 			this.occupiedSpaces.add(new Player(4,9,10));
-			this.occupiedSpaces.add(new Player(0,5,10));
-			this.occupiedSpaces.add(new Player(9,5,10));
+			this.occupiedSpaces.add(new Player(0,4,10));
+			this.occupiedSpaces.add(new Player(9,4,10));
 		}
 		this.makeGrid(9);
 	}
@@ -283,20 +283,22 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * 			   False otherwise.
 	 */
 	public boolean isDoubleJumpLegal(Player player, Space space) {
-		if(space.getX() - player.getX() == 2 && (space.getY() - player.getY()) == 0)
-			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX() + 1, player.getY()).getCoordinates()))
+		if((space.getX() - player.getX()) == 2 && (space.getY() - player.getY()) == 0) {
+			if(isPlayerHere(new Space(player.getX() + 1, player.getY())))
 				return true;
-		else if(space.getX() - player.getX() == -2 && (space.getY() - player.getY()) == 0)
-			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX() - 1, player.getY()).getCoordinates()))
+		}
+		else if(space.getX() - player.getX() == -2 && (space.getY() - player.getY()) == 0) {
+			if(isPlayerHere(new Space(player.getX() - 1, player.getY())))
 				return true;
-		else if(space.getY() - player.getY() == 2 && (space.getX() - player.getX()) == 0)
-			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX(), player.getY() + 1).getCoordinates()))
+		}
+		else if(space.getY() - player.getY() == 2 && space.getX() - player.getX() == 0) {
+			if(isPlayerHere(new Space(player.getX(), player.getY() + 1)))
 				return true;
-		else if (space.getY() - player.getY() == -2 && (space.getX() - player.getX()) == 0)
-			if(isPlayerHere(this.boardConfiguration.spaceAt(player.getX(), player.getY() - 1).getCoordinates()))
+		}
+		else if (space.getY() - player.getY() == -2 && (space.getX() - player.getX()) == 0) {
+			if(isPlayerHere(new Space(player.getX(), player.getY() - 1)))
 				return true;
-		else
-			return false;
+		}
 		return false;
 	}
 	
