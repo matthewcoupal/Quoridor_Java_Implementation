@@ -14,9 +14,9 @@ public interface RulesInterface {
 	
 	public boolean isWallHere(Space startingSpace1, Space startingSpace2);
 	
-	public boolean isLegalDoubleMove(Space currentPosition, Space potentialPosition);
+	public boolean isDoubleJumpLegal(Player player, Space potentialPosition);
 	
-	public boolean isLegalMove(Player currentPlayer, Space potentialPosition);
+	public boolean isLegalMove(Player currentPlayer, Space space);
 	
 	public boolean isLegalSingleMove(Player currentPlayer, Space potentialPosition);
 	

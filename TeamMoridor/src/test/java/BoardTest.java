@@ -150,7 +150,6 @@ public class BoardTest {
     	when(player.getY()).thenReturn(2);
     	when(player.getX()).thenReturn(1);
     	board.makeMove(player, space);
-    	//board.makeMove(player, space);
     	Mockito.verify(board, times(1)).isLegalMove(player, space);
     	Mockito.verify(board, times(0)).bootPlayer(player);
     }

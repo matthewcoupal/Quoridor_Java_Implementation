@@ -228,17 +228,6 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		return false;
 	}
 	
-	/**
-	 * Checks to see if moving two spaces is a legal.
-	 * @param currentPosition    The current space the player moving is positioned.
-	 * @param potentialPosition  The space the player wants to move to.
-	 * @return True if moving two spaces is legal; False otherwise.
-	 */
-	public boolean isLegalDoubleMove(Space currentPosition,
-			Space potentialPosition) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	/**
 	 * Checks if a move meets all the move criteria
@@ -322,7 +311,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		throw new NoSuchElementException("The Player specified is not in this game or the servers and client are out of sync!");
 	}
 	
-	//DO NOT USE
+	//DO NOT USE -- WORK IN PROGRESS -- DO NOT COMMENT DUE TO MINIMAL TESTS
 	public void placeWall(Player player, Space starting1, Space starting2,
 			Space ending1, Space ending2) {
 		if(!this.canPlaceWall(starting1, starting2, ending1, ending2)) {
