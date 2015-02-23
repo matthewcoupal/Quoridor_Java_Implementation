@@ -4,8 +4,6 @@ public interface RulesInterface {
 
 	public boolean isOutOfBounds(Space potentialPosition);
 	
-	public boolean isMoveDiagonal(Space currentPosition, Space potentialPosition);
-	
 	public boolean isMoveLegalDiagonal(Space currentPosition, Space potentialPosition);
 	
 	public boolean isPlayerHere(Space potentialPosition);
@@ -18,7 +16,9 @@ public interface RulesInterface {
 	
 	public boolean isLegalDoubleMove(Space currentPosition, Space potentialPosition);
 	
-	public boolean isLegalMove(Space currentPosition, Space potentialPosition);
+	public boolean isLegalMove(Player currentPlayer, Space potentialPosition);
+	
+	public boolean isLegalSingleMove(Player currentPlayer, Space potentialPosition);
 	
 	public boolean isWinner(Player player);
 }

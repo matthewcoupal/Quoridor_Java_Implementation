@@ -127,29 +127,19 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @return    True if the jump is diagonal and a player on the space needed to jump to, and is false otherwise.
 	 */
     public boolean  isMoveLegalDiagonal(Space currentPosition, Space potentialPosition) {
-    	int slope = (potentialPosition.getY() - currentPosition.getY()/ potentialPosition.getX() - currentPosition.getX());
-    	if(Math.abs(slope) == 1) {
-    		if(slope == 1)
-    			return isPlayerHere(new Space(potentialPosition.getX() - 1, potentialPosition.getY()));
-    		else if(slope == -1)
-    			return isPlayerHere(new Space(potentialPosition.getX() + 1, potentialPosition.getY()));
+    	if(potentialPosition.getX() - currentPosition.getX() != 0) {
+    		int slope = (potentialPosition.getY() - currentPosition.getY()/ potentialPosition.getX() - currentPosition.getX());
+    		if(Math.abs(slope) == 1) {
+    			if(slope == 1)
+    				return isPlayerHere(new Space(potentialPosition.getX() - 1, potentialPosition.getY()));
+    			else if(slope == -1)
+    				return isPlayerHere(new Space(potentialPosition.getX() + 1, potentialPosition.getY()));
+    		}
     	}
     	return false;
     }
     
-    /**
-     * Checks to see whether the space being moved is a diagonal jump or not.
-     * 
-     * @param currentPosition    The current position of the player.
-     * @param potentialPosition    The position the player wants to move to.
-     * @return    True the space is diagonal; False otherwise.
-     */
-    public boolean isMoveDiagonal(Space currentPosition, Space potentialPosition) {
-    	if(Math.abs((potentialPosition.getY() - currentPosition.getY()/ potentialPosition.getX() - currentPosition.getX())) == 1) {
-    		return true;
-    	}
-        return false;
-    }
+
     
     /**
      * Checks to see if a player is at a given position
@@ -256,8 +246,12 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @param potentialPosition  The space the player wants to move to
 	 * @return True if the move to the specified space from the current space is legal; False otherwise.
 	 */
-	public boolean isLegalMove(Space currentPosition, Space potentialPosition) {
-		// TODO Auto-generated method stub
+	public boolean isLegalMove(Player currentPlayer, Space potentialPosition) {
+		/*if(this.isDoubleJumpLegal(currentPlayer, potentialPosition)) {
+			return true;
+		}else if(this.isMoveLegalDiagonal(currentPlayer, potentialPosition)){
+				return true;
+		}*/
 		return false;
 	}
 	
@@ -324,7 +318,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		throw new NoSuchElementException("The Player specified is not in this game or the servers and client are out of sync!");
 	}
 	
-	
+	//DO NOT USE
 	public void placeWall(Player player, Space starting1, Space starting2,
 			Space ending1, Space ending2) {
 		if(!this.canPlaceWall(starting1, starting2, ending1, ending2)) {
@@ -348,6 +342,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			throw new IndexOutOfBoundsException("This player does not exist in the current list of players");
 		this.currentPlayer = this.occupiedSpaces.get(playerNumber);
 	}
+	
 	/**
 	 * Accesses the player whose turn it is currently.
 	 * @return The current player.
@@ -355,6 +350,21 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 */
 	public Player currentPlayer() {
 		return this.currentPlayer;
+	}
+	@Override
+	public boolean isLegalSingleMove(Player currentPlayer,
+			Space potentialPosition) {
+		int playerX = currentPlayer.getX();
+		int playerY = currentPlayer.getY();
+		int potentialX = potentialPosition.getX();
+		int potentialY = potentialPosition.getY();
+		
+		if(Math.abs(potentialX - playerX) == 1) {
+			return !this.isWallHere(currentPlayer, potentialPosition);
+		}else if(Math.abs(potentialY - playerY) == 1) {
+			return !this.isWallHere(currentPlayer, potentialPosition);
+		}
+		return false;
 	}
     
     

@@ -59,8 +59,7 @@ public class BoardTest {
     @Test
     public void boardCanTestForPlayerMovingDiagonally() {
         Board board = new Board();
-        assertTrue(board.isMoveDiagonal(new Space(0,0), new Space(1,1)));
-        assertFalse(board.isMoveDiagonal(new Space(0,0), new Space(1,0)));
+        assertFalse(board.isMoveLegalDiagonal(new Space(0,0), new Space(1,0)));
         assertFalse(board.isMoveLegalDiagonal(new Space(0,0), new Space(1,1)));
     }
     
@@ -76,8 +75,7 @@ public class BoardTest {
     	SpaceLinkedList list = board.getGrid();
     	assertEquals(81, list.size());
     }
-    
-    
+      
     @Test
     public void boardCanCreateGrid() {
     	Board board = new Board();
@@ -142,13 +140,15 @@ public class BoardTest {
 	assertTrue(board.isWinner(player4));
     }
 
-    
     @Test(expected=NoSuchElementException.class)
     public void boardCanMakeProperPlayerMoveCalls() throws Exception {
     	Board board = Mockito.spy(new Board());
     	Player player = Mockito.mock(Player.class);
     	Space space = Mockito.mock(Space.class);
-    	when(board.isLegalMove(player, space)).thenReturn(true).thenReturn(false);
+    	when(space.getY()).thenReturn(1);
+    	when(player.getY()).thenReturn(2);
+    	//board.makeMove(player, space).doNothing();
+    	when(board.isLegalMove(player, space)).thenReturn(true,false);
     	board.makeMove(player, space);
     	board.makeMove(player, space);
     	Mockito.verify(board, times(2)).isLegalMove(player, space);
@@ -167,7 +167,6 @@ public class BoardTest {
     	}
     }
     
-    
     @Test
     public void boardCanSeeIfADoubleJumpIsLegal() throws Exception {
     	
@@ -176,10 +175,10 @@ public class BoardTest {
     	board.setCurrentPlayer(0);
     	assertFalse(board.isDoubleJumpLegal(board.currentPlayer(), space));
     	board.setCurrentPlayer(1);
-    	when(board.isLegalMove(board.currentPlayer(), space)).thenReturn(true);
     	when(space.getX()).thenReturn(4);
-    	when(space.getY()).thenReturn(1, 2);
-    	board.makeMove(board.currentPlayer(), space);
+    	when(space.getY()).thenReturn(2);
+    	board.currentPlayer().setX(4);
+    	board.currentPlayer().setY(1);
     	assertEquals(4, board.currentPlayer().getX());
     	assertEquals(1, board.currentPlayer().getY());
     	board.setCurrentPlayer(0);
@@ -207,8 +206,6 @@ public class BoardTest {
     	board.placeWall(player, space, space, space, space);
     	Mockito.verify(board, times(1)).canPlaceWall(space, space, space, space);
     }
-
-   
     
     @Test
     public void boardCanCallAllNeededMethodsCheckIfAMoveIsLegal () throws Exception  {
@@ -220,4 +217,31 @@ public class BoardTest {
     	
     }
 
+    /*
+    @Test
+    public void boardCanCheckIfAMoveIsFullyLegal() {
+    	Board board = Mockito.spy(new Board());
+    	Space space = Mockito.mock(Space.class);
+    	Player player = Mockito.mock(Player.class);
+    	when(board.isDoubleJumpLegal(player, space)).thenReturn(false);
+    	when(board.isMoveLegalDiagonal(player, space)).thenReturn(false);
+    	assertFalse(board.isLegalMove(player, space));
+    	Mockito.verify(board, times(1)).isDoubleJumpLegal(player, space);
+    	//Mockito.verify(board, times(1)).isLegalMove(player, space);
+    	Mockito.verify(board, times(1)).isMoveLegalDiagonal(player, space);
+    }
+    */
+    
+    @Test
+    public void boardCanCheckIfASingleMoveIsLegal() {
+    	Board board = Mockito.spy(new Board());
+    	Space space = Mockito.mock(Space.class);
+    	Player player = Mockito.mock(Player.class);
+    	when(player.getX()).thenReturn(1);
+    	when(player.getY()).thenReturn(1);
+    	when(space.getX()).thenReturn(0);
+    	when(space.getY()).thenReturn(1);
+    	assertTrue(board.isLegalSingleMove(player, space));
+    	Mockito.verify(board, times(1)).isWallHere(player, space);
+    }
 }
