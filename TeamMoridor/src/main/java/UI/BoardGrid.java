@@ -3,10 +3,11 @@ import javax.swing.JButton;
 import java.awt.GridLayout; 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import main.java.Board;
 //Joseph Santantasio and Brabim Baral
 
 
-public class BoardGrid {
+public class BoardGrid extends Board {
     JButton[][] boardgrid; // instance for Grid of Buttons
     JFrame frame=new JFrame(); // Instance for Frame
     
