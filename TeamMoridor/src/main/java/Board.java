@@ -363,7 +363,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	/**
 	 * Converts Protocol String to Coordinates
 	 * @param moveString the Protocol String.
-	 * @return A space object with the respective coordinates.
+	 * @return A space object with the respective coordinates; -1 if a coordinate is not found.
 	 */
 	public Space StringtoCoordinates(String moveString) {
 		// Create the initial arrays to assign indexes to the string values.
@@ -377,8 +377,11 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		String xCoordinate = moveString.substring(0, dashIndex);
 		String yCoordinate = moveString.substring(dashIndex + 1);
 		
+		//Set default values for if the coordinate is not found.
 		int translatedX = -1;
 		int translatedY = -1;
+		
+		//Match string values to array values
 		for(int i = 0; i < xArray.length; i++) {
 			if(xCoordinate.compareTo(xArray[i]) == 0) {
 				translatedX = i;
@@ -387,8 +390,29 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 				translatedY = i;
 			}
 		}
-		
+		//Return a new space object with the proper coordinates.
 		return new Space(translatedX, translatedY);
+	}
+	
+	/**
+	 * Converts a given space object to the protocol move string.
+	 * @param space Space to be converted
+	 * @return the corresponding move string in the proper protocol form; X-X if the coordinate is out of range.
+	 */
+	public String spaceToString(Space space) {
+		// Set up the proper space mappings.
+		String[] xArray = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+		String[] yArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
+		
+		String protocolString;
+		if((space.getX() >= 0 && space.getX() <= 8) && (space.getY() >= 0 && space.getY() <= 8)) {
+		// Get the respective x and y strings.
+		protocolString = xArray[space.getX()] + "-" + yArray[space.getY()];
+		}
+		else {
+		protocolString = "X-X";	
+		}
+		return protocolString;
 	}
     
     

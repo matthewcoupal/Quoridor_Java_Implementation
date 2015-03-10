@@ -248,9 +248,15 @@ public class BoardTest {
     }
     
     @Test
-    public void boardCanTranslateStringToMove() {
+    public void boardCanTranslateStringToSpaceObject() {
     	Board board = new Board();
     	assertEquals(new Space(5, 7).getX(), board.StringtoCoordinates("VI-H").getX());
     	assertEquals(new Space(5, 7).getY(), board.StringtoCoordinates("VI-H").getY());
+    }
+    
+    @Test
+    public void boardCanTranslateSpaceObjectToString() {
+    	Board board = new Board();
+    	assertTrue(board.spaceToString(new Space(7,5)).compareTo("VIII-F") == 0);
     }
 }
