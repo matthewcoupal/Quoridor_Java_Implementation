@@ -359,6 +359,37 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return false;
 	}
+	
+	/**
+	 * Converts Protocol String to Coordinates
+	 * @param moveString the Protocol String.
+	 * @return A space object with the respective coordinates.
+	 */
+	public Space StringtoCoordinates(String moveString) {
+		// Create the initial arrays to assign indexes to the string values.
+		String[] xArray = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+		String[] yArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
+		
+		//Find the index of the - separating the x and y coordinates.
+		int dashIndex = moveString.indexOf("-");
+		
+		//Retrieve the x and y coordinates.
+		String xCoordinate = moveString.substring(0, dashIndex);
+		String yCoordinate = moveString.substring(dashIndex + 1);
+		
+		int translatedX = -1;
+		int translatedY = -1;
+		for(int i = 0; i < xArray.length; i++) {
+			if(xCoordinate.compareTo(xArray[i]) == 0) {
+				translatedX = i;
+			}
+			if(yCoordinate.compareTo(yArray[i]) == 0) {
+				translatedY = i;
+			}
+		}
+		
+		return new Space(translatedX, translatedY);
+	}
     
     
 }

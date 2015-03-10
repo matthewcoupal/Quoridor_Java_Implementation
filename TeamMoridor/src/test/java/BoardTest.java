@@ -246,4 +246,11 @@ public class BoardTest {
     	assertTrue(board.isLegalSingleMove(player, space));
     	Mockito.verify(board, times(1)).isWallHere(player, space);
     }
+    
+    @Test
+    public void boardCanTranslateStringToMove() {
+    	Board board = new Board();
+    	assertEquals(new Space(5, 7).getX(), board.StringtoCoordinates("VI-H").getX());
+    	assertEquals(new Space(5, 7).getY(), board.StringtoCoordinates("VI-H").getY());
+    }
 }
