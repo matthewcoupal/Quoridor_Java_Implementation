@@ -35,10 +35,10 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			this.occupiedSpaces.add(new Player(4,0,10));
 			this.occupiedSpaces.add(new Player(4,9,10));
 		} else if (numberOfPlayers == 4) {
-			this.occupiedSpaces.add(new Player(4,0,10));
-			this.occupiedSpaces.add(new Player(4,9,10));
-			this.occupiedSpaces.add(new Player(0,4,10));
-			this.occupiedSpaces.add(new Player(9,4,10));
+			this.occupiedSpaces.add(new Player(4,0,5));
+			this.occupiedSpaces.add(new Player(4,9,5));
+			this.occupiedSpaces.add(new Player(0,4,5));
+			this.occupiedSpaces.add(new Player(9,4,5));
 		}
 		this.makeGrid(9);
 	}
