@@ -296,7 +296,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @param potentialPosition   The position the player wants to move to.
 	 * @throws NoSuchElementException When a player makes a legal move, but the player is not found in the list of players.
 	 */
-	public void makeMove(Player player, Space potentialPosition) throws Exception {
+	public void makeMove(Player player, Space potentialPosition) throws NoSuchElementException {
 		if(!this.isLegalMove(player, potentialPosition)) {
 			this.bootPlayer(player);
 			return;
@@ -330,7 +330,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @param playerNumber the player number in the current game.
 	 * @throws IndexOutOfBoundsException When the player number is larger or smaller than the total number of players.
 	 */
-	public void setCurrentPlayer(int playerNumber) throws Exception {
+	public void setCurrentPlayer(int playerNumber) throws IndexOutOfBoundsException {
 		if(playerNumber < 0 || playerNumber > this.occupiedSpaces.size())
 			throw new IndexOutOfBoundsException("This player does not exist in the current list of players");
 		this.currentPlayer = this.occupiedSpaces.get(playerNumber);

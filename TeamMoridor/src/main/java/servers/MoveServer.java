@@ -5,8 +5,11 @@ import java.io.PrintStream;
 import java.lang.System;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+import main.java.Board;
+import main.java.Space;
 import java.util.Scanner;
+import main.java.UI.BoardGrid;
+import main.java.Player;
 
 /**
  * This server starts with default name, machinename and port
@@ -58,6 +61,7 @@ public class MoveServer {
     public String opponent;
     public int playNum;
     public int numPlayers;
+    public Board board;
   /**
    * Creates a new <code>TCPServer</code> instance. TCPServer is
    * a listening echo server (it responds with a slightly modified
@@ -81,12 +85,12 @@ public class MoveServer {
   public static void main(String[] args) {
       int argNdx = 0;
 
-      while (argNdx < args.length) {
+      while(argNdx < args.length) {
           String curr = args[argNdx];
+          //seperates args into the repective command
           if (curr.equals(ARG_MACHINE)){
               argNdx++;
               DEFAULT_MACHINE_NAME = args[argNdx];
-
           }else {
               if (curr.equals(ARG_PORT)){
                   argNdx++;
@@ -136,9 +140,7 @@ public class MoveServer {
           clientMessage = cin.nextLine();
             //pass name
             if(clientMessage.equals("Move")){
-                System.out.println("i'm here!");
                 cout.printf("%s\n", DEFAULT_PLAYER_NAME);
-
             }else{
                 //Your turn
                 if(clientMessage.equals("GO?")){
@@ -183,40 +185,26 @@ public class MoveServer {
   }
 
  public void playermsg(String clientMessage, PrintStream cout){
-     String msg[] = clientMessage.split("");
-     int numPlayers = msg.length;
-     
-	 if (msg.length > 2){
-         String opponents[] = new String[msg.length];
-         //playeeers is slot 1 in msg
+     // Players player1name player2name ... etc
+     String msg[] = clientMessage.split(" ");
+     int numPlayers = msg.length ;
+     String opponents[] = new String[msg.length - 1];
+         //players is slot 1 in msg
          for (int i = 1; i < msg.length; i++){
              opponents[i]=msg[i];
             if(msg[i].equals(DEFAULT_PLAYER_NAME)){
-                playNum = i;
+                playNum = i-1;
             }
          }
-         //makeboard
-         addOpponents(opponents, playNum);
 
-     }else {
-         int i = 0;
-         String opponent= " ";
-         while(i < numPlayers){
-             if(msg[i].equals(DEFAULT_PLAYER_NAME)){
-                 playNum = i;
-             }
-             i++;
-         }
-         //only one player why make a list
-         //make board
-         addOpponent(msg[i],playNum);
-     }
+     addOpponents(opponents, (playNum -1));
 	 cout.printf("%s\n", DEFAULT_PLAYER_NAME);
  }
 
  public static String MyMove(Scanner cin){
     String movesString = "";
      //grabs  move from board
+
     return DEFAULT_PLAYER_NAME + " "+ movesString;
  }
 
@@ -224,21 +212,15 @@ public class MoveServer {
      this.opponents = opponents;
      this.numPlayers = opponents.length;
      this.playNum = playNum;
- }
-
- public void addOpponent(String opponent, int playNum){
-     this.opponent = opponent;
-     this.numPlayers = 2;
-     this.playNum = playNum;
-	 System.out.println(playNum);
+     this.board = new Board(numPlayers);
  }
 
  public void  weGotACheater(String clientMessage,PrintStream sout, Scanner sin) {
      //if we have more then one opponent then do this
      String cheater[] = clientMessage.split(" ");
      //client message it "Cheater playerName"
-     if (cheater[2].equals(DEFAULT_PLAYER_NAME)){
-         System.out.println("your a CHEATER");
+     if (cheater[1].equals(DEFAULT_PLAYER_NAME)){
+         System.out.println("you're a CHEATER");
          sin.close();
          sout.close();
          System.exit(0);
@@ -259,8 +241,22 @@ public class MoveServer {
 
  public void aPlayerWent(String moveString){
      //update board
-	System.out.println(moveString);
+	//note that all players are in oppenents it was a bad choice for a name
+     int i;
+     System.out.println(moveString);
+    String moveInfo[] = moveString.split(" ");
+    for(i=0; i< opponents.length;i++){
+        if(moveInfo[0].equals(opponents[i]))
+            break;
+    }
+    String cords = moveInfo[1].replace("(", "");
+    cords = cords.replace(")","");
+    Space potentialPosition = board.StringtoCoordinates(cords);
+
+     board.setCurrentPlayer(i);
+
+     board.makeMove(board.currentPlayer(),potentialPosition);
+    //update gui code
 
  }
-
 }

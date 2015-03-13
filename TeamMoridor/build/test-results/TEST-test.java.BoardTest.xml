@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="test.java.BoardTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2015-02-08T23:18:46" hostname="dBOT" time="0.0">
+<testsuite name="test.java.BoardTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2015-03-13T16:40:51" hostname="dBOT" time="1.498">
   <properties/>
-  <testcase name="boardCanBeConstructedWithValues" classname="test.java.BoardTest" time="0.0"/>
-  <testcase name="boardCanBeConstructedWithoutValues" classname="test.java.BoardTest" time="0.0"/>
+  <testcase name="boardCanBeConsturctedWithGrid" classname="test.java.BoardTest" time="0.219"/>
+  <testcase name="boardCanBeConstructedWithValues" classname="test.java.BoardTest" time="0.063"/>
+  <testcase name="playerIsInWinSpace" classname="test.java.BoardTest" time="0.063"/>
+  <testcase name="boardCanSeeIfADoubleJumpIsLegal" classname="test.java.BoardTest" time="0.499"/>
+  <testcase name="boardCanCreateGrid" classname="test.java.BoardTest" time="0.078"/>
+  <testcase name="boardCanSeeIfAWallCanBePlaced" classname="test.java.BoardTest" time="0.078"/>
+  <testcase name="boardCanCheckIfAMoveIsFullyLegal" classname="test.java.BoardTest" time="0.047"/>
+  <testcase name="boardCanCheckIfPlayerCanReachTheEnd" classname="test.java.BoardTest" time="0.031"/>
+  <testcase name="boardCanTestForPlayerMovingIntoAnOccupiedSpace" classname="test.java.BoardTest" time="0.032"/>
+  <testcase name="boardCanTestForPlayerMovingDiagonally" classname="test.java.BoardTest" time="0.031"/>
+  <testcase name="boardWillTestForPlayerMovingOutOfBoundaries" classname="test.java.BoardTest" time="0.031"/>
+  <testcase name="boardCanBeConstructedWithoutValues" classname="test.java.BoardTest" time="0.016"/>
+  <testcase name="boardCanSeeIfAWallIsBetweenTwoNodes" classname="test.java.BoardTest" time="0.031"/>
+  <testcase name="boardCanMakeProperPlayerMoveCalls" classname="test.java.BoardTest" time="0.031"/>
+  <testcase name="boardCanSetAndGetTheCurrentPlayer" classname="test.java.BoardTest" time="0.062"/>
+  <testcase name="boardCanCheckIfAWallPlacementIsLegal" classname="test.java.BoardTest" time="0.032"/>
+  <testcase name="boardCanCallAllNeededMethodsCheckIfAMoveIsLegal" classname="test.java.BoardTest" time="0.015"/>
+  <testcase name="boardCanCheckIfASingleMoveIsLegal" classname="test.java.BoardTest" time="0.016"/>
+  <testcase name="boardCanTranslateStringToSpaceObject" classname="test.java.BoardTest" time="0.047"/>
+  <testcase name="boardCanTranslateSpaceObjectToString" classname="test.java.BoardTest" time="0.015"/>
+  <testcase name="boardCanPassGrid" classname="test.java.BoardTest" time="0.016"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.SpaceLinkedListTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-03-13T16:40:53" hostname="dBOT" time="0.047">
+  <properties/>
+  <testcase name="spaceLinkedListCanAddSpaceNodes" classname="test.java.SpaceLinkedListTest" time="0.0"/>
+  <testcase name="spaceLinkedListCanBeConstructed" classname="test.java.SpaceLinkedListTest" time="0.0"/>
+  <testcase name="spaceLinkedListCanReferenceNodeBasedOnCoordinatesInGrid" classname="test.java.SpaceLinkedListTest" time="0.031"/>
+  <testcase name="spaceLinkedListCanGetSize" classname="test.java.SpaceLinkedListTest" time="0.0"/>
+  <testcase name="spaceLinkedListCanReferenceNodeWithCoordinatesAndStartingNode" classname="test.java.SpaceLinkedListTest" time="0.016"/>
+  <testcase name="spaceLinkedListCanReferenceNodeBasedOnCoordinates" classname="test.java.SpaceLinkedListTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

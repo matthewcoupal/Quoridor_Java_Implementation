@@ -7,7 +7,11 @@ import java.net.UnknownHostException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
-
+import main.java.Board;
+import main.java.Space;
+import main.java.UI.BoardGrid;
+import main.java.Player;
+import java.util.NoSuchElementException;
 //looping client Prof. Ladd gave us for networking that i'm recoding/gutting to be our client!
 /**
  * This is a first client program. It demonstrates how to create a
@@ -26,14 +30,16 @@ public class GameClient {
     private PrintStream sout[];
     private Scanner sin[];
     private String playerNames[];
-
+    private Board board;
+    private BoardGrid gui;
 
    public GameClient(String machineName[], int ports[],int  numPlay) {
       this.startNumPlay = numPlay;
       this.numPlay = numPlay;
       this.machineName = machineName;
       this.ports = ports;
-  }
+      this.gui = new BoardGrid(9,9);
+   }
 
 
   public static void main(String[] args) {
@@ -56,18 +62,27 @@ public class GameClient {
       // args should be of the form  machineName:port
       String serverInfo[] = curr.split(":");
       if (serverInfo.length == 2){
-
           System.out.println(serverInfo[0]);
           machineNames[argNdx] = serverInfo[0];
-
           System.out.println(serverInfo[1]);
           ports[argNdx] = Integer.parseInt(serverInfo[1]);
-      }else {
-          // if there is an unknown parameter, give usage and quit
-          // not doing it right
-          System.err.println("Unknown parameter \"" + curr + "\"");
-          usage();
-          System.exit(1);
+      }else{
+          if (serverInfo.length == 4){
+              System.out.println(serverInfo[0]);
+              machineNames[argNdx] = serverInfo[0];
+              System.out.println(serverInfo[1]);
+              ports[argNdx] = Integer.parseInt(serverInfo[1]);
+              System.out.println(serverInfo[2]);
+              machineNames[argNdx] = serverInfo[2];
+              System.out.println(serverInfo[3]);
+              ports[argNdx] = Integer.parseInt(serverInfo[3]);
+          }else {
+              // if there is an unknown parameter, give usage and quit
+              // not doing it right
+              System.err.println("Unknown parameter \"" + curr + "\"");
+              usage();
+              System.exit(1);
+          }
       }
       ++argNdx;
     }
@@ -87,6 +102,7 @@ public class GameClient {
     this.sout = new PrintStream[startNumPlay];
     this.sin = new Scanner[startNumPlay];
 	this.playerNames = new String[startNumPlay];
+    this.board = new Board(startNumPlay);
     try {
       //creates Move-Server sockets and their respective printstream and scanner for communitcation
         // reference for the list of all commnication 'links'
@@ -107,10 +123,8 @@ public class GameClient {
 		  playerNames[i] = name;
           System.out.println(i);
           }
-        namesList(playerNames);
 		System.out.println("names added");
-        //turn taking
-        //beacuse turn order is different in 4 player games
+
         int turn[]= new int[startNumPlay];
         if (startNumPlay == 2) {
             turn[0] = 0;
@@ -121,41 +135,37 @@ public class GameClient {
             turn[2] = 1;
             turn[3] = 2;
         }
-		System.out.println("turn order set");
-        //game on woot woot
-        // will be used
         int currTurn = 0;
+
+        namesList(playerNames);
+        System.out.println("turn set");
         boolean victor = false;
 
         //players will not break until all players are ready thus once all are ready we may play
         boolean ready = players(startNumPlay,sout,sin);
 		System.out.println("we're ready");
         while(numPlay > 1 && ready){
-            //ready?
-
             boolean legalMove = true;
             //cause !machineName[turn[currTurn % this.startNumPlay]].equal("null") is just messy
-            //  for anyone but the person who coded it
             int currplayer = turn[currTurn % startNumPlay];
-            System.out.println(currTurn);
-			System.out.println(currplayer);
-			//go
-            //go?
-            // if the current turn's player
-            // since for 4 players turnn order is 1,4,2,3 this makes it easier
-            // current turn %
-              if(!machineName[currplayer].equals("null")){
-                  //go?
+
+            //sets curr player for board
+            //mat needs to check this
+            board.setCurrentPlayer(currplayer);
+
+
+            if (!machineName[currplayer].equals("null")){
+                  //to notify moverserver to accept a move
                   sout[currplayer].println("GO?");
-                  //go
+                  //receives movde from that player
                   String moveString = sin[currplayer].nextLine();
-                  //check to see if legal
-                  //check boot?
+                  //check to see if legal move
                   legalMove = isLegal(moveString);
                   if(legalMove){
-                      //vitor?
-                      victor = isVictor(playerNames[currplayer],moveString);
-                      if (victor){winnerIs(playerNames[currplayer],sout,sin);
+                      //victor?
+                      victor = board.isWinner(board.currentPlayer());
+                      if (victor){
+                          winnerIs(playerNames[currplayer],sout,sin);
                       }else {
                           //if no then went
                           //will be a landing cor
@@ -164,7 +174,6 @@ public class GameClient {
                       }
                   }else{
                       // your a cheater
-                      //boot and remove one from number of players
                       dasBoot(playerNames[currplayer],sout, sin);
                       machineName[currplayer] = "null";
                       numPlay--;
@@ -191,17 +200,19 @@ public class GameClient {
       // there was a standard input/output error (lower-level)
       ioe.printStackTrace();
       System.exit(1);
+    }catch(IndexOutOfBoundsException iobe){
+        iobe.printStackTrace();
+        System.exit(1);
     }
   }
 
-  /**
-   * Print the usage message for the program on standard error stream.
-   */
-  private static void usage() {
-    System.err.format("usage: java Client required machineName:port 2 times for 2 players 4 for 4 players");
-  }
-//might need to be looked again at and recoded just swiching machineName with player name
-  private boolean players(int startNumPlay, PrintStream sout[], Scanner sin[]) {
+   //Print the usage message for the program on standard error stream.
+    private static void usage() {
+    System.err.format("usage: java Client required (machineName:port) 2 times for 2 players 4 for 4 players");
+    }
+
+    //sends a line of players that will be playing also singnals that the player is ready to play
+    private boolean players(int startNumPlay, PrintStream sout[], Scanner sin[]) {
       String players = "Players ";
 
       for (int i = 0; i < startNumPlay; i++){
@@ -220,7 +231,9 @@ public class GameClient {
           }
       return true;
   }
-  private void winnerIs(String winner, PrintStream sout[], Scanner sin[]){
+
+    //ends game  by sending to each player who the winner is then disconnects and shuts down
+    private void winnerIs(String winner, PrintStream sout[], Scanner sin[]){
 
       int i = 0;
       while(i < numPlay){
@@ -231,9 +244,11 @@ public class GameClient {
             }
           i++;
       }
+      System.exit(0);
   }
 
-  private void went(String player, String moveString ,PrintStream sout[]){
+    //this move is legal let everyone know to update thheir boardand gui and update our board and gui
+    private void went(String player, String moveString ,PrintStream sout[]){
       int i = 0;
       while(i < numPlay){
           //
@@ -241,16 +256,38 @@ public class GameClient {
             sout[i].println("Went" + moveString);
           }
           i++;
-      }//update client board code here
-  }
+      }
+      //update client board code here
+      String moveInfo[] = moveString.split(" ");
+      String cords = moveInfo[1].replace("(", "");
+      cords = cords.replace(")","");
+      Space potentialPosition = board.StringtoCoordinates(cords);
+      try{
+        board.makeMove(board.currentPlayer(),potentialPosition);
+      //update gui code
 
- public boolean isLegal(String moveString){
+      }catch (NoSuchElementException nsee){
+          nsee.printStackTrace();
+          System.exit(1);
+      }
+
+    }
+
+    //passes to board to check legallity of move
+    public boolean isLegal(String moveString){
      //something something, not my(dale's) task =P
      //board.isLegal(moveString);
-     return true;
+     // playerName (X-Y)
+     String moveInfo[] = moveString.split(" ");
+     String cords = moveInfo[1].replace("(", "");
+     cords = cords.replace(")","");
+     Space potentialPosition = board.StringtoCoordinates(cords);
+     boolean islegal = board.isLegalMove(board.currentPlayer(), potentialPosition);
+     return islegal;
  }
 
- public void dasBoot(String cheater,PrintStream sout[], Scanner sin[]){
+   //kicks player
+   public void dasBoot(String cheater,PrintStream sout[], Scanner sin[]){
      for(int i = 0;i < machineName.length; i++){
          //tells who the dirty cheater is
          sout[i].println("Boot" + cheater);
@@ -260,15 +297,12 @@ public class GameClient {
             sin[i].close();
          }
      }
+     board.bootPlayer(board.currentPlayer());
  }
- public boolean isVictor(String machineName, String moveString){
-     //board.WinnerIs();
-     return false;
-}
 
- public void namesList(String playerNames[]){
+   //sets names list
+   public void namesList(String playerNames[]){
      this.playerNames = playerNames;
-     //build board
  }
 }
 
