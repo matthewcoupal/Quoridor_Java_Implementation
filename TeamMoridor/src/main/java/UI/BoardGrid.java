@@ -15,6 +15,7 @@ import main.java.Space;
 public class BoardGrid extends Board {
     JButton[][] boardgrid; // instance for Grid of Buttons
     JFrame frame=new JFrame(); // Instance for Frame
+    String currentMove = "";
     //Board board = new Board();
     // Creates the BoardGrid.
     public static void main(String[] args) {
@@ -43,14 +44,16 @@ public class BoardGrid extends Board {
 		final String coordinates = "(" + j + "," + i + ")";
 		final int x = j;
 		final int y = i;
-		boardgrid[j][i] = new JButton(coordinates); 
+		boardgrid[j][i] = new JButton(coordinates);
+		//static String currentMove = "";
 		boardgrid[j][i].addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 			    //System.out.println(coordinates);
 			    Space space = new Space(x,y);
 			    Board board = new Board();
 				String protocolString = board.spaceToString(space);
-				
+				currentMove = protocolString;
 			}
 		});
 		//Adds buttons to frame as grids
@@ -65,6 +68,14 @@ public class BoardGrid extends Board {
 	
 	this.updatePositions();
     }
+    
+    public String getMove() {
+    	String move = this.currentMove;
+    	this.currentMove = "";
+    	return move;
+    }
+    
+    
     
     /**
      * Sets the background of a given button.
