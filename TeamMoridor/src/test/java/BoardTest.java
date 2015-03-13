@@ -66,7 +66,7 @@ public class BoardTest {
     @Test
     public void boardCanTestForPlayerMovingIntoAnOccupiedSpace() {
     	Board board = new Board();
-    	assertTrue(board.isPlayerHere(new Player(4,9,10)));
+    	assertTrue(board.isPlayerHere(new Player(4,8,10)));
     }
     
     @Test

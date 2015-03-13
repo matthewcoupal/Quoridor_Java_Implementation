@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  */
 public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	//Instance Variables
-	private ArrayList<Player> occupiedSpaces; //List of occupied spaces
+	protected ArrayList<Player> occupiedSpaces; //List of occupied spaces
 	//private ArrayList<Edge> occupiedEdges; //List of wall locations
 	public SpaceLinkedList boardConfiguration;
 	private Player currentPlayer = new Player(0,0,10);
@@ -33,12 +33,12 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		//this.occupiedEdges = new ArrayList<Edge>();
 		if(numberOfPlayers == 2) {
 			this.occupiedSpaces.add(new Player(4,0,10));
-			this.occupiedSpaces.add(new Player(4,9,10));
+			this.occupiedSpaces.add(new Player(4,8,10));
 		} else if (numberOfPlayers == 4) {
 			this.occupiedSpaces.add(new Player(4,0,5));
-			this.occupiedSpaces.add(new Player(4,9,5));
+			this.occupiedSpaces.add(new Player(4,8,5));
 			this.occupiedSpaces.add(new Player(0,4,5));
-			this.occupiedSpaces.add(new Player(9,4,5));
+			this.occupiedSpaces.add(new Player(8,4,5));
 		}
 		this.makeGrid(9);
 	}
