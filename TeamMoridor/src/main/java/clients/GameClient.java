@@ -110,10 +110,8 @@ public class GameClient {
         //Scanner sin = new Scanner(socket.getInputStream());
         // note it Might be more effiecent if everything was on a stack in groups of three
         // but i know array better then  stack so i'll stick with my strong suit.
-        System.out.println(this.numPlay); 
         for (int i =0; i < this.numPlay; i++) {
-          System.out.println(i);
-		  players[i] = new Socket(machineName[i], ports[i]);
+          players[i] = new Socket(machineName[i], ports[i]);
           System.out.println(machineName[i]+ports[i]);
           sout[i]= new PrintStream(players[i].getOutputStream());
           sin[i] = new Scanner(players[i].getInputStream());
@@ -121,7 +119,6 @@ public class GameClient {
           String name = sin[i].nextLine();
 		  System.out.println("name:" + name);
 		  playerNames[i] = name;
-          System.out.println(i);
           }
 		System.out.println("names added");
 
@@ -161,7 +158,8 @@ public class GameClient {
                   String moveString = sin[currplayer].nextLine();
                   //check to see if legal move
                   legalMove = isLegal(moveString);
-                  if(legalMove){
+                System.out.println(legalMove);
+                if(legalMove){
                       //victor?
                       victor = board.isWinner(board.currentPlayer());
                       if (victor){
@@ -234,9 +232,9 @@ public class GameClient {
 
     //ends game  by sending to each player who the winner is then disconnects and shuts down
     private void winnerIs(String winner, PrintStream sout[], Scanner sin[]){
-
+       System.out.println("winner:" + winner);
       int i = 0;
-      while(i < numPlay){
+      while(i < startNumPlay){
             if(!playerNames[i].equals("null")){
                 sout[i].println("Winner is:" + winner);
                 sout[i].close();
@@ -278,19 +276,23 @@ public class GameClient {
      //something something, not my(dale's) task =P
      //board.isLegal(moveString);
      // playerName (X-Y)
-     String moveInfo[] = moveString.split(" ");
-     String cords = moveInfo[1].replace("(", "");
-     cords = cords.replace(")","");
-     Space potentialPosition = board.StringtoCoordinates(cords);
-     boolean islegal = board.isLegalMove(board.currentPlayer(), potentialPosition);
-     return islegal;
+     if(moveString.contains("-")){String moveInfo[] = moveString.split(" ");
+        String cords = moveInfo[1].replace("(", "");
+        cords = cords.replace(")","");
+        Space potentialPosition = board.StringtoCoordinates(cords);
+        boolean islegal = board.isLegalMove(board.currentPlayer(), potentialPosition);
+        return islegal;
+     }else{
+             //no cords so invalid
+             return false;
+    }
  }
 
    //kicks player
    public void dasBoot(String cheater,PrintStream sout[], Scanner sin[]){
-     for(int i = 0;i < machineName.length; i++){
+       for(int i = 0;i < machineName.length; i++){
          //tells who the dirty cheater is
-         sout[i].println("Boot" + cheater);
+         sout[i].println("Boot " + cheater);
          //oh wait its you, time for dasBoot
          if(playerNames[i].equals(cheater)){
             sout[i].close();
