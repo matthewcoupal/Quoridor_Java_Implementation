@@ -186,9 +186,10 @@ public class MoveServer {
 
  public void playermsg(String clientMessage, PrintStream cout){
      // Players player1name player2name ... etc
+    System.out.println(clientMessage);
      String msg[] = clientMessage.split(" ");
      int numPlayers = msg.length ;
-     String opponents[] = new String[msg.length - 1];
+     String opponents[] = new String[msg.length ];
          //players is slot 1 in msg
          for (int i = 1; i < msg.length; i++){
              opponents[i]=msg[i];
@@ -217,8 +218,10 @@ public class MoveServer {
 
  public void  weGotACheater(String clientMessage,PrintStream sout, Scanner sin) {
      //if we have more then one opponent then do this
+     System.out.println(clientMessage);
      String cheater[] = clientMessage.split(" ");
-     //client message it "Cheater playerName"
+     //client message it "Cheater player"
+     System.out.println("kicking"+cheater[1]);
      if (cheater[1].equals(DEFAULT_PLAYER_NAME)){
          System.out.println("you're a CHEATER");
          sin.close();
