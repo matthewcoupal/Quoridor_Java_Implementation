@@ -9,7 +9,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 import main.java.Board;
 import main.java.Space;
-import main.java.UI.BoardGrid;
+import UI.BoardGrid;
 import main.java.Player;
 import java.util.NoSuchElementException;
 //looping client Prof. Ladd gave us for networking that i'm recoding/gutting to be our client!

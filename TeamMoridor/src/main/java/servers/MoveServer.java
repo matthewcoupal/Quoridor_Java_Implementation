@@ -8,7 +8,7 @@ import java.net.Socket;
 import main.java.Board;
 import main.java.Space;
 import java.util.Scanner;
-import main.java.UI.BoardGrid;
+import UI.BoardGrid;
 import main.java.Player;
 
 /**
