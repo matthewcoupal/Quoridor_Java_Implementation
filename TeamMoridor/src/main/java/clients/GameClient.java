@@ -157,6 +157,7 @@ public class GameClient {
                   //receives movde from that player
                   String moveString = sin[currplayer].nextLine();
                   //check to see if legal move
+		  System.out.println(moveString);
                   legalMove = isLegal(moveString);
                 System.out.println(legalMove);
                 if(legalMove){
@@ -251,14 +252,15 @@ public class GameClient {
       while(i < numPlay){
           //
           if(!playerNames[i].equals("null")){
-            sout[i].println("Went" + moveString);
+            sout[i].println("Went " + moveString);
           }
           i++;
       }
+      
       //update client board code here
       String moveInfo[] = moveString.split(" ");
-      String cords = moveInfo[1].replace("(", "");
-      cords = cords.replace(")","");
+      String cords = moveInfo[1];
+      System.out.println(cords);
       Space potentialPosition = board.StringtoCoordinates(cords);
       try{
         board.makeMove(board.currentPlayer(),potentialPosition);
@@ -273,19 +275,14 @@ public class GameClient {
 
     //passes to board to check legallity of move
     public boolean isLegal(String moveString){
-     //something something, not my(dale's) task =P
-     //board.isLegal(moveString);
-     // playerName (X-Y)
-     if(moveString.contains("-")){String moveInfo[] = moveString.split(" ");
-        String cords = moveInfo[1].replace("(", "");
-        cords = cords.replace(")","");
+        String moveInfo[] = moveString.split(" "); 
+        String cords = moveInfo[1];
         Space potentialPosition = board.StringtoCoordinates(cords);
         boolean islegal = board.isLegalMove(board.currentPlayer(), potentialPosition);
         return islegal;
-     }else{
-             //no cords so invalid
-             return false;
-    }
+ 
+
+     
  }
 
    //kicks player

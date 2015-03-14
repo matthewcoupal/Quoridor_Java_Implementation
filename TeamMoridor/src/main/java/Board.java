@@ -17,7 +17,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	protected ArrayList<Player> occupiedSpaces; //List of occupied spaces
 	//private ArrayList<Edge> occupiedEdges; //List of wall locations
 	public SpaceLinkedList boardConfiguration;
-	private Player currentPlayer = new Player(0,0,10);
+	private Player currentPlayer = new Player(1,1,10);
 	
 	//If no board size is given, a 2-player setup is initiated.
 	public Board() {
@@ -41,6 +41,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			this.occupiedSpaces.add(new Player(8,4,5));
 		}
 		this.makeGrid(9);
+		//currentPlayer = occupiedSpaces.get(0);
 	}
 	
 	/**
@@ -330,7 +331,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @param playerNumber the player number in the current game.
 	 * @throws IndexOutOfBoundsException When the player number is larger or smaller than the total number of players.
 	 */
-	public void setCurrentPlayer(int playerNumber) throws IndexOutOfBoundsException {
+	public void setCurrentPlayer(int playerNumber) throws IndexOutOfBoundsException {	
 		if(playerNumber < 0 || playerNumber > this.occupiedSpaces.size())
 			throw new IndexOutOfBoundsException("This player does not exist in the current list of players");
 		this.currentPlayer = this.occupiedSpaces.get(playerNumber);
