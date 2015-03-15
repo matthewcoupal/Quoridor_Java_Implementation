@@ -199,7 +199,7 @@ public class MoveServer {
             }
          }
 
-     addOpponents(opponents, (playNum -1));
+     addOpponents(opponents, (playNum));
 	 cout.printf("%s\n", DEFAULT_PLAYER_NAME);
  }
 
@@ -221,6 +221,7 @@ public class MoveServer {
      this.opponents = opponents;
      this.numPlayers = opponents.length;
      this.playNum = playNum;
+     System.out.println("player"+ playNum);
      this.board = new Board(numPlayers);
      gui = new BoardGrid(9,9);
  }

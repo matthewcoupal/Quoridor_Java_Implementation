@@ -162,8 +162,22 @@ public class GameClient {
                 System.out.println(legalMove);
                 if(legalMove){
                       //victor?
+			String moveInfo[] = moveString.split(" ");
+      			String cords = moveInfo[1];
+      			System.out.println(cords);
+      			Space potentialPosition = board.StringtoCoordinates(cords);
+		      try{
+     			   board.makeMove(board.currentPlayer(),potentialPosition);
+      			   //update gui code
+			   gui.makeMove(board.currentPlayer(),potentialPosition);
+		      }catch (NoSuchElementException nsee){
+          		nsee.printStackTrace();
+          		System.exit(1);
+      		      }
+ 		      gui.updatePositions();
                       victor = board.isWinner(board.currentPlayer());
-                      if (victor){
+                     
+		      if (victor){
                           winnerIs(playerNames[currplayer],sout,sin);
                       }else {
                           //if no then went
@@ -262,14 +276,7 @@ public class GameClient {
       String cords = moveInfo[1];
       System.out.println(cords);
       Space potentialPosition = board.StringtoCoordinates(cords);
-      try{
-        board.makeMove(board.currentPlayer(),potentialPosition);
-      //update gui code
-
-      }catch (NoSuchElementException nsee){
-          nsee.printStackTrace();
-          System.exit(1);
-      }
+      
 
     }
 
