@@ -1,4 +1,4 @@
-package UI;
+package main.java.UI;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -47,7 +47,6 @@ public class BoardGrid extends Board {
                     Board board = new Board();
                     String protocolString = board.spaceToString(space);
                     currentMove = protocolString;
-		    updatePositions();
                 }
             });
             //Adds buttons to frame as grids
@@ -78,35 +77,36 @@ public class BoardGrid extends Board {
      * @param button The jButton that will change colors.
      */
     private void setBackground (JButton button, int player) {
-	if(player == 0)
-	  button.setBackground(Color.BLUE);
-	else if(player == 1)
-	  button.setBackground(Color.RED);
-	else if(player == 2)
-	  button.setBackground(Color.MAGENTA);
-	else if(player == 3)
-	  button.setBackground(Color.GREEN);
+		if(player == 0)
+		  button.setBackground(Color.BLUE);
+		else if(player == 1)
+		  button.setBackground(Color.RED);
+		else if(player == 2)
+		  button.setBackground(Color.MAGENTA);
+		else if(player == 3)
+		  button.setBackground(Color.GREEN);
     }
 
     /**
      * Checks the occupied spaces on the board and changes the color of those spaces.
      */
     public void updatePositions () {
+    	update();
     	for(int i = 0; i < this.occupiedSpaces.size(); i++) {
     		int xCoordinate = this.occupiedSpaces.get(i).getX();
     		int yCoordinate = this.occupiedSpaces.get(i).getY();
     		setBackground(boardgrid[xCoordinate][yCoordinate], i);
     	}
-	update();
-    	this.frame.repaint();
+    	
+    	//this.frame.repaint();
     }
 
     public void update () {
 	for(int i = 0; i < 9; i++) {
 	    for(int j = 0; j < 9; j++) {
-		boardgrid[i][j].repaint();
+		boardgrid[i][j].setBackground(Color.CYAN);
 	    }
-	} 
+		} 
     }
 }
 

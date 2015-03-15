@@ -1,4 +1,4 @@
-package servers;
+package main.java.servers;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -8,7 +8,7 @@ import java.net.Socket;
 import main.java.Board;
 import main.java.Space;
 import java.util.Scanner;
-import UI.BoardGrid;
+import main.java.UI.BoardGrid;
 import main.java.Player;
 
 /**
@@ -264,9 +264,9 @@ public class MoveServer {
     String cords = moveInfo[2];
     Space potentialPosition = board.StringtoCoordinates(cords);
      board.setCurrentPlayer((i));
-
+     gui.setCurrentPlayer(i);
      board.makeMove(board.currentPlayer(),potentialPosition);
-    //update gui code
-
+     gui.makeMove(gui.currentPlayer(),potentialPosition);
+     gui.updatePositions();
  }
 }

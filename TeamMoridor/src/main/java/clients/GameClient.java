@@ -1,4 +1,4 @@
-package clients;
+package main.java.clients;
 
 import java.awt.*;
 import java.lang.System;
@@ -9,7 +9,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 import main.java.Board;
 import main.java.Space;
-import UI.BoardGrid;
+import main.java.UI.BoardGrid;
 import main.java.Player;
 import java.util.NoSuchElementException;
 //looping client Prof. Ladd gave us for networking that i'm recoding/gutting to be our client!
@@ -149,7 +149,7 @@ public class GameClient {
             //sets curr player for board
             //mat needs to check this
             board.setCurrentPlayer(currplayer);
-
+            gui.setCurrentPlayer(currplayer);
 
             if (!machineName[currplayer].equals("null")){
                   //to notify moverserver to accept a move
@@ -169,7 +169,7 @@ public class GameClient {
 		      try{
      			   board.makeMove(board.currentPlayer(),potentialPosition);
       			   //update gui code
-			   gui.makeMove(board.currentPlayer(),potentialPosition);
+			   gui.makeMove(gui.currentPlayer(),potentialPosition);
 		      }catch (NoSuchElementException nsee){
           		nsee.printStackTrace();
           		System.exit(1);
