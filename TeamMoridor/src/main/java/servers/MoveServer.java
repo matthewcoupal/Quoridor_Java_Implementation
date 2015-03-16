@@ -216,6 +216,12 @@ public class MoveServer {
     return DEFAULT_PLAYER_NAME + " "+ movesString;
  }
 
+ //ASK DALE
+ /**
+  * Adds opponents and assigns them a player number
+  * @param opponents Array of opponents
+  * @param playNum Player's Number
+  */
  public void addOpponents(String opponents[], int playNum){
      
      this.opponents = opponents;
@@ -226,6 +232,12 @@ public class MoveServer {
      gui = new BoardGrid(9,9);
  }
 
+ /**
+  * 
+  * @param clientMessage
+  * @param sout
+  * @param sin
+  */
  public void  weGotACheater(String clientMessage,PrintStream sout, Scanner sin) {
      //if we have more then one opponent then do this
      System.out.println(clientMessage);
@@ -252,6 +264,10 @@ public class MoveServer {
 
  }
 
+ /**
+  * Executes the players turn
+  * @param moveString The location the Player wants to move to.
+  */
  public void aPlayerWent(String moveString){
      //update board
 	//note that all players are in oppenents it was a bad choice for a name

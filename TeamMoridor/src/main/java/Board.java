@@ -128,15 +128,27 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @return    True if the jump is diagonal and a player on the space needed to jump to, and is false otherwise.
 	 */
     public boolean  isMoveLegalDiagonal(Space currentPosition, Space potentialPosition) {
-    	if(potentialPosition.getX() - currentPosition.getX() != 0) {
+    	//FIX IN FUTURE UPDATE: RULE ABOUT MOVING DIAGONALLY WHEN WALLS BECOME IMPLEMENTED
+    	/*if(potentialPosition.getX() - currentPosition.getX() != 0) {
     		int slope = (potentialPosition.getY() - currentPosition.getY()/ potentialPosition.getX() - currentPosition.getX());
     		if(Math.abs(slope) == 1) {
-    			if(slope == 1)
-    				return isPlayerHere(new Space(potentialPosition.getX() - 1, potentialPosition.getY()));
-    			else if(slope == -1)
-    				return isPlayerHere(new Space(potentialPosition.getX() + 1, potentialPosition.getY()));
+    			if(slope == 1) {
+    				if(potentialPosition.getX() < currentPosition.getX()) {
+    					return isPlayerHere(new Space(potentialPosition.getX() + 1, potentialPosition.getY()));
+    				} else {
+    					return isPlayerHere(new Space(potentialPosition.getX() - 1, potentialPosition.getY()));
+    				}
+    			}
+    			else if(slope == -1){
+    				if(potentialPosition.getX() < currentPosition.getX()) {
+    					return (isPlayerHere(new Space(potentialPosition.getX() + 1, potentialPosition.getY())) || isPlayerHere(new Space(potentialPosition.getX(), potentialPosition.getY() + 1)));
+    				}
+    				else {
+    					return isPlayerHere(new Space(potentialPosition.getX() + 1, potentialPosition.getY()));
+    				}
+    			}
     		}
-    	}
+    	}*/
     	return false;
     }
     

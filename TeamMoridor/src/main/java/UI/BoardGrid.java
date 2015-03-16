@@ -9,9 +9,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import main.java.Board;
 import main.java.Space;
-//Joseph Santantasio and Brabim Baral
 
-
+/**
+ * 
+ * @author Joe Santantasio
+ * @author Brabim Baral
+ *
+ */
 public class BoardGrid extends Board {
     JButton[][] boardgrid; // instance for Grid of Buttons
     JFrame frame = new JFrame(); // Instance for Frame
@@ -62,10 +66,10 @@ public class BoardGrid extends Board {
         this.updatePositions();
     }
 
-    public static void main(String[] args) {
-	BoardGrid bg = new BoardGrid(9, 9);
-    }
-
+    /**
+     * Gets the move made by the player and resets the current player's move to empty.
+     * @return the move string
+     */
     public String getMove() {
     	String move = this.currentMove;
     	this.currentMove = "";
@@ -97,10 +101,11 @@ public class BoardGrid extends Board {
     		int yCoordinate = this.occupiedSpaces.get(i).getY();
     		setBackground(boardgrid[xCoordinate][yCoordinate], i);
     	}
-    	
-    	//this.frame.repaint();
     }
 
+    /**
+     * Resets the spaces' background color to the default: CYAN
+     */
     public void update () {
 	for(int i = 0; i < 9; i++) {
 	    for(int j = 0; j < 9; j++) {
