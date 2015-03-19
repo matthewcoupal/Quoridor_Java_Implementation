@@ -1,5 +1,11 @@
 package main.java;
 
+/**
+ * Interface for controlling the flow of the game--anything dealing with moves and player turns.
+ * @author Matthew Coupal
+ *
+ */
+
 public interface MasterInterface {
 
 	public void makeMove(Player player, Space potentialPosition) throws Exception;

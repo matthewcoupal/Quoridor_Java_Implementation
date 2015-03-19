@@ -1,5 +1,10 @@
 package main.java;
 
+/**
+ * Interface that deals with the various rules of the game.
+ * @author Matthew Coupal
+ *
+ */
 public interface RulesInterface {
 
 	public boolean isOutOfBounds(Space potentialPosition);

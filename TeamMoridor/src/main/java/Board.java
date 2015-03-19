@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  * whether a new configuration of the board (a player move or a wall placement)
  * is an illegal move.
  * 
- * @author coupalme198
+ * @author Matthew Coupal
  *
  */
 public class Board implements BoardInterface, RulesInterface, MasterInterface{
@@ -18,16 +18,16 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	//private ArrayList<Edge> occupiedEdges; //List of wall locations
 	public SpaceLinkedList boardConfiguration;
 	private Player currentPlayer = new Player(1,1,10);
-	
+
 	//If no board size is given, a 2-player setup is initiated.
 	public Board() {
 		this(2);
 	}
-/**
- * Creates a new listing of players on a board based on the number of players
- * 
- * @param numberOfPlayers    The total number of players using this board. 
- */
+	/**
+	 * Creates a new listing of players on a board based on the number of players
+	 * 
+	 * @param numberOfPlayers    The total number of players using this board. 
+	 */
 	public Board(int numberOfPlayers){
 		this.occupiedSpaces = new ArrayList<Player>();
 		//this.occupiedEdges = new ArrayList<Edge>();
@@ -43,14 +43,14 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		this.makeGrid(9);
 		//currentPlayer = occupiedSpaces.get(0);
 	}
-	
+
 	/**
 	 * Creates a grid of requested n by n size.
 	 * @param size    The length and width of the grid requested.
 	 */
 	public void makeGrid(int size) {
 		this.boardConfiguration = new SpaceLinkedList();
-		
+
 		// Creates a string of nodes with the proper numbering
 		// (Columns are stacked on each other)
 		for(int i = 0; i < size; i++) {
@@ -59,26 +59,26 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 				this.boardConfiguration.add(node);
 			}
 		}
-		
+
 		// Starting from the beginning of the list and moving up, assign the 
 		// bottom, left, and right nodes, depending on whether or not the
 		// spaces are on the edges.
 		SpaceNode current = this.boardConfiguration.spaceAt(0, 0);
 		int x = current.getCoordinates().getX();
 		int y = current.getCoordinates().getY();
-		
+
 		if(y != 0)
 			current.setBottomNode(boardConfiguration.spaceAt(x, y - 1));
 		if(x != 0)
 			current.setLeftNode(boardConfiguration.spaceAt(x-1, y));
 		if(x != size - 1)
 			current.setRightNode(boardConfiguration.spaceAt(x + 1, y));
-		
+
 		while (current.getTopNode() != null) {
 			current = current.getTopNode();
 			x = current.getCoordinates().getX();
 			y = current.getCoordinates().getY();
-			
+
 			if(y != 0)
 				current.setBottomNode(boardConfiguration.spaceAt(x, y - 1));
 			if(x != 0)
@@ -86,16 +86,16 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			if(x != size - 1)
 				current.setRightNode(boardConfiguration.spaceAt(x + 1, y));
 		}
-		
+
 		//Goes to each node and sets the top node to null since the linked list
 		// adds nodes from the top.
 		for(int i = 0; i < size; i++) {
 			current = this.boardConfiguration.spaceAt(i, size - 1);
 			current.setTopNode(null);
 		}
-		
+
 	}
-	
+
 	/**
 	 * @return The total number of spaces the board contains.
 	 */
@@ -127,9 +127,9 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * 
 	 * @return    True if the jump is diagonal and a player on the space needed to jump to, and is false otherwise.
 	 */
-    public boolean  isMoveLegalDiagonal(Space currentPosition, Space potentialPosition) {
-    	//FIX IN FUTURE UPDATE: RULE ABOUT MOVING DIAGONALLY WHEN WALLS BECOME IMPLEMENTED
-    	/*if(potentialPosition.getX() - currentPosition.getX() != 0) {
+	public boolean  isMoveLegalDiagonal(Space currentPosition, Space potentialPosition) {
+		//FIX IN FUTURE UPDATE: RULE ABOUT MOVING DIAGONALLY WHEN WALLS BECOME IMPLEMENTED
+		/*if(potentialPosition.getX() - currentPosition.getX() != 0) {
     		int slope = (potentialPosition.getY() - currentPosition.getY()/ potentialPosition.getX() - currentPosition.getX());
     		if(Math.abs(slope) == 1) {
     			if(slope == 1) {
@@ -149,16 +149,16 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
     			}
     		}
     	}*/
-    	return false;
-    }
-    
+		return false;
+	}
 
-    
-    /**
-     * Checks to see if a player is at a given position
-     * @param potentialPosition    The space the current player wants to move to.
-     * @return    True if a player is located on the space; False if there is no player located at that space.
-     */
+
+
+	/**
+	 * Checks to see if a player is at a given position
+	 * @param potentialPosition    The space the current player wants to move to.
+	 * @return    True if a player is located on the space; False if there is no player located at that space.
+	 */
 	public boolean isPlayerHere(Space potentialPosition) {
 		for(int i = 0; i < occupiedSpaces.size(); i++) {
 			if(occupiedSpaces.get(i).getX() == potentialPosition.getX() && occupiedSpaces.get(i).getY() == potentialPosition.getY()) {
@@ -167,9 +167,9 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return false;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Passes the grid. 
 	 * (Feel like this should be looked at closer. The reference will be 
@@ -178,9 +178,9 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 */
 	public SpaceLinkedList getGrid() {
 		return this.boardConfiguration;
-		
+
 	}
-	
+
 	/**
 	 * Checks if Player can reach their winning spaces.
 	 * @param player    The player to check for a winning path
@@ -197,7 +197,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Checks to see if a wall can be placed between the surrounding spaces.
 	 * @param startingSpace1    A space representing the first half of one side of the wall
@@ -213,7 +213,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Checks to see if a wall is between the two spaces.
 	 * @param startingSpace1    A space on one side of the wall-half being tested
@@ -240,8 +240,8 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * Checks if a move meets all the move criteria
 	 * @param currentPosition    The current space the player moving is positioned
@@ -260,22 +260,22 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return false;
 	}
-	
+
 	/**
-	* Checks if the player's current position is within a victory space
-	* @param player    The player whose position is going to be tested
-	* @return True if a specified player is located at a winning space; False otherwise.
-	*/
+	 * Checks if the player's current position is within a victory space
+	 * @param player    The player whose position is going to be tested
+	 * @return True if a specified player is located at a winning space; False otherwise.
+	 */
 	public boolean isWinner(Player player) {
 		Space current = new Space (player.getX(), player.getY());
 		for (int i = 0; i < 9; i++) {
-		    if (player.getWinSpace(i).getX() == current.getX() && player.getWinSpace(i).getY() == current.getY()) {
-		        return true;
-		    }
+			if (player.getWinSpace(i).getX() == current.getX() && player.getWinSpace(i).getY() == current.getY()) {
+				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Checks to see if a player can make a legal double jump.
 	 * @param player    The player that wants to make the jump.
@@ -302,7 +302,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * The main component to make an official move by a player.
 	 * @param player The player will be moving.
@@ -323,7 +323,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		throw new NoSuchElementException("The Player specified is not in this game or the servers and client are out of sync!");
 	}
-	
+
 	//DO NOT USE -- WORK IN PROGRESS -- DO NOT COMMENT DUE TO MINIMAL TESTS
 	public void placeWall(Player player, Space starting1, Space starting2,
 			Space ending1, Space ending2) {
@@ -332,12 +332,12 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			return;
 		}
 	}
-	
+
 	public void bootPlayer(Player player) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/**
 	 * Sets the current player to the one specified.
 	 * @param playerNumber the player number in the current game.
@@ -348,7 +348,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			throw new IndexOutOfBoundsException("This player does not exist in the current list of players");
 		this.currentPlayer = this.occupiedSpaces.get(playerNumber);
 	}
-	
+
 	/**
 	 * Accesses the player whose turn it is currently.
 	 * @return The current player.
@@ -364,7 +364,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		int playerY = currentPlayer.getY();
 		int potentialX = potentialPosition.getX();
 		int potentialY = potentialPosition.getY();
-		
+
 		if(Math.abs(potentialX - playerX) == 1 && potentialY - playerY == 0) {
 			return !this.isWallHere(currentPlayer, potentialPosition);
 		}else if(Math.abs(potentialY - playerY) == 1 && potentialX - playerX == 0) {
@@ -372,7 +372,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Converts Protocol String to Coordinates
 	 * @param moveString the Protocol String.
@@ -382,18 +382,18 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		// Create the initial arrays to assign indexes to the string values.
 		String[] xArray = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
 		String[] yArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
-		
+
 		//Find the index of the - separating the x and y coordinates.
 		int dashIndex = moveString.indexOf("-");
-		
+
 		//Retrieve the x and y coordinates.
 		String xCoordinate = moveString.substring(0, dashIndex);
 		String yCoordinate = moveString.substring(dashIndex + 1);
-		
+
 		//Set default values for if the coordinate is not found.
 		int translatedX = -1;
 		int translatedY = -1;
-		
+
 		//Match string values to array values
 		for(int i = 0; i < xArray.length; i++) {
 			if(xCoordinate.compareTo(xArray[i]) == 0) {
@@ -406,7 +406,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		//Return a new space object with the proper coordinates.
 		return new Space(translatedX, translatedY);
 	}
-	
+
 	/**
 	 * Converts a given space object to the protocol move string.
 	 * @param space Space to be converted
@@ -416,17 +416,17 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		// Set up the proper space mappings.
 		String[] xArray = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
 		String[] yArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
-		
+
 		String protocolString;
 		if((space.getX() >= 0 && space.getX() <= 8) && (space.getY() >= 0 && space.getY() <= 8)) {
-		// Get the respective x and y strings.
-		protocolString = xArray[space.getX()] + "-" + yArray[space.getY()];
+			// Get the respective x and y strings.
+			protocolString = xArray[space.getX()] + "-" + yArray[space.getY()];
 		}
 		else {
-		protocolString = "X-X";	
+			protocolString = "X-X";	
 		}
 		return protocolString;
 	}
-    
-    
+
+
 }

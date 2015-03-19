@@ -3,7 +3,7 @@ package main.java;
 /**
  * Emulates  a player on the board by utilizing the same information as a 
  * space, but with extra behaviors and attributes.
- * @author coupalme198
+ * @author Matthew Coupal
  *
  */
 public class Player extends Space implements PlayerInterface{
