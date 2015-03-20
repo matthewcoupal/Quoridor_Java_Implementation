@@ -196,17 +196,21 @@ public class BoardTest {
     	Space space3 = new Space(3,2);
     	Space space4 = new Space(3,1);
     	Player player = new Player(4,0,10);
-    	board.placeWall(player, space1, space2, space3, space4);
-    	Mockito.verify(board, times(0)).bootPlayer(player);
-    	//Need to add another method to be able to test a call to the boot player method.
+    	board.placeWall(space1, space2, space3, space4);
+    	
+    	/*Space spaceS1 = 
+    	Space spaceS2
+    	Space spaceE1
+    	Space spaceE2
+    	*/
     }
     
     @Test
     public void boardCanSeeIfAWallCanBePlaced() {
     	Board board = Mockito.spy(new Board());
     	Space space = Mockito.mock(Space.class);
-    	Player player = Mockito.mock(Player.class);
-    	board.placeWall(player, space, space, space, space);
+    	//Player player = Mockito.mock(Player.class);
+    	board.placeWall(space, space, space, space);
     	Mockito.verify(board, times(1)).canPlaceWall(space, space, space, space);
     }
     
@@ -263,4 +267,8 @@ public class BoardTest {
     	Board board = new Board();
     	assertTrue(board.spaceToString(new Space(7,5)).compareTo("VIII-F") == 0);
     }
+    
+    
+    
+    
 }

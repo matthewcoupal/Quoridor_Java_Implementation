@@ -56,6 +56,10 @@ public class Player extends Space implements PlayerInterface{
 	public Space getWinSpace(int winIndex) {
 		return end[winIndex];
 	}
+
+	public void setWalls(int numberOfWalls) {
+		this.wallsLeft = numberOfWalls;
+	}
 	
 	//Has Methods:
 	//getX

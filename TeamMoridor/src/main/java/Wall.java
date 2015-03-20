@@ -12,29 +12,29 @@ public class Wall {
 	
 	/**
 	 * Creates the logical representation of a wall.
-	 * @param s1 Starting Space 1: Top-Left if Horizontal, Bottom-Left if Vertical
-	 * @param s2 Starting Space 2: Bottom-Left if Horizontal, Bottom-Right if Vertical
-	 * @param e1 Ending Space 1:   Top-Right if Horizontal, Top-Left if Vertical
-	 * @param e2 Ending Space 2:   Bottom-Right if Horizontal, Top-Right if Vertical 
-	 * 
+	 * @param side0 Bottom-Left corner: Starting2 if Horizontal, Starting1 if Vertical
+	 * @param side1 Bottom-Right corner: Ending2 if Horizontal, Starting2 if Vertical
+	 * @param side2 Top-Left corner:   Starting1 if Horizontal, Ending1 if Vertical
+	 * @param side3 Top-Right corner:   Ending1 if Horizontal, Ending2 if Vertical
+	 *
 	 * Horizontal Wall:
 	 * S1        E1
 	 * ------------
 	 * S2        E2
 	 * 
 	 * Vertical Wall:
-	 * S1 | S2
+	 * E1 | E2
 	 *    |
 	 *    |
 	 *    | 
-	 * E1 | E2
+	 * S1 | S2
 	 * 
 	 */
-	public Wall(Space s1, Space s2, Space e1, Space e2) {
-		surroundingSpaces[0] = s1; //S1
-		surroundingSpaces[1] = s2; //S2
-		surroundingSpaces[2] = e1; //E1
-		surroundingSpaces[3] = e2; //E2
+	public Wall(Space side0, Space side1, Space side2, Space side3) {
+		surroundingSpaces[0] = side0; 
+		surroundingSpaces[1] = side1; 
+		surroundingSpaces[2] = side2; 
+		surroundingSpaces[3] = side3; 
 	}
 	
 	/**
@@ -77,5 +77,4 @@ public class Wall {
 	public boolean isHorizontal() {
 		return surroundingSpaces[0].getY() != surroundingSpaces[1].getY();
 	}
-
 }

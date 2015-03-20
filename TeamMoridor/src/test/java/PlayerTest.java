@@ -35,5 +35,12 @@ public class PlayerTest {
 		for(int i = 0; i < 9; i++)
 			assertEquals(i, player.getWinSpace(i).getX());
 	}
+	
+	@Test
+	public void playerCanSetWallsLeft() {
+		Player player = new Player(4,5,10);
+		player.setWalls(5);
+		assertEquals(5, player.getWalls());
+	}
 
 }

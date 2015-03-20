@@ -15,9 +15,9 @@ import java.util.NoSuchElementException;
 public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	//Instance Variables
 	protected ArrayList<Player> occupiedSpaces; //List of occupied spaces
-	//private ArrayList<Edge> occupiedEdges; //List of wall locations
-	public SpaceLinkedList boardConfiguration;
-	private Player currentPlayer = new Player(1,1,10);
+	private ArrayList<Wall> placedWalls; //List of wall locations
+	public SpaceLinkedList boardConfiguration; //Current configuration of the board
+	private Player currentPlayer = new Player(1,1,10); //Default current player
 
 	//If no board size is given, a 2-player setup is initiated.
 	public Board() {
@@ -30,7 +30,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 */
 	public Board(int numberOfPlayers){
 		this.occupiedSpaces = new ArrayList<Player>();
-		//this.occupiedEdges = new ArrayList<Edge>();
+		this.placedWalls = new ArrayList<Wall>();
 		if(numberOfPlayers == 2) {
 			this.occupiedSpaces.add(new Player(4,0,10));
 			this.occupiedSpaces.add(new Player(4,8,10));
@@ -200,17 +200,121 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 
 	/**
 	 * Checks to see if a wall can be placed between the surrounding spaces.
-	 * @param startingSpace1    A space representing the first half of one side of the wall
-	 * @param startingSpace2    A space representing the first half of the other side of the wall
-	 * @param endingSpace3      A space representing the second half of one side of the wall
-	 * @param endingSpace4      A space representing the second half of the other side of the wall
+	 * @param side0      A space to the bottom-left of the wall
+	 * @param side1      A space to the bottom-right of the wall
+	 * @param side2      A space to the top-left of the wall
+	 * @param side3      A space to the top-right of the wall
 	 * @return True if a wall can be placed in between the two spaces; False otherwise.
 	 * @throws Exception 
 	 */
-	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2, Space endingSpace3, Space endingSpace4) {
-		if(this.isWallHere(startingSpace1, startingSpace2) || this.isWallHere(endingSpace3, endingSpace4)) {
+	public boolean canPlaceWall(Space side0, Space side1, Space side2, Space side3) {
+		//Does the player have enough walls left
+		if(this.currentPlayer().getWalls() == 0)
+			return false;
+		
+		//If there is already a wall segment on the two placement areas
+		if(this.isWallHere(side0, side1) || this.isWallHere(side2, side3)) {
 			return false;
 		}
+		
+		//If it is crossing the wall
+		Wall temp = new Wall(side0, side1, side2, side3);
+		if(temp.isHorizontal()) {
+			Wall temp2 = new Wall(side2, side0, side3, side1);
+			for(int i = 0; i < this.placedWalls.size(); i++) {
+				if(temp2.isEqual(placedWalls.get(i)))
+					return false;
+			}
+		}
+		else { // It is a vertical wall
+			// Construct a perpendicular horizontal wall
+			Wall temp2 = new Wall(side1, side3, side0, side2);
+				for(int i = 0; i < this.placedWalls.size(); i++) {
+					if(temp2.isEqual(placedWalls.get(i)))
+						return false;
+				}
+		}
+		
+		SpaceNode node0 = this.boardConfiguration.spaceAt(side0.getX(), side0.getY());
+		SpaceNode node1 = this.boardConfiguration.spaceAt(side1.getX(), side1.getY());
+		SpaceNode node2 = this.boardConfiguration.spaceAt(side2.getX(), side1.getY());
+		SpaceNode node3 = this.boardConfiguration.spaceAt(side3.getX(), side3.getY());
+		
+		
+		if(temp.isHorizontal()) {
+			/*
+			 * Cutting the links from
+			 * 0 to 2, and conversely
+			 * 1 to 3, and conversely
+			 * 
+			 * 2        3
+			 * X========X
+			 * 0        1
+			 */
+			node0.setTopNode(null);
+			node2.setBottomNode(null);
+			node1.setTopNode(null);
+			node3.setBottomNode(null);
+			
+			for(int i = 0; i < this.occupiedSpaces.size(); i++) {
+				if(!this.canReachEnd(this.occupiedSpaces.get(i))) {
+					//Player can't reach the end
+					
+					//Reconnecting the nodes
+					node0.setTopNode(node2);
+					node2.setBottomNode(node0);
+					node1.setTopNode(node3);
+					node3.setBottomNode(node1);
+					
+					return false;
+				}
+			}
+		}
+		else {
+			/*
+			 * Cutting the links from
+			 * 0 to 1, and conversely
+			 * 2 to 3, and conversely
+			 * 
+			 * 2    X   3
+			 *      |
+			 * 0    X   1
+			 */	
+			
+			node0.setRightNode(null);
+			node2.setRightNode(null);
+			node1.setLeftNode(null);
+			node3.setLeftNode(null);
+			
+			for(int i = 0; i < this.occupiedSpaces.size(); i++) {
+				if(!this.canReachEnd(this.occupiedSpaces.get(i))) {
+					//Player can't reach the end
+					
+					//Reconnecting the nodes
+					node0.setRightNode(node1);
+					node2.setRightNode(node3);
+					node1.setLeftNode(node0);
+					node3.setLeftNode(node2);
+					
+					return false;
+				}
+			}
+		}
+		
+		if(temp.isHorizontal()) {
+			//Reconnecting the nodes
+			node0.setTopNode(node2);
+			node2.setBottomNode(node0);
+			node1.setTopNode(node3);
+			node3.setBottomNode(node1);
+		}
+		else {
+			node0.setRightNode(node1);
+			node2.setRightNode(node3);
+			node1.setLeftNode(node0);
+			node3.setLeftNode(node2);
+		}
+		
 		return true;
 	}
 
@@ -249,7 +353,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * @return True if the move to the specified space from the current space is legal; False otherwise.
 	 */
 	public boolean isLegalMove(Player currentPlayer, Space potentialPosition) {
-		if(!this.isOutOfBounds(potentialPosition)) {
+		if(!this.isOutOfBounds(potentialPosition) && !this.isPlayerHere(potentialPosition)) {
 			if(this.isLegalSingleMove(currentPlayer, potentialPosition)) {
 				return true;
 			}else if(this.isDoubleJumpLegal(currentPlayer, potentialPosition)){
@@ -325,12 +429,41 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	}
 
 	//DO NOT USE -- WORK IN PROGRESS -- DO NOT COMMENT DUE TO MINIMAL TESTS
-	public void placeWall(Player player, Space starting1, Space starting2,
-			Space ending1, Space ending2) {
-		if(!this.canPlaceWall(starting1, starting2, ending1, ending2)) {
-			this.bootPlayer(player);
-			return;
+	
+	/**
+	 * Attempts to place a wall.
+	 * @param side0 A space to the bottom-left of the wall
+	 * @param side1 A space to the bottom-right of the wall
+	 * @param side2 A space to the top-left of the wall
+	 * @param side3 A space to the top-right of the wall
+	 * @throws IllegalArgumentException
+	 */
+	public void placeWall(Space side0, Space side1,
+			Space side2, Space side3) throws IllegalArgumentException {
+		if(!this.canPlaceWall(side0, side1, side2, side3)) {
+			throw new IllegalArgumentException("This move is ILLEGAL!");
 		}
+		Wall temp = new Wall(side0, side1, side2, side3);
+		SpaceNode node0 = this.boardConfiguration.spaceAt(side0.getX(), side0.getY());
+		SpaceNode node1 = this.boardConfiguration.spaceAt(side1.getX(), side1.getY());
+		SpaceNode node2 = this.boardConfiguration.spaceAt(side2.getX(), side1.getY());
+		SpaceNode node3 = this.boardConfiguration.spaceAt(side3.getX(), side3.getY());
+		
+		if(temp.isHorizontal()) {
+			node0.setTopNode(null);
+			node2.setBottomNode(null);
+			node1.setTopNode(null);
+			node3.setBottomNode(null);
+		}
+		else
+		{
+			node0.setRightNode(null);
+			node2.setRightNode(null);
+			node1.setLeftNode(null);
+			node3.setLeftNode(null);
+		}
+		this.currentPlayer.setWalls(this.currentPlayer.getWalls()-1);
+		return;
 	}
 
 	public void bootPlayer(Player player) {
