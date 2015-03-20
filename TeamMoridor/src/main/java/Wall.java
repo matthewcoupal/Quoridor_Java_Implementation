@@ -55,4 +55,27 @@ public class Wall {
 		return surroundingSpaces[index];
 	}
 
+	/**
+	 * Checks if a wall is equal to a given wall (i.e. is placed at the same location)
+	 * @param otherWall The other wall
+	 * @return True if the walls are in the same location, false otherwise
+	 */
+	public boolean isEqual(Wall otherWall) {
+		for (int i = 0; i < 4; i++){
+			if (	this.surroundingSpaces[i].getX() != otherWall.surroundingSpaces[i].getX() 
+				||  this.surroundingSpaces[i].getY() != otherWall.surroundingSpaces[i].getY() ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Checks if the wall is horizontal
+	 * @return True if the wall is horizontal, false otherwise.
+	 */
+	public boolean isHorizontal() {
+		return surroundingSpaces[0].getY() != surroundingSpaces[1].getY();
+	}
+
 }
