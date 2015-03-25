@@ -76,29 +76,12 @@ public class GameClient {
 			// args should be of the form  machineName:port
 			String serverInfo[] = curr.split(":");
 			if (serverInfo.length == 2){
-				System.out.println(serverInfo[0]);
 				machineNames[argNdx] = serverInfo[0];
-				System.out.println(serverInfo[1]);
 				ports[argNdx] = Integer.parseInt(serverInfo[1]);
-			}else{
-				if (serverInfo.length == 4){
-					System.out.println(serverInfo[0]);
-					machineNames[argNdx] = serverInfo[0];
-					System.out.println(serverInfo[1]);
-					ports[argNdx] = Integer.parseInt(serverInfo[1]);
-					System.out.println(serverInfo[2]);
-					machineNames[argNdx] = serverInfo[2];
-					System.out.println(serverInfo[3]);
-					ports[argNdx] = Integer.parseInt(serverInfo[3]);
-				}else {
-
-					// if there is an unknown parameter, give usage and quit
-					// not doing it right
-					System.err.println("Unknown parameter \"" + curr + "\"");
-					usage();
-					System.exit(1);
-				}
-			}
+			}else {
+                System.err.println("invalid format, correct example localhost:9090");
+                System.exit(1);
+            }
 			++argNdx;
 		}
 		GameClient fc = new GameClient(machineNames, ports, args.length);

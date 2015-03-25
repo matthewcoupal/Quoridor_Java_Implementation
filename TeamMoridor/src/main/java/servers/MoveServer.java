@@ -142,33 +142,34 @@ public class MoveServer {
 					//pass name
 					if(clientMessage.equals("Move")){
 						cout.printf("%s\n", DEFAULT_PLAYER_NAME);
-					}else{
-						//Your turn
-						if(clientMessage.equals("GO?")){
-							String move= MyMove(cin);
-							cout.printf("%s\n", move);
-						}else{
-							//ready?
-							if (clientMessage.startsWith("Players")){
-								playermsg(clientMessage,cout);
-							}else {
-								//someone booted
-								if(clientMessage.startsWith("Boot")){
-									weGotACheater(clientMessage, cout,cin);
-									//we have aa winner
-								}else {
-									if (clientMessage.startsWith("Winner")) {
-										System.out.println(clientMessage);
-										System.exit(0);
-									}else {
-										if (clientMessage.startsWith("Went")) {
-											aPlayerWent(clientMessage);
-										}
-									}
-								}
-							}
-						}
-					}
+					    continue;
+                    }
+					//Your turn
+					if(clientMessage.equals("GO?")){
+						String move= MyMove(cin);
+						cout.printf("%s\n", move);
+					    continue;
+                    }
+					//ready?
+                    if (clientMessage.startsWith("Players")){
+                        playermsg(clientMessage,cout);
+                        continue;
+                    }
+					//someone booted
+                    if(clientMessage.startsWith("Boot")){
+                        weGotACheater(clientMessage, cout,cin);
+                        continue;
+                    }
+                    //we have aa winner
+                    if (clientMessage.startsWith("Went")) {
+                        aPlayerWent(clientMessage);
+                        continue;
+                    }
+
+                    if (clientMessage.startsWith("Winner")) {
+						System.out.println(clientMessage);
+                        System.exit(0);
+                    }
 				}
 
 				System.out.println("Server closing connection from " + gameClient);
