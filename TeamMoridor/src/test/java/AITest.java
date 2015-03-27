@@ -21,5 +21,15 @@ public class AITest {
 		AI Emily = new  AI(2);
 		assertEquals(10, Emily.averageWallCount());
 	}
+	
+	@Test
+	public void aiCanSetandGetItsPlayerNumber() {
+		AI Travis = new AI(4);
+		AI Emily = new AI();
+		Travis.setPlayerNumber(3);
+		Emily.setPlayerNumber(1);
+		assertEquals(3, Travis.getPlayerNumber());
+		assertEquals(1, Emily.getPlayerNumber());		
+	}
 
 }

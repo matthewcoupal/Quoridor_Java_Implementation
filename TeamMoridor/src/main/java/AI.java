@@ -6,6 +6,10 @@ package main.java;
  *
  */
 public class AI extends Board {
+	//Instance Variables
+	
+	private int playerNumber; //The AI's player number
+	
 	/**
 	 * Generates the board with the default player number of 2.
 	 */
@@ -23,7 +27,7 @@ public class AI extends Board {
 
 	/**
 	 * Calculates the average number of walls every player has on hand.
-	 * @return The average of walls left on the board (includes the AI itself)
+	 * @return The average of walls left on the board (includes the AI itself).
 	 */
 	public int averageWallCount() {
 		int Walls = 0;
@@ -31,5 +35,21 @@ public class AI extends Board {
 			Walls = Walls + this.occupiedSpaces.get(i).getWalls();
 		}
 		return Walls/this.occupiedSpaces.size();
+	}
+
+	/**
+	 * Sets the AI's player number.
+	 * @param number The player number being assigned.
+	 */
+	public void setPlayerNumber(int number) {
+		this.playerNumber = number;
+	}
+
+	/**
+	 * Gets the AI's currently set player number.
+	 * @return the player number of the AI.
+	 */
+	public int getPlayerNumber() {
+		return this.playerNumber;
 	}
 }
