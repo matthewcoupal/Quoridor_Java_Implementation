@@ -16,6 +16,7 @@ import main.java.Board;
 import main.java.Player;
 import main.java.Space;
 import main.java.SpaceLinkedList;
+import main.java.Wall;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -267,8 +268,16 @@ public class BoardTest {
     	Board board = new Board();
     	assertTrue(board.spaceToString(new Space(7,5)).compareTo("VIII-F") == 0);
     }
-    
-    
-    
-    
+
+    @Test
+    public void canAddWallToPlaceWallsField() {
+        Board board = Mockito.spy(new Board());
+        Space space1 = Mockito.mock(Space.class);
+        Space space2 = Mockito.mock(Space.class);
+        Space space3 = Mockito.mock(Space.class);
+        Space space4 = Mockito.mock(Space.class);
+        Wall wall = new Wall(space1,space2,space3,space4);
+        board.setPlacedWalls(wall);
+        assertTrue(board.getPlacedWalls(0).isEqual(wall));
+    }
 }

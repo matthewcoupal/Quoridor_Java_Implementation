@@ -211,12 +211,12 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		//Does the player have enough walls left
 		if(this.currentPlayer().getWalls() == 0)
 			return false;
-		
+
 		//If there is already a wall segment on the two placement areas
 		if(this.isWallHere(side0, side1) || this.isWallHere(side2, side3)) {
 			return false;
 		}
-		
+
 		//If it is crossing the wall
 		Wall temp = new Wall(side0, side1, side2, side3);
 		if(temp.isHorizontal()) {
@@ -229,18 +229,18 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		else { // It is a vertical wall
 			// Construct a perpendicular horizontal wall
 			Wall temp2 = new Wall(side1, side3, side0, side2);
-				for(int i = 0; i < this.placedWalls.size(); i++) {
-					if(temp2.isEqual(placedWalls.get(i)))
-						return false;
-				}
+			for(int i = 0; i < this.placedWalls.size(); i++) {
+				if(temp2.isEqual(placedWalls.get(i)))
+					return false;
+			}
 		}
-		
+
 		SpaceNode node0 = this.boardConfiguration.spaceAt(side0.getX(), side0.getY());
 		SpaceNode node1 = this.boardConfiguration.spaceAt(side1.getX(), side1.getY());
 		SpaceNode node2 = this.boardConfiguration.spaceAt(side2.getX(), side1.getY());
 		SpaceNode node3 = this.boardConfiguration.spaceAt(side3.getX(), side3.getY());
-		
-		
+
+
 		if(temp.isHorizontal()) {
 			/*
 			 * Cutting the links from
@@ -255,17 +255,17 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			node2.setBottomNode(null);
 			node1.setTopNode(null);
 			node3.setBottomNode(null);
-			
+
 			for(int i = 0; i < this.occupiedSpaces.size(); i++) {
 				if(!this.canReachEnd(this.occupiedSpaces.get(i))) {
 					//Player can't reach the end
-					
+
 					//Reconnecting the nodes
 					node0.setTopNode(node2);
 					node2.setBottomNode(node0);
 					node1.setTopNode(node3);
 					node3.setBottomNode(node1);
-					
+
 					return false;
 				}
 			}
@@ -280,27 +280,27 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			 *      |
 			 * 0    X   1
 			 */	
-			
+
 			node0.setRightNode(null);
 			node2.setRightNode(null);
 			node1.setLeftNode(null);
 			node3.setLeftNode(null);
-			
+
 			for(int i = 0; i < this.occupiedSpaces.size(); i++) {
 				if(!this.canReachEnd(this.occupiedSpaces.get(i))) {
 					//Player can't reach the end
-					
+
 					//Reconnecting the nodes
 					node0.setRightNode(node1);
 					node2.setRightNode(node3);
 					node1.setLeftNode(node0);
 					node3.setLeftNode(node2);
-					
+
 					return false;
 				}
 			}
 		}
-		
+
 		if(temp.isHorizontal()) {
 			//Reconnecting the nodes
 			node0.setTopNode(node2);
@@ -314,7 +314,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			node1.setLeftNode(node0);
 			node3.setLeftNode(node2);
 		}
-		
+
 		return true;
 	}
 
@@ -429,7 +429,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	}
 
 	//DO NOT USE -- WORK IN PROGRESS -- DO NOT COMMENT DUE TO MINIMAL TESTS
-	
+
 	/**
 	 * Attempts to place a wall.
 	 * @param side0 A space to the bottom-left of the wall
@@ -448,7 +448,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		SpaceNode node1 = this.boardConfiguration.spaceAt(side1.getX(), side1.getY());
 		SpaceNode node2 = this.boardConfiguration.spaceAt(side2.getX(), side1.getY());
 		SpaceNode node3 = this.boardConfiguration.spaceAt(side3.getX(), side3.getY());
-		
+
 		if(temp.isHorizontal()) {
 			node0.setTopNode(null);
 			node2.setBottomNode(null);
@@ -559,6 +559,20 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			protocolString = "X-X";	
 		}
 		return protocolString;
+	}
+
+	
+	public void setPlacedWalls(Space side0, Space side1, Space side2, Space side3) {
+		Wall wall = new Wall (side0, side1, side2, side3);
+		placedWalls.add(wall);
+	}
+
+	public void setPlacedWalls(Wall wall){
+		placedWalls.add(wall);
+	}
+
+	public Wall getPlacedWalls(int index) {
+		return placedWalls.get(index);
 	}
 
 
