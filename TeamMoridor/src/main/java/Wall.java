@@ -15,7 +15,10 @@ public class Wall {
 	
 // Constructor
 	/**
-	 * 
+	 * Constructs a wall object and ensures validity of the wall.
+	 * @param side0 the first end-point corresponding to the wall being constructed.
+	 * @param side1 the second end-point corresponding to the wall being constructed.
+	 * @throws IllegalArgumentException if the end-points don't correspond to a valid wall.
 	 */
 	public Wall(Space side0, Space side1) throws IllegalArgumentException{
 		this.s0 = side0;
@@ -30,8 +33,8 @@ public class Wall {
 
 // Methods
 	/**
-	 * 
-	 * @return true if the wall is a legal wall, false otherwise
+	 * Tests if a wall is valid.
+	 * @return true if the wall is a legal wall, false otherwise.
 	 */
 	public boolean isLegalWall() {
 			if 		( !this.isHorizontal() && !this.isVertical() )

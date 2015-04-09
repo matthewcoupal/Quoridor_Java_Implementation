@@ -328,7 +328,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		 * Checks to see if a wall can be placed between the surrounding spaces.
 		 * @param s0      The wall's first surrounding space.
 		 * @param s1      The wall's second surrounding space.
-		 * @return True if a wall can be placed in between the two spaces; False otherwise.
+		 * @return True if a wall can be placed at this location; False otherwise.
 		 * @throws Exception 
 		 */
 		public boolean canPlaceWall(Space s0, Space s1) {
@@ -496,8 +496,6 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 * Adds a wall to the list of placed walls.
 	 * @param side0 a Space object. 
 	 * @param side1 a Space object.
-	 * @param side2 a Space object.
-	 * @param side3 a Space object.
 	 */
 	public void setPlacedWalls(Space side0, Space side1) {
 		Wall wall = new Wall (side0, side1);
