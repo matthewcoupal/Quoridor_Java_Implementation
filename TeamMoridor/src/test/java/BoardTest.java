@@ -189,31 +189,9 @@ public class BoardTest {
     	assertTrue(board.isDoubleJumpLegal(board.currentPlayer(), space));
     }
     
-    @Test
-    public void boardCanCheckIfAWallPlacementIsLegal() {
-    	Board board = Mockito.spy(new Board());
-    	Space space1 = new Space(2,2);
-    	Space space2 = new Space(2,1);
-    	Space space3 = new Space(3,2);
-    	Space space4 = new Space(3,1);
-    	Player player = new Player(4,0,10);
-    	board.placeWall(space1, space2, space3, space4);
-    	
-    	/*Space spaceS1 = 
-    	Space spaceS2
-    	Space spaceE1
-    	Space spaceE2
-    	*/
-    }
+  
     
-    @Test
-    public void boardCanSeeIfAWallCanBePlaced() {
-    	Board board = Mockito.spy(new Board());
-    	Space space = Mockito.mock(Space.class);
-    	//Player player = Mockito.mock(Player.class);
-    	board.placeWall(space, space, space, space);
-    	Mockito.verify(board, times(1)).canPlaceWall(space, space, space, space);
-    }
+  
     
     @Test
     public void boardCanCallAllNeededMethodsCheckIfAMoveIsLegal () throws Exception  {
@@ -269,15 +247,78 @@ public class BoardTest {
     	assertTrue(board.spaceToString(new Space(7,5)).compareTo("VIII-F") == 0);
     }
 
+//Wall Tests
     @Test
-    public void canAddWallToPlaceWallsField() {
+    public void canAddToAndRetrieveFromPlacedWallsField() {
         Board board = Mockito.spy(new Board());
-        Space space1 = Mockito.mock(Space.class);
-        Space space2 = Mockito.mock(Space.class);
-        Space space3 = Mockito.mock(Space.class);
-        Space space4 = Mockito.mock(Space.class);
-        Wall wall = new Wall(space1,space2,space3,space4);
-        board.setPlacedWalls(wall);
-        assertTrue(board.getPlacedWalls(0).isEqual(wall));
+        // Space space1 = Mockito.mock(Space.class);
+        // Space space2 = Mockito.mock(Space.class);
+        // Space space3 = Mockito.mock(Space.class);
+        // Space space4 = Mockito.mock(Space.class);
+        Space space5 = new Space(6,7);
+        Space space6 = new Space(6,8);
+        Space space7 = new Space(2,7);
+        Space space8 = new Space(2,8);
+        
+        Wall wall1 = new Wall(space6,space5);
+        Wall wall2 = new Wall(space8,space7); 
+        board.setPlacedWalls(wall1);
+        board.setPlacedWalls(wall2);
+        assertTrue(board.getPlacedWalls(0).isEqual(wall1));
+        assertFalse(board.getPlacedWalls(0).isEqual(wall2));
     }
+    
+    @Test
+    public void boardCanPlaceAWall() {
+    	// Board board = Mockito.spy(new Board());
+    	// Space space = Mockito.mock(Space.class);
+    	//Player player = Mockito.mock(Player.class);
+    	// board.placeWall(space, space, space, space);
+    	// Mockito.verify(board, times(1)).canPlaceWall(space, space, space, space);
+    	Board board = new Board();
+    	Space space5 = new Space(6,7);
+        Space space6 = new Space(6,8);
+        Space space7 = new Space(2,7);
+        Space space8 = new Space(2,8);
+        Wall wall1 = new Wall(space6,space5);
+        Wall wall2 = new Wall(space8,space7);
+        board.placeWall(space6, space5);
+        board.placeWall(space8, space7);
+        assertFalse(board.getPlacedWalls(0).isEqual(wall2));
+        assertTrue(board.getPlacedWalls(0).isEqual(wall1));
+    }
+    @Test
+    public void boardCanSeeIfAWallIsBetweenTwoSpaces(){
+    	Board board = new Board();
+    	Space space5 = new Space(6,7);
+        Space space6 = new Space(6,8);
+        Space space7 = new Space(2,7);
+        Space space8 = new Space(2,8);
+        Space space9 = new Space(5,7);
+        board.placeWall(space6, space5);
+        assertFalse(board.isWallHere(space8, space7));
+        assertTrue(board.isWallHere(space6, space9));
+    }
+    /*
+    @Test
+    public void boardCanCheckIfAWallPlacementIsLegal() {
+    	Board board = Mockito.spy(new Board());
+    	Space space1 = new Space(2,2);
+    	Space space2 = new Space(2,1);
+    	Space space3 = new Space(3,2);
+    	Space space4 = new Space(3,1);
+    	Wall wall1 = new Wall(space1,space2,space3,space4);
+    	board.placeWall(space1, space2, space3, space4);
+    	Player player = new Player(4,0,10);
+    	board.placeWall(space1, space2, space3, space4);
+    	
+    	/*Space spaceS1 = 
+    	Space spaceS2
+    	Space spaceE1
+    	Space spaceE2
+    	*/
+    /*
+	}
+*/
+	
 }

@@ -15,7 +15,7 @@ public interface RulesInterface {
 	
 	public boolean canReachEnd(Player player);
 	
-	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2, Space endingSpace3, Space endingSpace4);
+	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2);
 	
 	public boolean isWallHere(Space startingSpace1, Space startingSpace2);
 	
