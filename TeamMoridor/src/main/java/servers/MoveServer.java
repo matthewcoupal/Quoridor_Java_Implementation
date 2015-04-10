@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import main.java.Board;
 import main.java.Space;
+import main.java.AI;
 import java.util.Scanner;
 import main.java.UI.BoardGrid;
 import main.java.Player;
@@ -50,12 +51,14 @@ public class MoveServer {
 	//commands on startUp
 	public final static String ARG_NAME ="--player";
 	public final static String ARG_PORT = "--port";
-	public final static String ARG_MACHINE = "--machine";
-
+	public final static String ARG_AI = "--ai";
+	public final static String ARG_MACHINE = "-- machine";
+	
 	public static String DEFAULT_PLAYER_NAME = "POPO"  ;
 	public static String DEFAULT_MACHINE_NAME = "localhost";
 	public static int port = 9090;
-
+	public static boolean IS_HUMAN = true;
+	
 	public final static String MY_TURN ="GO?";
 	public String[] opponents;
 	public String opponent;
@@ -63,6 +66,8 @@ public class MoveServer {
 	public int numPlayers;
 	public Board board;
 	public BoardGrid gui;
+	//public ai gladus; 
+	
 	/**
 	 * Creates a new <code>TCPServer</code> instance. TCPServer is
 	 * a listening echo server (it responds with a slightly modified
@@ -100,6 +105,11 @@ public class MoveServer {
 					if (curr.equals(ARG_NAME)) {
 						argNdx++;
 						DEFAULT_PLAYER_NAME = args[argNdx];
+					}else{
+						if(curr.equals(ARG_AI)){
+							argNdx++;
+							IS_HUMAN = false;
+						}
 					}
 				}
 			}
@@ -160,7 +170,7 @@ public class MoveServer {
                         weGotACheater(clientMessage, cout,cin);
                         continue;
                     }
-                    //we have aa winner
+                    //we have a winner
                     if (clientMessage.startsWith("Went")) {
                         aPlayerWent(clientMessage);
                         continue;
@@ -202,6 +212,7 @@ public class MoveServer {
 			opponents[i-1]=msg[i];
 			if(msg[i].equals(DEFAULT_PLAYER_NAME)){
 				playNum = i-1;
+				//gladus = new AI(playNum, (msg.length - 1));
 			}
 		}
 
@@ -211,12 +222,14 @@ public class MoveServer {
 
 	public String MyMove(Scanner cin){
 		String movesString = "";
-		//grabs move from board
-
-		while(movesString == ""){
-			System.out.println(" ");
-			movesString = gui.getMove();
-
+		//grabs move from gui
+		if(IS_HUMAN){
+			while(movesString == ""){
+				System.out.println(" ");
+				movesString = gui.getMove();
+			}
+		}else{
+			//moveString = gladus.considerMove(board);
 		}
 		System.out.println(movesString);
 		return DEFAULT_PLAYER_NAME + " "+ movesString;
@@ -235,7 +248,11 @@ public class MoveServer {
 		this.playNum = playNum;
 		System.out.println("player"+ playNum);
 		this.board = new Board(numPlayers);
-		gui = new BoardGrid(9,9);
+		//ai doesn't need this.
+		if(IS_HUMAN){
+			gui = new BoardGrid(9,9,numPlayers);
+		}
+		
 	}
 
 	/**
@@ -256,18 +273,15 @@ public class MoveServer {
 			sout.close();
 			System.exit(0);
 		}
-		if(playNum > 1) {
+		if(numPlayers > 1) {
+		
 			for (int i = 0; i < numPlayers; i++) {
-				if (cheater[i].equals(opponents)) {
+				if (cheater[1].equals(opponents[i])) {
 					opponents[i] = "Booted";
-					playNum--;
+					numPlayers--;
 				}
 			}
-		}else{
-			opponent = "Booted";
 		}
-
-
 	}
 
 	/**
@@ -286,9 +300,12 @@ public class MoveServer {
 		String cords = moveInfo[2];
 		Space potentialPosition = board.StringtoCoordinates(cords);
 		board.setCurrentPlayer((i));
-		gui.setCurrentPlayer(i);
 		board.makeMove(board.currentPlayer(),potentialPosition);
+		if(IS_HUMAN){
+		System.out.println("updating player" + i);
+		gui.setCurrentPlayer(i);
 		gui.makeMove(gui.currentPlayer(),potentialPosition);
 		gui.updatePositions();
+		}
 	}
 }

@@ -27,8 +27,8 @@ public class BoardGrid extends Board {
      * @param breadth the size of the board in the y direction.
      * @param length the size of the board in the x direction
      */
-    public BoardGrid(int breadth, int length){
-    	super();
+    public BoardGrid(int breadth, int length,int playNum){
+    	super(playNum);
         //Set frame size to 1000x1000
         frame.setSize(800,800);
 

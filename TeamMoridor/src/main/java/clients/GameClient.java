@@ -44,7 +44,7 @@ public class GameClient {
 		this.numPlay = numPlay;
 		this.machineName = machineName;
 		this.ports = ports;
-		this.gui = new BoardGrid(9,9);
+		this.gui = new BoardGrid(9,9,numPlay);
 	}
 
 
@@ -100,7 +100,9 @@ public class GameClient {
 		this.sout = new PrintStream[startNumPlay];
 		this.sin = new Scanner[startNumPlay];
 		this.playerNames = new String[startNumPlay];
+		System.out.println("board starts with:"+startNumPlay +"players");
 		this.board = new Board(startNumPlay);
+		
 		try {
 			// Creates Move-Server sockets and their respective printstream and scanner for communication
 			// reference for the list of all communication 'links'
@@ -148,6 +150,7 @@ public class GameClient {
 
 				//Sets current player for board
 				//Matt needs to check this.
+				System.out.println(currplayer);
 				board.setCurrentPlayer(currplayer);
 				gui.setCurrentPlayer(currplayer);
 
@@ -158,31 +161,45 @@ public class GameClient {
 
 					//receives move from that player
 					String moveString = sin[currplayer].nextLine();
-
 					//check to see if legal move
 					System.out.println(moveString);
 					legalMove = isLegal(moveString);
 					System.out.println(legalMove);
 					if(legalMove){
 						//Victor?
-								String moveInfo[] = moveString.split(" ");
-								String cords = moveInfo[1];
-								System.out.println(cords);
-								Space potentialPosition = board.StringtoCoordinates(cords);
-								try{
-									board.makeMove(board.currentPlayer(),potentialPosition);
-									//Update the GUI's Board Logically
-									gui.makeMove(gui.currentPlayer(),potentialPosition);
-								}catch (NoSuchElementException nsee){
-									nsee.printStackTrace();
-									System.exit(1);
-								}
-								// Update the GUI's Board Visually
-								gui.updatePositions();
-
-								//Check if the current player has won the game after their move.
-								victor = board.isWinner(board.currentPlayer());
-
+						//PlayerName + " " + moveStirng
+						//moveString:
+						//	(1-1)
+						//	(1-1, 1-2)
+						String moveInfo[] = moveString.split(" ");
+						String cords = moveInfo[1];
+						System.out.println(cords);
+						Space potentialPosition = board.StringtoCoordinates(cords);
+						if(moveInfo.length == 2){
+							try{
+								board.makeMove(board.currentPlayer(),potentialPosition);
+								//Update the GUI's Board Logically
+								gui.makeMove(gui.currentPlayer(),potentialPosition);
+						}catch (NoSuchElementException nsee){
+							nsee.printStackTrace();
+							System.exit(1);
+						}
+						}else{
+							String cords2 = moveInfo[2];
+							System.out.println(cords2);
+							Space potentialPosition2 = board.StringtoCoordinates(cords2);
+							try{
+								//board.placeWall(potentialPosition ,potentialPosition2);
+								//gui.placeWall(potentialPosition ,potentialPosition2);
+							}catch(NoSuchElementException nsee){
+							nsee.printStackTrace();
+							System.exit(1);
+							}
+						}
+						// Update the GUI's Board Visually
+						gui.updatePositions();
+						//Check if the current player has won the game after their move.
+						victor = board.isWinner(board.currentPlayer());
 								if (victor){
 									winnerIs(playerNames[currplayer],sout,sin);
 								}else {
@@ -198,7 +215,6 @@ public class GameClient {
 						numPlay--;
 					}
 				}
-
 				//This player was kicked or this player is done with their turn
 				currTurn++;
 			}
@@ -287,13 +303,10 @@ public class GameClient {
 	 * @param sout The output stream
 	 */
 	private void went(String player, String moveString ,PrintStream sout[]){
-		int i = 0;
-		while(i < numPlay){
-			//
+		for(int i = 0; i <startNumPlay;i++){
 			if(!playerNames[i].equals("null")){
 				sout[i].println("Went " + moveString);
 			}
-			i++;
 		}
 
 		//Update client board code here
@@ -301,8 +314,6 @@ public class GameClient {
 		String cords = moveInfo[1];
 		System.out.println(cords);
 		Space potentialPosition = board.StringtoCoordinates(cords);
-
-
 	}
 
 	/**
@@ -311,10 +322,21 @@ public class GameClient {
 	 * @return True if the move is legal; False otherwise
 	 */
 	public boolean isLegal(String moveString){
+		boolean islegal =false;
 		String moveInfo[] = moveString.split(" "); 
-		String cords = moveInfo[1];
-		Space potentialPosition = board.StringtoCoordinates(cords);
-		boolean islegal = board.isLegalMove(board.currentPlayer(), potentialPosition);
+		
+		if(moveInfo.length == 2){
+			String cords = moveInfo[1];
+			Space potentialPosition = board.StringtoCoordinates(cords);
+			islegal = board.isLegalMove(board.currentPlayer(), potentialPosition);
+		}
+		if(moveInfo.length == 3){
+			String cords = moveInfo[1];
+			Space potentialPosition = board.StringtoCoordinates(cords);
+		    String cords2 = moveInfo[2];
+			Space potentialPostion2 = board.StringtoCoordinates(cords);
+			//islegal = board.isLegalWall(potentialPosition, potentialPosition2);
+		}
 		return islegal;
 	}
 
