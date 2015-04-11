@@ -1,4 +1,4 @@
-//package main.java.UI;
+package main.java.UI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -7,9 +7,11 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
-  *@author: Brabim Baral
+  *@author: Brabim Baral, Joseph Santantasio, Matthew Coupal
   */
 public class SwingDemo{
     
@@ -18,6 +20,11 @@ public class SwingDemo{
     private final int BUTTON_SIZE = 8; //size of intersection button
     private final int BOARD_SIZE = 9; 	//number of spaces that the board is wide
     private final int BUTTON_SCALE = 10; //ratio of intersection button : playerbutton
+    private final ActionListener action = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+		            System.out.println("Brabim's face is variable!");
+		        }
+		    };
     
     public static void main( String[] args){
 	new SwingDemo();
@@ -33,10 +40,10 @@ public class SwingDemo{
 					      ( ((BUTTON_SIZE*BUTTON_SCALE)*BOARD_SIZE) + 
 						(BUTTON_SIZE*(BOARD_SIZE-1)) )) );
 	
-	addRow_PB_WBV();
+	addRow_PB_WBV(0);
 	for( int i=0; i<BOARD_SIZE-1; i++){
 	    addRow_WBH_IB();
-	    addRow_PB_WBV();
+	    addRow_PB_WBV(i);
 	}
 	frame.add( panel );
 	frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -45,13 +52,14 @@ public class SwingDemo{
 	frame.setVisible( true );
 	frame.pack();
     }
-    public void addRow_PB_WBV(){
+    public void addRow_PB_WBV(int index){
 	
 	// Adds buttons for space nodes and vertical walls in the panel
-	panel.add( new PlayerButton( BUTTON_SIZE, BUTTON_SCALE ) );
-	for( int i=0; i<BOARD_SIZE-1; i++){
-	    panel.add( new WallButton_Vertical( BUTTON_SIZE, BUTTON_SCALE ) );
-	    panel.add( new PlayerButton( BUTTON_SIZE, BUTTON_SCALE ) );
+	int i = 0;
+	panel.add( new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, index, 0, action ) );
+	for( i=1; i<=BOARD_SIZE-1; i++){
+	    panel.add( new WallButton_Vertical( BUTTON_SIZE, BUTTON_SCALE, index, i, action ) ) ;
+	    panel.add( new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, index, i, action ) );
 	}
     }
     
@@ -69,10 +77,15 @@ public class SwingDemo{
 }
 class PlayerButton extends JButton{
     
+    public int xl;
+    public int yl;
     //Constructs buttons for as board tiles
-    public PlayerButton( int BUTTON_SIZE, int BUTTON_SCALE ){
+    public PlayerButton( int BUTTON_SIZE, int BUTTON_SCALE, int x, int y, ActionListener action ){
 	super();
 	this.setPreferredSize( new Dimension( BUTTON_SIZE*BUTTON_SCALE, BUTTON_SIZE*BUTTON_SCALE ));
+	this.xl = x;
+	this.yl = y;
+	this.addActionListener(action);
 	this.setBorder(null);
 	this.setBorderPainted(false);
 	this.setMargin(new Insets(0,0,0,0));
@@ -81,10 +94,15 @@ class PlayerButton extends JButton{
 }
 class WallButton_Vertical extends JButton{
     
+    public int xl;
+    public int yl;
     //Constructs buttons for vertical wall
-    public WallButton_Vertical( int BUTTON_SIZE, int BUTTON_SCALE ){
+    public WallButton_Vertical( int BUTTON_SIZE, int BUTTON_SCALE, int x, int y, ActionListener action ){
 	super();
 	this.setPreferredSize( new Dimension( BUTTON_SIZE, BUTTON_SIZE*BUTTON_SCALE ));
+	this.xl = x;
+	this.yl = y;	
+	this.addActionListener(action);
 	this.setBorder(null);
 	this.setBorderPainted(false);
 	this.setMargin(new Insets(0,0,0,0));
@@ -94,6 +112,8 @@ class WallButton_Vertical extends JButton{
 }
 class WallButton_Horizontal extends JButton{
     
+    public int x;
+    public int y;
     //Constructs buttons for Horizontal Wall
     public WallButton_Horizontal( int BUTTON_SIZE, int BUTTON_SCALE ){
 	super();
