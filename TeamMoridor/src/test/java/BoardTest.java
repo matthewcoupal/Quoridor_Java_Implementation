@@ -315,6 +315,7 @@ public class BoardTest {
     	Board board = new Board();
     	
     	// Case 1: testing vertical wall placement
+    	Space space0 = new Space(2,0);
     	Space space1 = new Space(2,1);
     	Space space2 = new Space(2,2);
     	Space space3 = new Space(2,3);
@@ -322,9 +323,11 @@ public class BoardTest {
     	assertTrue(board.canPlaceWall(space2, space1));
     	board.placeWall(space2, space1);
     	assertFalse(board.canPlaceWall(space3, space2));
+    	assertFalse(board.canPlaceWall(space1, space0));
     	assertTrue(board.canPlaceWall(space4, space3));
     	
     	// Case 2: testing horizontal wall placement
+    	Space space00 = new Space(4,6);
     	Space space5 = new Space(5,6);
     	Space space6 = new Space(6,6);
     	Space space7 = new Space(7,6);
@@ -332,6 +335,7 @@ public class BoardTest {
     	assertTrue(board.canPlaceWall(space5, space6));
     	board.placeWall(space5, space6);
     	assertFalse(board.canPlaceWall(space6, space7));
+    	assertFalse(board.canPlaceWall(space00, space5));
     	assertTrue(board.canPlaceWall(space7, space8));
     	
 	}
