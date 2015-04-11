@@ -299,26 +299,43 @@ public class BoardTest {
         assertFalse(board.isWallHere(space8, space7));
         assertTrue(board.isWallHere(space6, space9));
     }
-    /*
+    
     @Test
-    public void boardCanCheckIfAWallPlacementIsLegal() {
-    	Board board = Mockito.spy(new Board());
+    public void boardCanCheckIfAWallPlacementIsLegalWhenCurrentPlayerHasNoWallsLeft() {
+    	Board board = new Board();
     	Space space1 = new Space(2,2);
     	Space space2 = new Space(2,1);
-    	Space space3 = new Space(3,2);
-    	Space space4 = new Space(3,1);
-    	Wall wall1 = new Wall(space1,space2,space3,space4);
-    	board.placeWall(space1, space2, space3, space4);
-    	Player player = new Player(4,0,10);
-    	board.placeWall(space1, space2, space3, space4);
-    	
-    	/*Space spaceS1 = 
-    	Space spaceS2
-    	Space spaceE1
-    	Space spaceE2
-    	*/
-    /*
+    	assertTrue(board.canPlaceWall(space1, space2));
+    	board.currentPlayer().setWalls(0);
+    	assertFalse(board.canPlaceWall(space1, space2));
 	}
-*/
+    
+    @Test
+    public void boardCanCheckIfAWallPlacementIsLegalWhenThereIsAlreadyAWallOnOneOfTheEdges(){
+    	Board board = new Board();
+    	
+    	// Case 1: testing vertical wall placement
+    	Space space1 = new Space(2,1);
+    	Space space2 = new Space(2,2);
+    	Space space3 = new Space(2,3);
+    	Space space4 = new Space(2,4);
+    	assertTrue(board.canPlaceWall(space2, space1));
+    	board.placeWall(space2, space1);
+    	assertFalse(board.canPlaceWall(space3, space2));
+    	assertTrue(board.canPlaceWall(space4, space3));
+    	
+    	// Case 2: testing horizontal wall placement
+    	Space space5 = new Space(5,6);
+    	Space space6 = new Space(6,6);
+    	Space space7 = new Space(7,6);
+    	Space space8 = new Space(8,6);
+    	assertTrue(board.canPlaceWall(space5, space6));
+    	board.placeWall(space5, space6);
+    	assertFalse(board.canPlaceWall(space6, space7));
+    	assertTrue(board.canPlaceWall(space7, space8));
+    	
+	}
+    
+
 	
 }

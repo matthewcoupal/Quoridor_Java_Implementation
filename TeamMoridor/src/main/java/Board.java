@@ -337,20 +337,25 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 				return false;
 
 		// 2. If there is already a wall segment on one of the two placement areas where the wall wants to be placed, return false.
-			if(this.isWallHere(s0, s1)) { // || this.isWallHere(e0, e1)) {
-				return false;
-			}
+			// if(this.isWallHere(s0, s1)) { // || this.isWallHere(e0, e1)) {
+			//	return false;
+			// }
 			Wall wall = new Wall(s0, s1);
 			if (wall.isHorizontal()) {
 				Space e0 = new Space(s0.getX(), s0.getY()+1);
 				Space e1 = new Space(s1.getX(), s1.getY()+1);
-				if (this.isWallHere(e0,e1))
+				if(this.isWallHere(e0, s0))
+					return false;
+				if (this.isWallHere(e1,s1))
 					return false;
 			} else if (wall.isVertical()){
 				Space e0 = new Space(s0.getX()-1, s0.getY());
 				Space e1 = new Space(s1.getX()-1, s1.getY());
-				if (this.isWallHere(e0,e1))
+				if (this.isWallHere(e0,s0))
 					return false;
+				if(this.isWallHere(e1,s1))
+					return false;
+				
 			}
 
 		// 3. If the wall that wants to be placed would cross another wall, return false.
