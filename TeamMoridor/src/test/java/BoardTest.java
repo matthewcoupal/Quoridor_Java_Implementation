@@ -360,5 +360,34 @@ public class BoardTest {
     	board.placeWall(space7, space6);
     	assertFalse(board.canPlaceWall(space3, space2)); //can't place a wall that crosses a placed wall.
 	}
+    
+    @Test
+    public void boardCanCheckIfAWallPlacementIsLegalWhenItBlocksAplayerFromReachingTheEnd() {
+    	Board board = new Board();
+    	
+    	Space space1 = new Space(0,4);
+    	Space space2 = new Space(1,4);
+    	Space space3 = new Space(2,4);
+    	Space space4 = new Space(3,4);
+    	Space space5 = new Space(4,4);
+    	Space space6 = new Space(5,4);
+    	Space space7 = new Space(6,4);
+    	Space space8 = new Space(7,4);
+    	Space space9 = new Space(8,4);
+    	Space space10 = new Space(7,5);
+    	Space space11 = new Space(8,5);
+    	
+    	assertTrue(board.canPlaceWall(space1, space2));
+    	board.placeWall(space1, space2);
+    	assertTrue(board.canPlaceWall(space3, space4));
+    	board.placeWall(space3, space4);
+    	assertTrue(board.canPlaceWall(space5, space6));
+    	board.placeWall(space5, space6);
+    	assertTrue(board.canPlaceWall(space7, space8));
+    	board.placeWall(space7, space8);
+    	assertTrue(board.canPlaceWall(space11, space9));
+    	board.placeWall(space11, space9);
+    	assertFalse(board.canPlaceWall(space10, space11)); //can't place a wall that blocks passage to end.
+	}
 	
 }
