@@ -340,6 +340,25 @@ public class BoardTest {
     	
 	}
     
-
+    @Test
+    public void boardCanCheckIfAWallPlacementIsLegalWhenThereIsACrossingWallAlreadyPlaced() {
+    	Board board = new Board();
+    	
+    	// Case 1: testing vertical wall placement
+    	Space space1 = new Space(2,2);
+    	Space space2 = new Space(2,1);
+    	Space space3 = new Space(1,1);
+    	assertTrue(board.canPlaceWall(space1, space2));
+    	board.placeWall(space1, space2);
+    	assertFalse(board.canPlaceWall(space3, space2)); //can't place a wall that crosses a placed wall.
+    	
+    	// Case 2: testing horizontal wall placement
+    	Space space5 = new Space(5,6);
+    	Space space6 = new Space(6,6);
+    	Space space7 = new Space(6,7);
+    	assertTrue(board.canPlaceWall(space5, space6));
+    	board.placeWall(space7, space6);
+    	assertFalse(board.canPlaceWall(space3, space2)); //can't place a wall that crosses a placed wall.
+	}
 	
 }
