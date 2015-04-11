@@ -9,7 +9,7 @@ import main.java.Board;
 import main.java.Space;
 import main.java.AI;
 import java.util.Scanner;
-import main.java.UI.BoardGrid;
+import main.java.UI.GameBoard;
 import main.java.Player;
 
 /**
@@ -65,7 +65,7 @@ public class MoveServer {
 	public int playNum;
 	public int numPlayers;
 	public Board board;
-	public BoardGrid gui;
+	public GameBoard gui;
 	//public ai gladus; 
 	
 	/**
@@ -250,7 +250,7 @@ public class MoveServer {
 		this.board = new Board(numPlayers);
 		//ai doesn't need this.
 		if(IS_HUMAN){
-			gui = new BoardGrid(9,9,numPlayers);
+			gui = new GameBoard();
 		}
 		
 	}
