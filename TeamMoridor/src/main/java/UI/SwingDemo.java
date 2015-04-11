@@ -42,7 +42,7 @@ public class SwingDemo{
 	
 	addRow_PB_WBV(0);
 	for( int i=0; i<BOARD_SIZE-1; i++){
-	    addRow_WBH_IB();
+	    addRow_WBH_IB(i);
 	    addRow_PB_WBV(i);
 	}
 	frame.add( panel );
@@ -64,12 +64,13 @@ public class SwingDemo{
     }
     
     
-    public void addRow_WBH_IB(){
+    public void addRow_WBH_IB(int index){
 	// Adds buttons for Horizontal wall  and intersection buttons in the panel
-	panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE ) );
-	for( int i=0; i<BOARD_SIZE-1; i++){
+	panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index, 0, action ) );
+	int i =0;
+	for( i=1; i<= BOARD_SIZE -1; i++){
 	    panel.add( new IntersectionButton( BUTTON_SIZE ) );
-	    panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE ) );
+	    panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index, i, action ) );
 	}
     }
     
@@ -112,12 +113,15 @@ class WallButton_Vertical extends JButton{
 }
 class WallButton_Horizontal extends JButton{
     
-    public int x;
-    public int y;
+    public int xl;
+    public int yl;
     //Constructs buttons for Horizontal Wall
-    public WallButton_Horizontal( int BUTTON_SIZE, int BUTTON_SCALE ){
+    public WallButton_Horizontal( int BUTTON_SIZE, int BUTTON_SCALE, int x, int y, ActionListener action ){
 	super();
 	this.setPreferredSize( new Dimension( BUTTON_SIZE*BUTTON_SCALE, BUTTON_SIZE ));
+	this.xl = x;
+	this.yl =y;
+	this.addActionListener(action);
 	this.setBorder(null);
 	this.setBorderPainted(false);
 	this.setMargin(new Insets(0,0,0,0));
