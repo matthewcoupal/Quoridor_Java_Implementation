@@ -299,26 +299,16 @@ public class BoardTest {
         assertFalse(board.isWallHere(space8, space7));
         assertTrue(board.isWallHere(space6, space9));
     }
-    /*
+    
     @Test
-    public void boardCanCheckIfAWallPlacementIsLegal() {
-    	Board board = Mockito.spy(new Board());
+    public void boardCanCheckIfAWallPlacementIsLegalWhenCurrentPlayerHasNoWallsLeft() {
+    	Board board = new Board();
+    	board.currentPlayer().setWalls(0);
     	Space space1 = new Space(2,2);
     	Space space2 = new Space(2,1);
-    	Space space3 = new Space(3,2);
-    	Space space4 = new Space(3,1);
-    	Wall wall1 = new Wall(space1,space2,space3,space4);
-    	board.placeWall(space1, space2, space3, space4);
-    	Player player = new Player(4,0,10);
-    	board.placeWall(space1, space2, space3, space4);
-    	
-    	/*Space spaceS1 = 
-    	Space spaceS2
-    	Space spaceE1
-    	Space spaceE2
-    	*/
-    /*
+    	// board.placeWall(space1, space2);
+    	assertFalse(board.canPlaceWall(space1, space2));
 	}
-*/
+
 	
 }
