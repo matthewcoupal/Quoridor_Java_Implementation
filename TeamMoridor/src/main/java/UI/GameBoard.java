@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import main.java.Board;
 import main.java.Space;
+import main.java.Wall;
 
 /**
  *@author: Brabim Baral, Joseph Santantasio, Matthew Coupal
@@ -24,6 +25,9 @@ public class GameBoard extends Board{
 	private final int BUTTON_SCALE = 10; //ratio of intersection button : playerbutton
 	public String currentMove = "";
 	public static PlayerButton[][] boardGrid = new PlayerButton[9][9];
+	public static WallButton_Vertical[][] vertWalls = new WallButton_Vertical[8][9];
+	public static WallButton_Horizontal[][] horzWalls = new WallButton_Horizontal[9][8];
+	public Space wallString = null;
 
 	//ActionListener for buttons.
 	/* private final ActionListener action = new ActionListener() {
@@ -67,7 +71,8 @@ public class GameBoard extends Board{
 		boardGrid[i][index] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, i, index, action(i, index) );
 		panel.add(boardGrid[i][index]);
 		for( i=1; i<=BOARD_SIZE-1; i++){
-			panel.add( new WallButton_Vertical( BUTTON_SIZE, BUTTON_SCALE, i-1, index, action(i-1, index) ) ) ;
+			vertWalls[i-1][index] = new WallButton_Vertical( BUTTON_SIZE, BUTTON_SCALE, i-1, index, wallPlacement(i-1, index) );
+			panel.add(vertWalls[i-1][index]) ;
 			boardGrid[i][index] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, i, index, action(i, index) );
 			panel.add(boardGrid[i][index]);	
 		}
@@ -76,10 +81,14 @@ public class GameBoard extends Board{
 	// Adds buttons for Horizontal wall  and intersection buttons in the panel
 	public void addRow_WallBHorizont_IntersectionB(int index){
 		int i =0;
-		panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, i, index-1, action(i, index-1) ) );
+		horzWalls[i][index-1] = new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, i, wallPlacement(i, index-1));
+		panel.add(horzWalls[i][index-1]);
 		for( i=1; i<= BOARD_SIZE -1; i++){
-			//	panel.add( new IntersectionButton( BUTTON_SIZE ) );
-			panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, i, action(i, index-1) ) );
+			panel.add( new IntersectionButton( BUTTON_SIZE ) );
+			if(index != 9) {
+				horzWalls[i][index-1] = new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, i, wallPlacement(i, index-1));
+				panel.add(horzWalls[i][index-1]);
+			}
 		}
 	}
 
@@ -120,6 +129,28 @@ public class GameBoard extends Board{
 			button.setBackground(Color.GREEN);
 	}
 
+
+	public ActionListener wallPlacement(int x, int y){
+		final int xl = x;
+		final int yl = y;
+		
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Board board = new Board();
+				Space space = new Space(xl, yl);
+				if(wallString == null){
+					wallString = space;
+				}else{ 
+					Wall wall = new Wall(space, wallString);
+					currentMove = board.wallToString(wall);
+					wallString = null;
+					
+				}
+			}
+		};
+		
+	}
+
 	/**
 	 * Checks the occupied spaces on the board and changes the color of those spaces.
 	 */
@@ -129,6 +160,16 @@ public class GameBoard extends Board{
 			int xCoordinate = this.occupiedSpaces.get(i).getX();
 			int yCoordinate = this.occupiedSpaces.get(i).getY();
 			setBackground(boardGrid[xCoordinate][yCoordinate], i);
+		}
+		for(int i = 0; i < this.placedWalls.size(); i++) {
+			Wall temp = this.placedWalls.get(i);
+			if(temp.isVertical()) {
+				vertWalls[temp.getS0().getX()][temp.getS0().getY()].setBackground(Color.BLACK);
+				vertWalls[temp.getS1().getX()][temp.getS1().getY()].setBackground(Color.BLACK);
+			} else if(temp.isHorizontal()) {
+				horzWalls[temp.getS0().getX()][temp.getS0().getY()].setBackground(Color.BLACK);
+				horzWalls[temp.getS1().getX()][temp.getS1().getY()].setBackground(Color.BLACK);
+			}
 		}
 	}
 

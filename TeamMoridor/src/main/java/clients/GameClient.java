@@ -189,8 +189,8 @@ public class GameClient {
 							System.out.println(cords2);
 							Space potentialPosition2 = board.StringtoCoordinates(cords2);
 							try{
-								//board.placeWall(potentialPosition ,potentialPosition2);
-								//gui.placeWall(potentialPosition ,potentialPosition2);
+								board.placeWall(potentialPosition ,potentialPosition2);
+								gui.placeWall(potentialPosition ,potentialPosition2);
 							}catch(NoSuchElementException nsee){
 							nsee.printStackTrace();
 							System.exit(1);
@@ -335,14 +335,7 @@ public class GameClient {
 			Space potentialPosition = board.StringtoCoordinates(cords);
 		    String cords2 = moveInfo[2];
 			Space potentialPostion2 = board.StringtoCoordinates(cords);
-			if(!board.canPlaceWall(potentialPosition, potentialPostion2)) {
-				dasBoot(playerNames[currplayer],sout, sin);
-				machineName[currplayer] = "null";
-				numPlay--;
-			} else {
-				board.placeWall(potentialPosition, potentialPostion2);
-			}
-			//islegal = board.isLegalWall(potentialPosition, potentialPosition2);
+			islegal = board.canPlaceWall(potentialPosition, potentialPostion2);	
 		}
 		return islegal;
 	}

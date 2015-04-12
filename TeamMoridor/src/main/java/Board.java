@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	//Instance Variables
 	protected ArrayList<Player> occupiedSpaces; //List of occupied spaces
-	private ArrayList<Wall> placedWalls; //List of wall locations
+	protected ArrayList<Wall> placedWalls; //List of wall locations
 	public SpaceLinkedList boardConfiguration; //Current configuration of the board
 	private Player currentPlayer = new Player(1,1,10); //Default current player
 
@@ -610,7 +610,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		
 	public String wallToString(Wall wall){
 	
-	return ("("+spaceToString(wall.getS0())+"," + spaceToString(wall.getS1()) + ")");
+	return (spaceToString(wall.getS0())+" " + spaceToString(wall.getS1()));
 	}
 
 

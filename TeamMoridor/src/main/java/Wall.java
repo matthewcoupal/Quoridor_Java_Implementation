@@ -23,12 +23,12 @@ public class Wall {
 	public Wall(Space side0, Space side1) throws IllegalArgumentException{
 		this.s0 = side0;
 		this.s1 = side1;
-		if (!isLegalWall())
+		/*if (!isLegalWall())
 			throw new IllegalArgumentException("This isn't an actual wall");
 		this.s0 = side0;
 		this.s1 = side1;
 		// surroundingSpaces[0] = side0; 
-		// surroundingSpaces[1] = side1; 
+		// surroundingSpaces[1] = side1; */
 	}
 
 // Methods
@@ -123,11 +123,12 @@ public class Wall {
 	 */
 	public boolean isHorizontal() {
 		if ( 	(s0.getY() != s1.getY()) || // y-coordinates must be equal
-				(s1.getX() - s0.getX() != 1) || // x-coordinate of the second space below must be 1 greater than the x-coordinate of the first space below.
+				((s1.getX() - s0.getX() != 1) && // x-coordinate of the second space below must be 1 greater than the x-coordinate of the first space below.
+				(s1.getX() - s0.getX() != -1)) /*||
 				(s0.getY() == 8) || // out of bounds
 				(s1.getY() == 8) || // out of bounds
 				(s0.getX() == 8) || // out of bounds
-				(s1.getX() == 0)	// out of bounds
+				(s1.getX() == 0)	// out of bounds*/
 			)
 			return false;
 		else
@@ -139,12 +140,13 @@ public class Wall {
 	 * @return True if is a Vertical wall, false otherwise.
 	 */
 	public boolean isVertical() {
-		if (	(s0.getY() - s1.getY() != 1) || // y-coordinate of the first space to the right must be 1 greater than the y-coordinate of the second space to the right.
-				(s1.getX() != s0.getX()) || // x-coordinates must be equal
+		if (	((s0.getY() - s1.getY() != 1) && // y-coordinate of the first space to the right must be 1 greater than the y-coordinate of the second space to the right.
+				(s0.getY() - s1.getY() != -1)) ||
+				(s1.getX() != s0.getX()) /*|| // x-coordinates must be equal
 				(s0.getX() == 0)  || // out of bounds
 				(s0.getY() == 0)  || // out of bounds
 				(s1.getX() == 0)  || // out of bounds
-				(s1.getY() == 8)     // out of bounds
+				(s1.getY() == 8)     // out of bounds*/
 			)
 			return false;
 		else
