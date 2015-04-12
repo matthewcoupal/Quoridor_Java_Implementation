@@ -268,7 +268,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 	 */
 	public void makeMove(Player player, Space potentialPosition) throws NoSuchElementException {
 		if(!this.isLegalMove(player, potentialPosition)) {
-			this.bootPlayer(player);
+			//this.bootPlayer(player);
 			return;
 		}
 		for(int i = 0; i < this.occupiedSpaces.size(); i++ ) {
@@ -281,14 +281,6 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		throw new NoSuchElementException("The Player specified is not in this game or the servers and client are out of sync!");
 	}
 
-	
-
-	public void bootPlayer(Player player) {
-		// TODO Auto-generated method stub
-
-	}
-	
-	//DO NOT USE -- WORK IN PROGRESS -- DO NOT COMMENT DUE TO MINIMAL TESTS
 
 		/**
 		 * Attempts to place a wall.
