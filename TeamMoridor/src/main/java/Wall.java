@@ -83,6 +83,39 @@ public class Wall {
 		else
 				return true;
 	}
+	
+	/**
+	 * Returns the wall's starting space
+	 * @return the wall's starting space
+	 */
+	public Space getS0() {
+		return this.s0;
+	}
+	
+	/**
+	 * Returns the wall's ending space
+	 * @return the wall's ending space
+	 */
+	public Space getS1() {
+		return this.s1;
+	}
+	
+	/**
+	 * Sets the starting space for the wall
+	 * @param a space
+	 */
+	public void setS0(Space s) {
+		this.s0 = s;
+	}
+	
+	/**
+	 * Sets the ending space for the wall
+	 * @param a space
+	 */
+	public void setS1(Space s) {
+		this.s1 = s;
+	}
+	
 
 	/**
 	 * Checks if is a horizontal wall.
