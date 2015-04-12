@@ -32,6 +32,7 @@ public class GameClient {
 	private String playerNames[];
 	private Board board;
 	private GameBoard gui;
+	public int currplayer;
 
 	/**
 	 * Constructor for the Display client
@@ -145,8 +146,7 @@ public class GameClient {
 			System.out.println("we're ready");
 			while(numPlay > 1 && ready){
 				boolean legalMove = true;
-				//cause !machineName[turn[currTurn % this.startNumPlay]].equal("null") is just messy
-				int currplayer = turn[currTurn % startNumPlay];
+				currplayer = turn[currTurn % startNumPlay];
 
 				//Sets current player for board
 				//Matt needs to check this.
@@ -335,6 +335,13 @@ public class GameClient {
 			Space potentialPosition = board.StringtoCoordinates(cords);
 		    String cords2 = moveInfo[2];
 			Space potentialPostion2 = board.StringtoCoordinates(cords);
+			if(!board.canPlaceWall(potentialPosition, potentialPostion2)) {
+				dasBoot(playerNames[currplayer],sout, sin);
+				machineName[currplayer] = "null";
+				numPlay--;
+			} else {
+				board.placeWall(potentialPosition, potentialPostion2);
+			}
 			//islegal = board.isLegalWall(potentialPosition, potentialPosition2);
 		}
 		return islegal;
@@ -356,7 +363,7 @@ public class GameClient {
 				sin[i].close();
 			}
 		}
-		board.bootPlayer(board.currentPlayer());
+		//board.bootPlayer(board.currentPlayer());
 	}
 
 	//sets names list
