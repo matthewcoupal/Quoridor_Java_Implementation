@@ -607,7 +607,11 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		return protocolString;
 	}
 
+		
+	public String wallToString(Wall wall){
 	
+	return ("("+spaceToString(wall.getS0())+"," + spaceToString(wall.getS1()) + ")");
+	}
 
 
 }
