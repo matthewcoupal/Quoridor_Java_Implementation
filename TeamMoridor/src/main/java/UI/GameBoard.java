@@ -23,7 +23,7 @@ public class GameBoard extends Board{
     private final int BOARD_SIZE = 9; 	//number of spaces that the board is wide
     private final int BUTTON_SCALE = 10; //ratio of intersection button : playerbutton
     public String currentMove = "";
-    public PlayerButton[][] boardGrid = new PlayerButton[9][9];
+    public static PlayerButton[][] boardGrid = new PlayerButton[9][9];
 
     //ActionListener for buttons.
    /* private final ActionListener action = new ActionListener() {
@@ -67,22 +67,22 @@ public class GameBoard extends Board{
     public void addRow_PlayerB_WallBvert(int index){
 	
 	int i = 0;
-	boardGrid[index][i] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, index, i, action(index, i) );
-	panel.add(boardGrid[index][i]);
+	boardGrid[i][index] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, i, index, action(i, index) );
+	panel.add(boardGrid[i][index]);
 	for( i=1; i<=BOARD_SIZE-1; i++){
-	    panel.add( new WallButton_Vertical( BUTTON_SIZE, BUTTON_SCALE, index, i-1, action(index, i-1) ) ) ;
-	    boardGrid[index][i] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, index, i, action(index, i) );
-	    panel.add(boardGrid[index][i]);	
+	    panel.add( new WallButton_Vertical( BUTTON_SIZE, BUTTON_SCALE, i-1, index, action(i-1, index) ) ) ;
+	    boardGrid[i][index] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, i, index, action(i, index) );
+	    panel.add(boardGrid[i][index]);	
 	}
     }
     
     // Adds buttons for Horizontal wall  and intersection buttons in the panel
     public void addRow_WallBHorizont_IntersectionB(int index){
 	int i =0;
-	panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, 0, action(index-1, i) ) );
+	panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, i, index-1, action(i, index-1) ) );
 	for( i=1; i<= BOARD_SIZE -1; i++){
-	    panel.add( new IntersectionButton( BUTTON_SIZE ) );
-	    panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, i, action(index-1, i) ) );
+	    //	panel.add( new IntersectionButton( BUTTON_SIZE ) );
+	    panel.add( new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, i, action(i, index-1) ) );
 	}
     }
 
@@ -93,7 +93,7 @@ public class GameBoard extends Board{
 		public void actionPerformed(ActionEvent e) {
 			Space space = new Space(xl, yl);		           
 			Board board = new Board();
-			System.out.println( board.spaceToString(space) );
+			System.out.print(board.spaceToString(space));
 			currentMove = board.spaceToString(space);
 		        }
 		    };
@@ -116,7 +116,7 @@ public class GameBoard extends Board{
 		if(player == 0)
 		  button.setBackground(Color.BLUE);
 		else if(player == 1)
-		  button.setBackground(Color.GRAY);
+		  button.setBackground(Color.RED);
 		else if(player == 2)
 		  button.setBackground(Color.MAGENTA);
 		else if(player == 3)
@@ -129,8 +129,8 @@ public class GameBoard extends Board{
     public void updatePositions () {
     	update();
     	for(int i = 0; i < this.occupiedSpaces.size(); i++) {
-    		int xCoordinate = this.occupiedSpaces.get(i).getY();
-    		int yCoordinate = this.occupiedSpaces.get(i).getX();
+    		int xCoordinate = this.occupiedSpaces.get(i).getX();
+    		int yCoordinate = this.occupiedSpaces.get(i).getY();
     		setBackground(boardGrid[xCoordinate][yCoordinate], i);
     	}
     }
@@ -141,7 +141,7 @@ public class GameBoard extends Board{
     public void update () {
 	for(int i = 0; i < 9; i++) {
 	    for(int j = 0; j < 9; j++) {
-		boardGrid[i][j].setBackground(Color.RED);
+		boardGrid[i][j].setBackground(Color.GRAY);
 	    }
 	} 
     }
@@ -164,7 +164,7 @@ class PlayerButton extends JButton{
 	this.setBorder(null);
 	this.setBorderPainted(false);
 	this.setMargin(new Insets(0,0,0,0));
-	this.setBackground( Color.RED);
+	this.setBackground( Color.GRAY);
     }
 }
 
