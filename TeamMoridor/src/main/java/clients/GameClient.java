@@ -45,7 +45,7 @@ public class GameClient {
 		this.numPlay = numPlay;
 		this.machineName = machineName;
 		this.ports = ports;
-		this.gui = new GameBoard();
+		this.gui = new GameBoard(startNumPlay);
 	}
 
 

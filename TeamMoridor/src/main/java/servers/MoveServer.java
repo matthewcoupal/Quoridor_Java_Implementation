@@ -250,7 +250,7 @@ public class MoveServer {
 		this.board = new Board(numPlayers);
 		//ai doesn't need this.
 		if(IS_HUMAN){
-			gui = new GameBoard();
+			gui = new GameBoard(numPlayers);
 		}
 		
 	}
