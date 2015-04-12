@@ -9,7 +9,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 import main.java.Board;
 import main.java.Space;
-import main.java.UI.BoardGrid;
+import main.java.UI.GameBoard;
 import main.java.Player;
 import java.util.NoSuchElementException;
 //looping client Prof. Ladd gave us for networking that i'm recoding/gutting to be our client!
@@ -31,7 +31,7 @@ public class GameClient {
 	private Scanner sin[];
 	private String playerNames[];
 	private Board board;
-	private BoardGrid gui;
+	private GameBoard gui;
 
 	/**
 	 * Constructor for the Display client
@@ -44,7 +44,7 @@ public class GameClient {
 		this.numPlay = numPlay;
 		this.machineName = machineName;
 		this.ports = ports;
-		this.gui = new BoardGrid(9,9,numPlay);
+		this.gui = new GameBoard();
 	}
 
 
