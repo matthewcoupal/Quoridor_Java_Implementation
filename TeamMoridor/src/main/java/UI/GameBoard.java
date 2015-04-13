@@ -20,9 +20,9 @@ public class GameBoard extends Board{
 
 	private JFrame frame;
 	private JPanel panel;
-	private final int BUTTON_SIZE = 8; //size of intersection button
+	private final int BUTTON_SIZE = 7; //size of intersection button
 	private final int BOARD_SIZE = 9; 	//number of spaces that the board is wide
-	private final int BUTTON_SCALE = 10; //ratio of intersection button : playerbutton
+	private final int BUTTON_SCALE = 7; //ratio of intersection button : playerbutton
 	public String currentMove = "";
 	public static PlayerButton[][] boardGrid = new PlayerButton[9][9];
 	public static WallButton_Vertical[][] vertWalls = new WallButton_Vertical[8][9];
@@ -262,6 +262,6 @@ class IntersectionButton extends JButton{
 		this.setBorder(null);
 		this.setBorderPainted(false);
 		this.setMargin(new Insets(0,0,0,0));
-		this.setBackground( Color.WHITE );
+		this.setBackground( Color.BLACK );
 	}
 }

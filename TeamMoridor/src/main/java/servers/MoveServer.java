@@ -8,6 +8,9 @@ import java.net.Socket;
 import main.java.Board;
 import main.java.Space;
 import main.java.AI;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import main.java.UI.GameBoard;
 import main.java.Player;
@@ -53,12 +56,12 @@ public class MoveServer {
 	public final static String ARG_PORT = "--port";
 	public final static String ARG_AI = "--ai";
 	public final static String ARG_MACHINE = "-- machine";
-	
+
 	public static String DEFAULT_PLAYER_NAME = "POPO"  ;
 	public static String DEFAULT_MACHINE_NAME = "localhost";
 	public static int port = 9090;
 	public static boolean IS_HUMAN = true;
-	
+
 	public final static String MY_TURN ="GO?";
 	public String[] opponents;
 	public String opponent;
@@ -67,7 +70,7 @@ public class MoveServer {
 	public Board board;
 	public GameBoard gui;
 	//public ai gladus; 
-	
+
 	/**
 	 * Creates a new <code>TCPServer</code> instance. TCPServer is
 	 * a listening echo server (it responds with a slightly modified
@@ -152,34 +155,34 @@ public class MoveServer {
 					//pass name
 					if(clientMessage.equals("Move")){
 						cout.printf("%s\n", DEFAULT_PLAYER_NAME);
-					    continue;
-                    }
+						continue;
+					}
 					//Your turn
 					if(clientMessage.equals("GO?")){
 						String move= MyMove(cin);
 						cout.printf("%s\n", move);
-					    continue;
-                    }
+						continue;
+					}
 					//ready?
-                    if (clientMessage.startsWith("Players")){
-                        playermsg(clientMessage,cout);
-                        continue;
-                    }
+					if (clientMessage.startsWith("Players")){
+						playermsg(clientMessage,cout);
+						continue;
+					}
 					//someone booted
-                    if(clientMessage.startsWith("Boot")){
-                        weGotACheater(clientMessage, cout,cin);
-                        continue;
-                    }
-                    //we have a winner
-                    if (clientMessage.startsWith("Went")) {
-                        aPlayerWent(clientMessage);
-                        continue;
-                    }
+					if(clientMessage.startsWith("Boot")){
+						weGotACheater(clientMessage, cout,cin);
+						continue;
+					}
+					//we have a winner
+					if (clientMessage.startsWith("Went")) {
+						aPlayerWent(clientMessage);
+						continue;
+					}
 
-                    if (clientMessage.startsWith("Winner")) {
+					if (clientMessage.startsWith("Winner")) {
 						System.out.println(clientMessage);
-                        System.exit(0);
-                    }
+						System.exit(0);
+					}
 				}
 
 				System.out.println("Server closing connection from " + gameClient);
@@ -252,7 +255,7 @@ public class MoveServer {
 		if(IS_HUMAN){
 			gui = new GameBoard(numPlayers);
 		}
-		
+
 	}
 
 	/**
@@ -274,7 +277,7 @@ public class MoveServer {
 			System.exit(0);
 		}
 		if(numPlayers > 1) {
-		
+
 			for (int i = 0; i < numPlayers; i++) {
 				if (cheater[1].equals(opponents[i])) {
 					opponents[i] = "Booted";
@@ -286,12 +289,51 @@ public class MoveServer {
 
 	/**
 	 * Executes the players turn
-	 * @param moveString The location the Player wants to move to.
+	 * @param moveString [went, playerName, moveString]
 	 */
 	public void aPlayerWent(String moveString){
-		//Update board
-		//Note that ALL players are in opponents it was a bad choice for a name
 		int i;
+		String moveInfo[] = moveString.split(" ");
+		//String cords = moveInfo[1];
+		//System.out.println(cords);
+		//Space potentialPosition = board.StringtoCoordinates(cords);
+		for(i=0; i< opponents.length;i++){
+			if(moveInfo[1].equals(opponents[i]))
+				break;
+		}
+		if(moveInfo.length == 3){
+			try{
+				String cords = moveInfo[2];
+				System.out.println(cords);
+				gui.setCurrentPlayer(i);
+				Space potentialPosition = board.StringtoCoordinates(cords);
+				board.makeMove(board.currentPlayer(),potentialPosition);
+				//Update the GUI's Board Logically
+				gui.makeMove(gui.currentPlayer(),potentialPosition);
+			}catch (NoSuchElementException nsee){
+				nsee.printStackTrace();
+				System.exit(1);
+			}
+		}else{
+			String cords = moveInfo[2];
+			String cords2 = moveInfo[3];
+			System.out.println(cords + " " + cords2);
+			Space potentialPosition = board.StringtoCoordinates(cords);
+			Space potentialPosition2 = board.StringtoCoordinates(cords2);
+			gui.setCurrentPlayer(i);
+			try{
+				board.placeWall(potentialPosition ,potentialPosition2);
+				gui.placeWall(potentialPosition ,potentialPosition2);
+			}catch(NoSuchElementException nsee){
+				nsee.printStackTrace();
+				System.exit(1);
+			}
+			//gui.setCurrentPlayer(i);
+			//gui.makeMove(gui.currentPlayer(),potentialPosition);
+			//gui.updatePositions();
+			//Update board
+			//Note that ALL players are in opponents it was a bad choice for a name
+			/*int i;
 		String moveInfo[] = moveString.split(" ");
 		for(i=0; i< opponents.length;i++){
 			if(moveInfo[1].equals(opponents[i]))
@@ -306,6 +348,8 @@ public class MoveServer {
 		gui.setCurrentPlayer(i);
 		gui.makeMove(gui.currentPlayer(),potentialPosition);
 		gui.updatePositions();
+		}*/
 		}
+		gui.updatePositions();
 	}
 }

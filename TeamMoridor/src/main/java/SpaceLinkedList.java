@@ -103,6 +103,7 @@ public class SpaceLinkedList {
 		// visited, then added its references to the stack if not null
 		while(!nodesToVisit.empty()) {
 			current = nodesToVisit.pop();
+			//System.out.println(current);
 			if(current != null && !nodesVisited.contains(current)) {
 				if(current.getCoordinates().getX() == x && current.getCoordinates().getY() == y)
 					return current;
@@ -118,6 +119,7 @@ public class SpaceLinkedList {
 				nodesVisited.add(current);
 			}	
 		}
+		System.out.println("Space at failed");
 		return null;
 	}
 }

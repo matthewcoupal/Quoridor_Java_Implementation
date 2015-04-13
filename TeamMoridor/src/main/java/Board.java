@@ -192,9 +192,11 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		for(int i = 0; i < Math.sqrt(this.boardConfiguration.size()); i++) {
 			int x = player.getWinSpace(i).getX();
 			int y = player.getWinSpace(i).getY();
-			if(this.boardConfiguration.spaceAt(x, y, node) != null)
+			if(this.boardConfiguration.spaceAt(x, y, node) != null) {
 				return true;
+			}
 		}
+		System.out.println("canReachEnd Failed");
 		return false;
 	}
 
@@ -325,8 +327,10 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 		 */
 		public boolean canPlaceWall(Space s0, Space s1) {
 		// 1. If the player has no walls left, return false.
-			if(this.currentPlayer().getWalls() == 0)
+			if(this.currentPlayer().getWalls() == 0) {
+				System.out.println("329");
 				return false;
+			}
 
 		// 2. If there is already a wall segment on one of the two placement areas where the wall wants to be placed, return false.
 			// if(this.isWallHere(s0, s1)) { // || this.isWallHere(e0, e1)) {
@@ -336,17 +340,25 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 			if (wall.isHorizontal()) {
 				Space e0 = new Space(s0.getX(), s0.getY()+1);
 				Space e1 = new Space(s1.getX(), s1.getY()+1);
-				if(this.isWallHere(e0, s0))
+				if(this.isWallHere(e0, s0)) {
+					System.out.println("340");
 					return false;
-				if (this.isWallHere(e1,s1))
+				}
+				if (this.isWallHere(e1,s1)) {
+					System.out.println("344");
 					return false;
+				}
 			} else if (wall.isVertical()){
 				Space e0 = new Space(s0.getX()-1, s0.getY());
 				Space e1 = new Space(s1.getX()-1, s1.getY());
-				if (this.isWallHere(e0,s0))
+				if (this.isWallHere(e0,s0)) {
+					System.out.println("351");
 					return false;
-				if(this.isWallHere(e1,s1))
+				}
+				if(this.isWallHere(e1,s1)) {
+					System.out.println("355");
 					return false;
+				}
 				
 			}
 
@@ -357,16 +369,20 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 				Space v0 = new Space(s0.getX()+1, s0.getY()+1);
 				Wall correspondingTempVerticalWall = new Wall(v0, s1);
 				for(int i = 0; i < this.placedWalls.size(); i++) {
-					if(correspondingTempVerticalWall.isEqual(placedWalls.get(i)))
+					if(correspondingTempVerticalWall.isEqual(placedWalls.get(i))) {
+						System.out.println("369");
 						return false;
+					}
 				}
 			} else if (temp.isVertical()) {
 				// Construct the corresponding perpendicular horizontal wall that would be crossed by the vertical wall.
 				Space h0 = new Space(s0.getX()-1, s0.getY()-1);
 				Wall correspondingTempHorizontalWall = new Wall(h0, s1);
 				for(int i = 0; i < this.placedWalls.size(); i++) {
-					if(correspondingTempHorizontalWall.isEqual(placedWalls.get(i)))
+					if(correspondingTempHorizontalWall.isEqual(placedWalls.get(i))) {
+						System.out.println("379");
 						return false;
+					}
 				}
 			}
 			
@@ -403,7 +419,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 						nodeE0.setBottomNode(nodeS0);
 						nodeS1.setTopNode(nodeE1);
 						nodeE1.setBottomNode(nodeS1);
-
+						System.out.println("421, Player" + i + " cannot reach end");
 						return false;
 					}
 				}
@@ -444,7 +460,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface{
 						nodeS1.setRightNode(nodeE1);
 						nodeE0.setLeftNode(nodeS0);
 						nodeE1.setLeftNode(nodeS1);
-
+						System.out.println("462, Player" + i + " cannot reach end");
 						return false;
 					}
 				}
