@@ -39,17 +39,16 @@ public class GameBoard extends Board{
 	/**
 	 *Constructor: Creates the Board with player buttons, horizontal and vertical walls
 	 **/
-	public GameBoard(int numPlayers){
+	public GameBoard(int numPlayers, String player){
 		super(numPlayers);
-		frame = new JFrame();
+		frame = new JFrame(player);
 		panel = new JPanel();
 		FlowLayout flow = new FlowLayout(FlowLayout.LEFT, 0, 0);
 		panel.setLayout(flow);
-		panel.setPreferredSize( new Dimension(( ((BUTTON_SIZE*BUTTON_SCALE)*BOARD_SIZE) 
-				+ (BUTTON_SIZE*(BOARD_SIZE-1)) ) , 
-				( ((BUTTON_SIZE*BUTTON_SCALE)*BOARD_SIZE) + 
+		panel.setPreferredSize( new Dimension(( ((BUTTON_SIZE*BUTTON_SCALE)*BOARD_SIZE)
+				+ (BUTTON_SIZE*(BOARD_SIZE-1)) ) ,
+				( ((BUTTON_SIZE*BUTTON_SCALE)*BOARD_SIZE) +
 						(BUTTON_SIZE*(BOARD_SIZE-1)) )) );
-
 		addRow_PlayerB_WallBvert(0);
 		for( int i=1; i<=BOARD_SIZE-1; i++){
 			addRow_WallBHorizont_IntersectionB(i);
@@ -74,7 +73,7 @@ public class GameBoard extends Board{
 			vertWalls[i-1][index] = new WallButton_Vertical( BUTTON_SIZE, BUTTON_SCALE, i-1, index, wallPlacement(i-1, index) );
 			panel.add(vertWalls[i-1][index]) ;
 			boardGrid[i][index] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, i, index, action(i, index) );
-			panel.add(boardGrid[i][index]);	
+			panel.add(boardGrid[i][index]);
 		}
 	}
 
@@ -97,7 +96,7 @@ public class GameBoard extends Board{
 		final int yl = y;
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Space space = new Space(xl, yl);		           
+				Space space = new Space(xl, yl);
 				Board board = new Board();
 				System.out.print(board.spaceToString(space));
 				currentMove = board.spaceToString(space);
@@ -115,40 +114,48 @@ public class GameBoard extends Board{
 	}
 
 	/**
-	 * Sets the background of a given button.
+	 * Sets the background and text of a given button.
 	 * @param button The jButton that will change colors.
 	 */
 	private void setBackground (JButton button, int player) {
-		if(player == 0)
+		if(player == 0) {
 			button.setBackground(Color.BLUE);
-		else if(player == 1)
+			button.setText("P1" + "    " + occupiedSpaces.get(player).getWalls());
+		}
+		else if(player == 1) {
 			button.setBackground(Color.RED);
-		else if(player == 2)
+			button.setText("P2" + "    " + occupiedSpaces.get(player).getWalls());
+		}
+		else if(player == 2) {
 			button.setBackground(Color.MAGENTA);
-		else if(player == 3)
+			button.setText("P3" + "    " + occupiedSpaces.get(player).getWalls());
+		}
+		else if(player == 3) {
 			button.setBackground(Color.GREEN);
+			button.setText("P4" + "    " + occupiedSpaces.get(player).getWalls());
+		}
 	}
 
 
 	public ActionListener wallPlacement(int x, int y){
 		final int xl = x;
 		final int yl = y;
-		
+
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Board board = new Board();
 				Space space = new Space(xl, yl);
 				if(wallString == null){
 					wallString = space;
-				}else{ 
+				}else{
 					Wall wall = new Wall(space, wallString);
 					currentMove = board.wallToString(wall);
 					wallString = null;
-					
+
 				}
 			}
 		};
-		
+
 	}
 
 	/**
@@ -180,11 +187,10 @@ public class GameBoard extends Board{
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				boardGrid[i][j].setBackground(Color.GRAY);
+				boardGrid[i][j].setText("");
 			}
-		} 
+		}
 	}
-
-
 }
 
 //Constructs buttons for as board tiles with ActionListener
@@ -192,12 +198,14 @@ class PlayerButton extends JButton{
 
 	public int xl;
 	public int yl;
+	public String text = "";
 
 	public PlayerButton( int BUTTON_SIZE, int BUTTON_SCALE, int x, int y, ActionListener action ){
 		super();
 		this.setPreferredSize( new Dimension( BUTTON_SIZE*BUTTON_SCALE, BUTTON_SIZE*BUTTON_SCALE ));
 		this.xl = x;
 		this.yl = y;
+		this.setText(text);
 		this.addActionListener(action);
 		this.setBorder(null);
 		this.setBorderPainted(false);
@@ -216,7 +224,7 @@ class WallButton_Vertical extends JButton{
 		super();
 		this.setPreferredSize( new Dimension( BUTTON_SIZE, BUTTON_SIZE*BUTTON_SCALE ));
 		this.xl = x;
-		this.yl = y;	
+		this.yl = y;
 		this.addActionListener(action);
 		this.setBorder(null);
 		this.setBorderPainted(false);

@@ -69,7 +69,7 @@ public class MoveServer {
 	public int numPlayers;
 	public Board board;
 	public GameBoard gui;
-	//public ai gladus; 
+	//public ai gladus;
 
 	/**
 	 * Creates a new <code>TCPServer</code> instance. TCPServer is
@@ -200,7 +200,7 @@ public class MoveServer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param clientMessage
 	 * @param cout
 	 */
@@ -253,13 +253,13 @@ public class MoveServer {
 		this.board = new Board(numPlayers);
 		//ai doesn't need this.
 		if(IS_HUMAN){
-			gui = new GameBoard(numPlayers);
+			gui = new GameBoard(numPlayers, "P" + (playNum+1));
 		}
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param clientMessage
 	 * @param sout
 	 * @param sin

@@ -45,12 +45,12 @@ public class GameClient {
 		this.numPlay = numPlay;
 		this.machineName = machineName;
 		this.ports = ports;
-		this.gui = new GameBoard(startNumPlay);
+		this.gui = new GameBoard(startNumPlay, "Client");
 	}
 
 
 	/**
-	 * Collects information regarding the number of players 
+	 * Collects information regarding the number of players
 	 * @param args Array in the form machineName:port (the number of machines given represent the total number of players)
 	 */
 	public static void main(String[] args) {
@@ -103,7 +103,7 @@ public class GameClient {
 		this.playerNames = new String[startNumPlay];
 		System.out.println("board starts with:"+startNumPlay +"players");
 		this.board = new Board(startNumPlay);
-		
+
 		try {
 			// Creates Move-Server sockets and their respective printstream and scanner for communication
 			// reference for the list of all communication 'links'
@@ -323,8 +323,8 @@ public class GameClient {
 	 */
 	public boolean isLegal(String moveString){
 		boolean islegal =false;
-		String moveInfo[] = moveString.split(" "); 
-		
+		String moveInfo[] = moveString.split(" ");
+
 		if(moveInfo.length == 2){
 			String cords = moveInfo[1];
 			Space potentialPosition = board.StringtoCoordinates(cords);
@@ -335,7 +335,7 @@ public class GameClient {
 			Space potentialPosition = board.StringtoCoordinates(cords);
 		    String cords2 = moveInfo[2];
 			Space potentialPostion2 = board.StringtoCoordinates(cords);
-			islegal = board.canPlaceWall(potentialPosition, potentialPostion2);	
+			islegal = board.canPlaceWall(potentialPosition, potentialPostion2);
 		}
 		return islegal;
 	}
