@@ -1,2 +1,1 @@
-mcdonadc197
-coupalme198
+To run the program, please see the documentation to do so in build/libs/README.txt
