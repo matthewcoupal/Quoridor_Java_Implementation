@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.EdgeTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2015-03-13T16:40:53" hostname="dBOT" time="0.015">
+  <properties/>
+  <testcase name="edgeCanSetEndX" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanSetEndY" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanSetBeginX" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanSetBeginY" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanGetBeginX" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanGetBeginY" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanBeConstructedWithValues" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanGetEndX" classname="test.java.EdgeTest" time="0.0"/>
+  <testcase name="edgeCanGetEndY" classname="test.java.EdgeTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
