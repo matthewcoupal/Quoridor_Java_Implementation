@@ -142,9 +142,10 @@ public class GameClient {
 			boolean victor = false;
 
 			//Players will not break until all players are ready, thus once all are ready we may play
-			boolean ready = players(startNumPlay,sout,sin);
+			//boolean ready = players(startNumPlay,sout,sin);
+			players(startNumPlay,sout,sin);
 			System.out.println("we're ready");
-			while(numPlay > 1 && ready){
+			while(numPlay > 1){
 				boolean legalMove = true;
 				currplayer = turn[currTurn % startNumPlay];
 
@@ -256,24 +257,20 @@ public class GameClient {
 	 * @param sin The input stream
 	 * @return
 	 */
-	private boolean players(int startNumPlay, PrintStream sout[], Scanner sin[]) {
+	private void players(int startNumPlay, PrintStream sout[], Scanner sin[]) {
 		String players = "Players ";
 
 		for (int i = 0; i < startNumPlay; i++){
 			players += playerNames[i] + " ";
 		}
 		int n = 0;
-		while(n < startNumPlay) {
-			String currentName = playerNames[n];
-			PrintStream currSout = sout[n];
-			Scanner currSin = sin[n];
+		for(int i=0;i<startNumPlay;i++){
+			String currentName = playerNames[i];
+			System.out.println("sending playerlist to : " + currentName);
+			PrintStream currSout = sout[i];
+			Scanner currSin = sin[i];
 			currSout.println(players);
-			String serverResponse = currSin.nextLine();
-			if(serverResponse.equals(currentName)){
-				n++;
-			}
 		}
-		return true;
 	}
 
 	/**

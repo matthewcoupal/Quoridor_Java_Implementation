@@ -220,7 +220,7 @@ public class MoveServer {
 		}
 
 		addOpponents(opponents, (playNum));
-		cout.printf("%s\n", DEFAULT_PLAYER_NAME);
+		//cout.printf("%s\n", DEFAULT_PLAYER_NAME);
 	}
 
 	public String MyMove(Scanner cin){
