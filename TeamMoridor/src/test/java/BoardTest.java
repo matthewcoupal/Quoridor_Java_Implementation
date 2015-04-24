@@ -389,5 +389,18 @@ public class BoardTest {
     	board.placeWall(space11, space9);
     	assertFalse(board.canPlaceWall(space10, space11)); //can't place a wall that blocks passage to end.
 	}
+    
+    @Test
+    public void TestforHomeRowWallPlacement() {
+    	Board board = new Board();
+    	Space space1 = new Space(4,7);
+    	Space space2 = new Space(3,7);
+    	Space space3 = new Space(5,8);
+    	Space space4 = new Space(5,7);
+    	board.placeWall(space1, space2);
+    	assertTrue(board.canPlaceWall(space3, space4));
+    	board.placeWall(space3, space4);
+    	
+    }
 	
 }
