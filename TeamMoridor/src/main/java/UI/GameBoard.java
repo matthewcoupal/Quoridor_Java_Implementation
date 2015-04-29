@@ -28,6 +28,9 @@ public class GameBoard extends Board{
 	public static WallButton_Vertical[][] vertWalls = new WallButton_Vertical[8][9];
 	public static WallButton_Horizontal[][] horzWalls = new WallButton_Horizontal[9][8];
 	public Space wallString = null;
+	public int playNum;
+	private int[] turn;
+	private int currTurn = -1;
 
 	//ActionListener for buttons.
 	/* private final ActionListener action = new ActionListener() {
@@ -41,6 +44,16 @@ public class GameBoard extends Board{
 	 **/
 	public GameBoard(int numPlayers, String player){
 		super(numPlayers);
+		turn = new int[numPlayers];
+		if (numPlayers == 2) {
+				turn[0] = 0;
+				turn[1] = 1;
+			} else {
+				turn[0] = 0;
+				turn[1] = 3;
+				turn[2] = 1;
+				turn[3] = 2;
+        }
 		frame = new JFrame(player);
 		panel = new JPanel();
 		FlowLayout flow = new FlowLayout(FlowLayout.LEFT, 0, 0);
@@ -63,6 +76,13 @@ public class GameBoard extends Board{
 		frame.pack();
 	}
 
+	private void setPlayNum(String player) {
+        if(player.startsWith("C"))
+            this.playNum = -1;
+        else
+            this.playNum = Integer.parseInt(player)-1;
+	}
+
 	// Adds buttons for space nodes and vertical walls in the panel
 	public void addRow_PlayerB_WallBvert(int index){
 
@@ -79,7 +99,7 @@ public class GameBoard extends Board{
 
 	// Adds buttons for Horizontal wall  and intersection buttons in the panel
 	public void addRow_WallBHorizont_IntersectionB(int index){
-		int i =0;
+		int i = 0;
 		horzWalls[i][index-1] = new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, i, wallPlacement(i, index-1));
 		panel.add(horzWalls[i][index-1]);
 		for( i=1; i<= BOARD_SIZE -1; i++){
@@ -119,19 +139,19 @@ public class GameBoard extends Board{
 	 */
 	private void setBackground (JButton button, int player) {
 		if(player == 0) {
-			button.setBackground(Color.BLUE);
+			//button.setBackground(Color.BLUE);
 			button.setText("P1" + "    " + occupiedSpaces.get(player).getWalls());
 		}
 		else if(player == 1) {
-			button.setBackground(Color.RED);
+			//button.setBackground(Color.RED);
 			button.setText("P2" + "    " + occupiedSpaces.get(player).getWalls());
 		}
 		else if(player == 2) {
-			button.setBackground(Color.MAGENTA);
+			//button.setBackground(Color.MAGENTA);
 			button.setText("P3" + "    " + occupiedSpaces.get(player).getWalls());
 		}
 		else if(player == 3) {
-			button.setBackground(Color.GREEN);
+			//button.setBackground(Color.GREEN);
 			button.setText("P4" + "    " + occupiedSpaces.get(player).getWalls());
 		}
 	}
@@ -163,11 +183,18 @@ public class GameBoard extends Board{
 	 */
 	public void updatePositions () {
 		update();
+		currTurn++;
+		int xCoordinate = 0;
+		int yCoordinate = 0;
 		for(int i = 0; i < this.occupiedSpaces.size(); i++) {
-			int xCoordinate = this.occupiedSpaces.get(i).getX();
-			int yCoordinate = this.occupiedSpaces.get(i).getY();
+			xCoordinate = this.occupiedSpaces.get(i).getX();
+			yCoordinate = this.occupiedSpaces.get(i).getY();
 			setBackground(boardGrid[xCoordinate][yCoordinate], i);
 		}
+		int currentPlayerNum = turn[currTurn % this.occupiedSpaces.size()];
+		xCoordinate = this.occupiedSpaces.get(currentPlayerNum).getX();
+        yCoordinate = this.occupiedSpaces.get(currentPlayerNum).getY();
+        boardGrid[xCoordinate][yCoordinate].setBackground(Color.RED);
 		for(int i = 0; i < this.placedWalls.size(); i++) {
 			Wall temp = this.placedWalls.get(i);
 			if(temp.isVertical()) {
@@ -181,12 +208,12 @@ public class GameBoard extends Board{
 	}
 
 	/**
-	 * Resets the spaces' background color to the default: CYAN
+	 * Resets the spaces' background color to the default: LIGHT_GRAY
 	 */
 	public void update () {
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
-				boardGrid[i][j].setBackground(Color.GRAY);
+				boardGrid[i][j].setBackground(Color.LIGHT_GRAY);
 				boardGrid[i][j].setText("");
 			}
 		}
