@@ -122,18 +122,45 @@ public class SpaceNode {
 		int nodeX = this.coordinates.getX();
 		int nodeY = this.coordinates.getY();
 		//Top
-		int topX = this.top.getCoordinates().getX();
-		int topY = this.top.getCoordinates().getY();
+		int topX;
+		int topY;
+		if(this.top != null) {
+		topX = this.top.getCoordinates().getX();
+		topY = this.top.getCoordinates().getY();
+		} else {
+			topX = -1;
+			topY = -1;
+		}
 		//Right
-		int rightX = this.right.getCoordinates().getX();
-		int rightY = this.right.getCoordinates().getY();
+		int rightX;
+		int rightY;
+		if (this.right != null) {
+		rightX = this.right.getCoordinates().getX();
+		rightY = this.right.getCoordinates().getY();
+		} else {
+			rightX = -1;
+			rightY = -1;
+		}
 		//Bottom
-		int bottomX = this.bottom.getCoordinates().getX();
-		int bottomY = this.bottom.getCoordinates().getY();
+		int bottomX;
+		int bottomY;
+		if (this.bottom != null) {
+		bottomX = this.bottom.getCoordinates().getX();
+		bottomY = this.bottom.getCoordinates().getY();
+		} else {
+			bottomX = -1;
+			bottomY = -1;
+		}
 		//Left
-		int leftX = this.left.getCoordinates().getX();
-		int leftY = this.left.getCoordinates().getY();
-		
+		int leftX;
+		int leftY;
+		if (this.left != null) {
+		leftX = this.left.getCoordinates().getX();
+		leftY = this.left.getCoordinates().getY();
+		} else {
+			leftX = -1;
+			leftY = -1;
+		}
 		return "Node: " + nodeX + "," + nodeY + "\nTop: " + topX + "," + topY +
 				"\nRight: " + rightX + "," + rightY + "\nBottom: " + bottomX + "," + bottomY + "\nLeft: " + leftX + "," + leftY;
 	}
