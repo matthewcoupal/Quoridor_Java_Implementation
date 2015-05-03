@@ -31,20 +31,18 @@ public class GameBoard extends Board{
 	public int playNum;
 	private int[] turn;
 	private int currTurn = -1;
-
-	//ActionListener for buttons.
-	/* private final ActionListener action = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		            System.out.println("Button Works YAY!");
-		        }
-		    };*/
+	private int currentPlayerNum;
 
 	/**
-	 *Constructor: Creates the Board with player buttons, horizontal and vertical walls
-	 **/
+	 * Constructs the GameBoard
+	 * @param The number of players in the game
+	 * @param The name of the player for whom the GUI belongs
+	 */
 	public GameBoard(int numPlayers, String player){
 		super(numPlayers);
+		//Set up the turn order
 		turn = new int[numPlayers];
+		setPlayNum(player);
 		if (numPlayers == 2) {
 				turn[0] = 0;
 				turn[1] = 1;
@@ -54,6 +52,7 @@ public class GameBoard extends Board{
 				turn[2] = 1;
 				turn[3] = 2;
         }
+        //Create the gui itself
 		frame = new JFrame(player);
 		panel = new JPanel();
 		FlowLayout flow = new FlowLayout(FlowLayout.LEFT, 0, 0);
@@ -67,25 +66,31 @@ public class GameBoard extends Board{
 			addRow_WallBHorizont_IntersectionB(i);
 			addRow_PlayerB_WallBvert(i);
 		}
-		updatePositions();
 		frame.add( panel );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.setResizable( false );
 		frame.setLocation( 100, 100 );
 		frame.setVisible( true );
 		frame.pack();
+		updatePositions();
 	}
 
+    /**
+    * Set the player number
+    * @param The player name
+    */
 	private void setPlayNum(String player) {
-        if(player.startsWith("C"))
+        if(player.equals("Client"))
             this.playNum = -1;
         else
             this.playNum = Integer.parseInt(player)-1;
 	}
 
-	// Adds buttons for space nodes and vertical walls in the panel
+	/**
+	* Adds buttons for space nodes and vertical walls in the panel
+	* @param the row to place the buttons on in the grid
+	*/
 	public void addRow_PlayerB_WallBvert(int index){
-
 		int i = 0;
 		boardGrid[i][index] =  new PlayerButton( BUTTON_SIZE, BUTTON_SCALE, i, index, action(i, index) );
 		panel.add(boardGrid[i][index]);
@@ -97,7 +102,10 @@ public class GameBoard extends Board{
 		}
 	}
 
-	// Adds buttons for Horizontal wall  and intersection buttons in the panel
+    /**
+	* Adds buttons for Horizontal wall  and intersection buttons in the panel
+	* @param the row to place the buttons on in the grid
+	*/
 	public void addRow_WallBHorizont_IntersectionB(int index){
 		int i = 0;
 		horzWalls[i][index-1] = new WallButton_Horizontal( BUTTON_SIZE, BUTTON_SCALE, index-1, i, wallPlacement(i, index-1));
@@ -111,18 +119,27 @@ public class GameBoard extends Board{
 		}
 	}
 
+    /**
+    * Generates the action listener for the regular space buttons
+    * @param the x value of the given space
+    * @param the y value of the given space
+    * @return an action listener which will set currentMove to the coordinates of the space
+    */
 	private ActionListener action(int x, int y) {
 		final int xl = x;
 		final int yl = y;
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Space space = new Space(xl, yl);
-				Board board = new Board();
-				System.out.print(board.spaceToString(space));
-				currentMove = board.spaceToString(space);
+			    if (currentPlayerNum == playNum) {
+                    Space space = new Space(xl, yl);
+                    Board board = new Board();
+                    System.out.print(board.spaceToString(space));
+                    currentMove = board.spaceToString(space);
+			    }
 			}
 		};
 	}
+
 	/**
 	 * Gets the move made by the player and resets the current player's move to empty.
 	 * @return the move string
@@ -134,55 +151,59 @@ public class GameBoard extends Board{
 	}
 
 	/**
-	 * Sets the background and text of a given button.
-	 * @param button The jButton that will change colors.
+	 * Sets the text of a given button.
+	 * @param Button The jButton whose text is to change
+	 * @param The number of the player whose info will be placed on the button
 	 */
 	private void setBackground (JButton button, int player) {
 		if(player == 0) {
-			//button.setBackground(Color.BLUE);
-			button.setText("P1" + "    " + occupiedSpaces.get(player).getWalls());
+			button.setText("P1    " + occupiedSpaces.get(player).getWalls());
 		}
 		else if(player == 1) {
-			//button.setBackground(Color.RED);
-			button.setText("P2" + "    " + occupiedSpaces.get(player).getWalls());
+			button.setText("P2    " + occupiedSpaces.get(player).getWalls());
 		}
 		else if(player == 2) {
-			//button.setBackground(Color.MAGENTA);
-			button.setText("P3" + "    " + occupiedSpaces.get(player).getWalls());
+			button.setText("P3    " + occupiedSpaces.get(player).getWalls());
 		}
 		else if(player == 3) {
-			//button.setBackground(Color.GREEN);
-			button.setText("P4" + "    " + occupiedSpaces.get(player).getWalls());
+			button.setText("P4    " + occupiedSpaces.get(player).getWalls());
 		}
 	}
 
-
+    /**
+    * Generates the action listener for the wall buttons
+    * @param the x value of the given wall
+    * @param the y value of the given wall
+    * @return an action listener which will set currentMove to the coordinates of the wall
+    */
 	public ActionListener wallPlacement(int x, int y){
 		final int xl = x;
 		final int yl = y;
 
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Board board = new Board();
-				Space space = new Space(xl, yl);
-				if(wallString == null){
-					wallString = space;
-				}else{
-					Wall wall = new Wall(space, wallString);
-					currentMove = board.wallToString(wall);
-					wallString = null;
-
-				}
+			    if(currentPlayerNum == playNum) {
+                    Board board = new Board();
+                    Space space = new Space(xl, yl);
+                    if(wallString == null){
+                        wallString = space;
+                    }else{
+                        Wall wall = new Wall(space, wallString);
+                        currentMove = board.wallToString(wall);
+                        wallString = null;
+                    }
+			    }
 			}
 		};
-
 	}
 
 	/**
-	 * Checks the occupied spaces on the board and changes the color of those spaces.
+	 * Checks the occupied spaces on the board and sets the background of the
+	 * space occupied by the current player to RED and sets the text on all occupied spaces
 	 */
 	public void updatePositions () {
 		update();
+		//This method was called means someone took a turn so increment currTurn
 		currTurn++;
 		int xCoordinate = 0;
 		int yCoordinate = 0;
@@ -191,7 +212,7 @@ public class GameBoard extends Board{
 			yCoordinate = this.occupiedSpaces.get(i).getY();
 			setBackground(boardGrid[xCoordinate][yCoordinate], i);
 		}
-		int currentPlayerNum = turn[currTurn % this.occupiedSpaces.size()];
+		currentPlayerNum = turn[currTurn % this.occupiedSpaces.size()];
 		xCoordinate = this.occupiedSpaces.get(currentPlayerNum).getX();
         yCoordinate = this.occupiedSpaces.get(currentPlayerNum).getY();
         boardGrid[xCoordinate][yCoordinate].setBackground(Color.RED);
@@ -209,6 +230,7 @@ public class GameBoard extends Board{
 
 	/**
 	 * Resets the spaces' background color to the default: LIGHT_GRAY
+	 * and sets all buttons' text to be the empty string
 	 */
 	public void update () {
 		for(int i = 0; i < 9; i++) {
@@ -285,8 +307,6 @@ class WallButton_Horizontal extends JButton{
 
 /**
  * Construct instersection of Horizontal and Vertical wall as a button.
- * Dont Know if we need this yet but the intersection of walls acts as a button
- * as well.
  */
 
 class IntersectionButton extends JButton{
