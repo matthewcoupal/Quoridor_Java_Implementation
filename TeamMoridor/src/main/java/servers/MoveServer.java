@@ -121,7 +121,7 @@ public class MoveServer {
 
 
 		// create a server object and run it
-		MoveServer s = new MoveServer(port,DEFAULT_MACHINE_NAME,DEFAULT_PLAYER_NAME);
+		MoveServer s = new MoveServer(port, DEFAULT_MACHINE_NAME, DEFAULT_PLAYER_NAME);
 		s.run();
 	}
 
@@ -139,47 +139,45 @@ public class MoveServer {
 		try {
 			ServerSocket server = new ServerSocket(port);
 			System.out.println(DEFAULT_MACHINE_NAME + "Accepting connections on " + port);
-
+			
 			Socket gameClient;
 			//will create a listening port first to grab gameserver commands.
 			while ((gameClient = server.accept()) != null) {
 				//MoveServer();
 				Scanner cin = new Scanner(gameClient.getInputStream());
 				PrintStream cout = new PrintStream(gameClient.getOutputStream());
-
+				System.out.println("sending my name");
+				cout.printf("%s\n", "MOVE-SERVER " +DEFAULT_PLAYER_NAME);
 				String clientMessage;
 				//where commands will be desided
 				while (cin.hasNextLine()) {
 
 					clientMessage = cin.nextLine();
-					//pass name
-					if(clientMessage.equals("Move")){
-						cout.printf("%s\n", DEFAULT_PLAYER_NAME);
-						continue;
-					}
+					
 					//Your turn
 					if(clientMessage.equals("GO?")){
 						String move= MyMove(cin);
+						System.out.println("Sending "+move);
 						cout.printf("%s\n", move);
 						continue;
 					}
 					//ready?
-					if (clientMessage.startsWith("Players")){
+					if (clientMessage.startsWith("PLAYERS")){
 						playermsg(clientMessage,cout);
 						continue;
 					}
 					//someone booted
-					if(clientMessage.startsWith("Boot")){
+					if(clientMessage.startsWith("BOOT")){
 						weGotACheater(clientMessage, cout,cin);
 						continue;
 					}
 					//we have a winner
-					if (clientMessage.startsWith("Went")) {
+					if (clientMessage.startsWith("WENT")) {
 						aPlayerWent(clientMessage);
 						continue;
 					}
 
-					if (clientMessage.startsWith("Winner")) {
+					if (clientMessage.startsWith("VICTOR")) {
 						System.out.println(clientMessage);
 						System.exit(0);
 					}
@@ -208,19 +206,22 @@ public class MoveServer {
 		// Players player1name player2name ... etc
 		System.out.println(clientMessage);
 		String msg[] = clientMessage.split(" ");
-		int numPlayers = msg.length ;
+		int numPlayers = msg.length;
 		String opponents[] = new String[msg.length - 1];
 		//players is slot 1 in msg
 		for (int i = 1; i < msg.length; i++){
 			opponents[i-1]=msg[i];
+			System.out.println(DEFAULT_PLAYER_NAME);
+			
 			if(msg[i].equals(DEFAULT_PLAYER_NAME)){
+				System.out.println(i-1);
 				playNum = i-1;
 				//gladus = new AI(playNum, (msg.length - 1));
 			}
 		}
-
 		addOpponents(opponents, (playNum));
-		//cout.printf("%s\n", DEFAULT_PLAYER_NAME);
+		System.out.println("MOVE");
+		cout.printf("%s\n","MOVE");
 	}
 
 	public String MyMove(Scanner cin){
@@ -235,7 +236,11 @@ public class MoveServer {
 			//moveString = gladus.considerMove(board);
 		}
 		System.out.println(movesString);
-		return DEFAULT_PLAYER_NAME + " "+ movesString;
+		if(movesString.contains(" ")){
+			return "GO "+ movesString;
+		}else{
+			return "GO "+"("+ movesString +")";
+		}
 	}
 
 	//ASK DALE
@@ -245,11 +250,10 @@ public class MoveServer {
 	 * @param playNum Player's Number
 	 */
 	public void addOpponents(String opponents[], int playNum){
-
 		this.opponents = opponents;
 		this.numPlayers = opponents.length;
 		this.playNum = playNum;
-		System.out.println("player"+ playNum);
+		System.out.println("player "+ playNum);
 		this.board = new Board(numPlayers);
 		//ai doesn't need this.
 		if(IS_HUMAN){
@@ -304,6 +308,9 @@ public class MoveServer {
 		if(moveInfo.length == 3){
 			try{
 				String cords = moveInfo[2];
+				cords = cords.replace("(","");
+				cords = cords.replace(")","");
+
 				System.out.println(cords);
 				gui.setCurrentPlayer(i);
 				Space potentialPosition = board.StringtoCoordinates(cords);
@@ -317,6 +324,8 @@ public class MoveServer {
 		}else{
 			String cords = moveInfo[2];
 			String cords2 = moveInfo[3];
+			cords = cords.replace("(","");
+			cords2 = cords2.replace(")","");
 			System.out.println(cords + " " + cords2);
 			Space potentialPosition = board.StringtoCoordinates(cords);
 			Space potentialPosition2 = board.StringtoCoordinates(cords2);

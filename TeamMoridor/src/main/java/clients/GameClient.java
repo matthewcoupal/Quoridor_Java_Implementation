@@ -118,10 +118,11 @@ public class GameClient {
 				System.out.println(machineName[i]+ports[i]);
 				sout[i]= new PrintStream(players[i].getOutputStream());
 				sin[i] = new Scanner(players[i].getInputStream());
-				sout[i].println("Move");
+				//sout[i].println("MOVER_SERVER");
 				String name = sin[i].nextLine();
 				System.out.println("name:" + name);
-				playerNames[i] = name;
+				String[] names = name.split(" ");
+				playerNames[i] = names[1];
 			}
 			System.out.println("names added");
 
@@ -164,29 +165,43 @@ public class GameClient {
 					String moveString = sin[currplayer].nextLine();
 					//check to see if legal move
 					System.out.println(moveString);
+					String moveInfo[] = moveString.split(" ");
+					//remove GO from movestring
+					String temp ="";
+					for(int i =1; i < moveInfo.length ; i++){
+						System.out.println(temp);
+						temp = temp + moveInfo[i] +" ";
+					}
+					moveString = temp;
+					System.out.println(moveString);
 					legalMove = isLegal(moveString);
 					System.out.println(legalMove);
 					if(legalMove){
 						//Victor?
-						//PlayerName + " " + moveStirng
+						//GO + " " + moveStirng
 						//moveString:
-						//	(1-1)
+						//	1-1
 						//	(1-1, 1-2)
-						String moveInfo[] = moveString.split(" ");
-						String cords = moveInfo[1];
-						System.out.println(cords);
+						String moveParts[] = moveString.split(" ");
+						String cords = moveParts[0];
+						cords = cords.replace("(","");
+						cords = cords.replace(")","");
+						System.out.println(moveInfo.length);
 						Space potentialPosition = board.StringtoCoordinates(cords);
 						if(moveInfo.length == 2){
 							try{
-								board.makeMove(board.currentPlayer(),potentialPosition);
+								System.out.println("Making Move:");
+								board.makeMove(board.currentPlayer(), potentialPosition);
 								//Update the GUI's Board Logically
-								gui.makeMove(gui.currentPlayer(),potentialPosition);
+								gui.makeMove(gui.currentPlayer(), potentialPosition);
 						}catch (NoSuchElementException nsee){
 							nsee.printStackTrace();
 							System.exit(1);
 						}
 						}else{
 							String cords2 = moveInfo[2];
+							
+							cords2 = cords2.replace(")","");
 							System.out.println(cords2);
 							Space potentialPosition2 = board.StringtoCoordinates(cords2);
 							try{
@@ -198,6 +213,8 @@ public class GameClient {
 							}
 						}
 						// Update the GUI's Board Visually
+						System.out.println("gui update now!");
+						
 						gui.updatePositions();
 						//Check if the current player has won the game after their move.
 						victor = board.isWinner(board.currentPlayer());
@@ -258,7 +275,7 @@ public class GameClient {
 	 * @return
 	 */
 	private void players(int startNumPlay, PrintStream sout[], Scanner sin[]) {
-		String players = "Players ";
+		String players = "PLAYERS ";
 
 		for (int i = 0; i < startNumPlay; i++){
 			players += playerNames[i] + " ";
@@ -266,10 +283,11 @@ public class GameClient {
 		int n = 0;
 		for(int i=0;i<startNumPlay;i++){
 			String currentName = playerNames[i];
-			System.out.println("sending playerlist to : " + currentName);
+			System.out.println("sending " + players + " to : " + currentName);
 			PrintStream currSout = sout[i];
 			Scanner currSin = sin[i];
 			currSout.println(players);
+			String confirm = sin[i].nextLine();
 		}
 	}
 
@@ -284,7 +302,7 @@ public class GameClient {
 		int i = 0;
 		while(i < startNumPlay){
 			if(!playerNames[i].equals("null")){
-				sout[i].println("Winner is:" + winner);
+				sout[i].println("VICTOR " + winner);
 				sout[i].close();
 				sin[i].close();
 			}
@@ -302,13 +320,13 @@ public class GameClient {
 	private void went(String player, String moveString ,PrintStream sout[]){
 		for(int i = 0; i <startNumPlay;i++){
 			if(!playerNames[i].equals("null")){
-				sout[i].println("Went " + moveString);
+				sout[i].println("WENT " + player + " " + moveString);
 			}
 		}
 
 		//Update client board code here
 		String moveInfo[] = moveString.split(" ");
-		String cords = moveInfo[1];
+		String cords = moveInfo[0];
 		System.out.println(cords);
 		Space potentialPosition = board.StringtoCoordinates(cords);
 	}
@@ -320,17 +338,22 @@ public class GameClient {
 	 */
 	public boolean isLegal(String moveString){
 		boolean islegal =false;
+		System.out.println("Checking: " + moveString);
 		String moveInfo[] = moveString.split(" ");
-
-		if(moveInfo.length == 2){
-			String cords = moveInfo[1];
+		//name cord1
+		if(moveInfo.length == 1){
+			String cords = moveInfo[0];
+			cords = cords.replace("(","");
+			cords = cords.replace(")","");
+			System.out.println(cords);
 			Space potentialPosition = board.StringtoCoordinates(cords);
 			islegal = board.isLegalMove(board.currentPlayer(), potentialPosition);
 		}
-		if(moveInfo.length == 3){
-			String cords = moveInfo[1];
+		//cord1 cord2 (wall)
+		if(moveInfo.length == 2){
+			String cords = moveInfo[0];
 			Space potentialPosition = board.StringtoCoordinates(cords);
-		    String cords2 = moveInfo[2];
+		    String cords2 = moveInfo[1];
 			Space potentialPostion2 = board.StringtoCoordinates(cords);
 			islegal = board.canPlaceWall(potentialPosition, potentialPostion2);
 		}
@@ -343,10 +366,10 @@ public class GameClient {
 	 * @param sout The output stream
 	 * @param sin The print stream
 	 */
-	public void dasBoot(String cheater,PrintStream sout[], Scanner sin[]){
+	public void dasBoot(String cheater, PrintStream sout[], Scanner sin[]){
 		for(int i = 0;i < machineName.length; i++){
 			//tells who the dirty cheater is
-			sout[i].println("Boot " + cheater);
+			sout[i].println("BOOT " + cheater);
 			//oh wait its you, time for dasBoot
 			if(playerNames[i].equals(cheater)){
 				sout[i].close();
