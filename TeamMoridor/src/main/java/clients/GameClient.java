@@ -181,11 +181,12 @@ public class GameClient {
 						//GO + " " + moveStirng
 						//moveString:
 						//	1-1
-						//	(1-1, 1-2)
+						//	(1-1,1-2)
 						String moveParts[] = moveString.split(" ");
 						String cords = moveParts[0];
 						cords = cords.replace("(","");
 						cords = cords.replace(")","");
+						
 						System.out.println(moveInfo.length);
 						Space potentialPosition = board.StringtoCoordinates(cords);
 						if(moveInfo.length == 2){
