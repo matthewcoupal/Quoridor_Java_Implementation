@@ -148,6 +148,8 @@ public class MoveServer {
 				PrintStream cout = new PrintStream(gameClient.getOutputStream());
 				System.out.println("sending my name");
 				cout.printf("%s\n", "MOVE-SERVER " +DEFAULT_PLAYER_NAME);
+				System.out.println("sent my name");
+				
 				String clientMessage;
 				//where commands will be desided
 				while (cin.hasNextLine()) {
@@ -225,21 +227,25 @@ public class MoveServer {
 	}
 
 	public String MyMove(Scanner cin){
-		String movesString = "";
+		String moveString = "";
 		//grabs move from gui
 		if(IS_HUMAN){
-			while(movesString == ""){
-				System.out.println(" ");
-				movesString = gui.getMove();
+			while(moveString == ""){
+				System.out.print("");
+				moveString = gui.getMove();
 			}
 		}else{
 			//moveString = gladus.considerMove(board);
 		}
-		System.out.println(movesString);
-		if(movesString.contains(" ")){
-			return "GO "+ movesString;
+		System.out.println(moveString);
+		if(moveString.contains(" ")){
+			moveString = moveString.replace(" ",",");
+		}
+		if(!moveString.contains(",")){
+		
+			return "GO "+ moveString;
 		}else{
-			return "GO "+"("+ movesString +")";
+			return "GO "+"("+ moveString +")";
 		}
 	}
 
@@ -305,12 +311,11 @@ public class MoveServer {
 			if(moveInfo[1].equals(opponents[i]))
 				break;
 		}
-		if(moveInfo.length == 3){
+		//because it didn't like moveInfo[2].slipt(",") down in the else
+		String move[] = moveInfo[2].split(",");
+		if(move.length == 1){
 			try{
 				String cords = moveInfo[2];
-				cords = cords.replace("(","");
-				cords = cords.replace(")","");
-
 				System.out.println(cords);
 				gui.setCurrentPlayer(i);
 				Space potentialPosition = board.StringtoCoordinates(cords);
@@ -322,8 +327,8 @@ public class MoveServer {
 				System.exit(1);
 			}
 		}else{
-			String cords = moveInfo[2];
-			String cords2 = moveInfo[3];
+			String cords = move[0];
+			String cords2 = move[1];
 			cords = cords.replace("(","");
 			cords2 = cords2.replace(")","");
 			System.out.println(cords + " " + cords2);

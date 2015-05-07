@@ -167,31 +167,22 @@ public class GameClient {
 					System.out.println(moveString);
 					String moveInfo[] = moveString.split(" ");
 					//remove GO from movestring
-					String temp ="";
-					for(int i =1; i < moveInfo.length ; i++){
-						System.out.println(temp);
-						temp = temp + moveInfo[i] +" ";
-					}
-					moveString = temp;
+					moveString = moveInfo[1];
 					System.out.println(moveString);
 					legalMove = isLegal(moveString);
-					System.out.println(legalMove);
+					System.out.println("Is move legal?"+legalMove);
 					if(legalMove){
 						//Victor?
 						//GO + " " + moveStirng
 						//moveString:
 						//	1-1
 						//	(1-1,1-2)
-						String moveParts[] = moveString.split(" ");
-						String cords = moveParts[0];
-						cords = cords.replace("(","");
-						cords = cords.replace(")","");
-						
 						System.out.println(moveInfo.length);
-						Space potentialPosition = board.StringtoCoordinates(cords);
-						if(moveInfo.length == 2){
+						if(!moveString.contains(",")){
 							try{
-								System.out.println("Making Move:");
+								String cords = moveString;
+								System.out.println("Making Move:"+moveString);
+								Space potentialPosition = board.StringtoCoordinates(cords);
 								board.makeMove(board.currentPlayer(), potentialPosition);
 								//Update the GUI's Board Logically
 								gui.makeMove(gui.currentPlayer(), potentialPosition);
@@ -200,10 +191,13 @@ public class GameClient {
 							System.exit(1);
 						}
 						}else{
-							String cords2 = moveInfo[2];
-							
+							String wallParts[] = moveString.split(",");
+							String cords = wallParts[0];
+							String cords2 = wallParts[1];
+							cords = cords.replace("(","");
 							cords2 = cords2.replace(")","");
 							System.out.println(cords2);
+							Space potentialPosition = board.StringtoCoordinates(cords);
 							Space potentialPosition2 = board.StringtoCoordinates(cords2);
 							try{
 								board.placeWall(potentialPosition ,potentialPosition2);
@@ -215,7 +209,6 @@ public class GameClient {
 						}
 						// Update the GUI's Board Visually
 						System.out.println("gui update now!");
-						
 						gui.updatePositions();
 						//Check if the current player has won the game after their move.
 						victor = board.isWinner(board.currentPlayer());
@@ -324,12 +317,6 @@ public class GameClient {
 				sout[i].println("WENT " + player + " " + moveString);
 			}
 		}
-
-		//Update client board code here
-		String moveInfo[] = moveString.split(" ");
-		String cords = moveInfo[0];
-		System.out.println(cords);
-		Space potentialPosition = board.StringtoCoordinates(cords);
 	}
 
 	/**
@@ -340,8 +327,8 @@ public class GameClient {
 	public boolean isLegal(String moveString){
 		boolean islegal =false;
 		System.out.println("Checking: " + moveString);
-		String moveInfo[] = moveString.split(" ");
-		//name cord1
+		String moveInfo[] = moveString.split(",");
+		//cord1
 		if(moveInfo.length == 1){
 			String cords = moveInfo[0];
 			cords = cords.replace("(","");
@@ -353,9 +340,11 @@ public class GameClient {
 		//cord1 cord2 (wall)
 		if(moveInfo.length == 2){
 			String cords = moveInfo[0];
+			String cords2 = moveInfo[1];
+			cords = cords.replace("(","");
+			cords2 = cords.replace(")","");
 			Space potentialPosition = board.StringtoCoordinates(cords);
-		    String cords2 = moveInfo[1];
-			Space potentialPostion2 = board.StringtoCoordinates(cords);
+		    Space potentialPostion2 = board.StringtoCoordinates(cords);
 			islegal = board.canPlaceWall(potentialPosition, potentialPostion2);
 		}
 		return islegal;
