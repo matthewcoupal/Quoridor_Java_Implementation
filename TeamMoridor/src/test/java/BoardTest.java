@@ -456,11 +456,27 @@ public class BoardTest {
 		board.setCurrentPlayer(0);
 		Player player1 = board.currentPlayer(); 
 		Space space1 = new Space(4, 0);
-		Space space2 = new Space(3, 0);
+		Space space2 = new Space(4, 1);
 		System.out.println(board.boardConfiguration.spaceAt(4, 0));
 		board.placeWall(space1, space2);
-		board.makeMove(player1, board.boardConfiguration.spaceAt(4, 1).getCoordinates());
+		board.makeMove(player1, board.boardConfiguration.spaceAt(5, 0).getCoordinates());
 		System.out.println(board.boardConfiguration.spaceAt(4, 0));
 		System.out.println();
+	}
+	
+	@Test
+	public void TestforDiamondError () {
+		Board board = new Board();
+		//Player player1 = new Player(2,0,10);
+		board.setCurrentPlayer(0);
+		Player player2 = board.currentPlayer();
+		board.makeMove(player2, new Space(3,0));
+		board.makeMove(player2, new Space(2,0));
+		board.makeMove(player2, new Space(1,0));
+		//board.makeMove(player1, new Space (2, 1));
+		System.out.println(board.boardConfiguration.spaceAt(1, 0));
+		System.out.println(board.boardConfiguration.spaceAt(0, 1));
+		System.out.println(board.boardConfiguration.spaceAt(2, 1));
+		System.out.println(board.boardConfiguration.spaceAt(1, 2));
 	}
 }

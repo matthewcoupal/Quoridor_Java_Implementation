@@ -317,6 +317,7 @@ public class MoveServer {
 			try{
 				String cords = moveInfo[2];
 				System.out.println(cords);
+				board.setCurrentPlayer(i);
 				gui.setCurrentPlayer(i);
 				Space potentialPosition = board.StringtoCoordinates(cords);
 				board.makeMove(board.currentPlayer(),potentialPosition);
