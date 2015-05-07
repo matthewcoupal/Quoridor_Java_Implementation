@@ -17,7 +17,7 @@ public interface RulesInterface {
 	
 	public boolean canPlaceWall(Space startingSpace1, Space startingSpace2);
 	
-	public boolean isWallHere(Space startingSpace1, Space startingSpace2);
+	public boolean isWallHere(Space startingSpace1, Space startingSpace2, int mode);
 	
 	public boolean isDoubleJumpLegal(Player player, Space potentialPosition);
 	

@@ -396,7 +396,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 			 * (this.isWallHere(e1, s1)) { System.out.println("344"); return
 			 * false; }
 			 */
-			if (this.isWallHere(s0, s1)) {
+			if (this.isWallHere(s0, s1, 1)) {
 				return false;
 			}
 
@@ -413,7 +413,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 			 * (this.isWallHere(e1, s1)) { System.out.println("355"); return
 			 * false; }
 			 */
-			if (this.isWallHere(s0, s1)) {
+			if (this.isWallHere(s0, s1, 1)) {
 				return false;
 			}
 		}
@@ -421,29 +421,22 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 		// 3. If the wall that wants to be placed would cross another wall,
 		// return false.
 		Wall temp = new Wall(s0, s1);
-		/*if (temp.isHorizontal()) {
-			// construct the corresponding vertical wall that would cross the
-			// horizontal wall.
-			Space v0 = new Space(s0.getX() + 1, s0.getY() + 1);
-			Wall correspondingTempVerticalWall = new Wall(v0, s1);
-			for (int i = 0; i < this.placedWalls.size(); i++) {
-				if (correspondingTempVerticalWall.isEqual(placedWalls.get(i))) {
-					System.out.println("369");
-					return false;
-				}
-			}
-		} else if (temp.isVertical()) {
-			// Construct the corresponding perpendicular horizontal wall that
-			// would be crossed by the vertical wall.
-			Space h0 = new Space(s0.getX() - 1, s0.getY() - 1);
-			Wall correspondingTempHorizontalWall = new Wall(h0, s1);
-			for (int i = 0; i < this.placedWalls.size(); i++) {
-				if (correspondingTempHorizontalWall.isEqual(placedWalls.get(i))) {
-					System.out.println("379");
-					return false;
-				}
-			}
-		}*/
+		/*
+		 * if (temp.isHorizontal()) { // construct the corresponding vertical
+		 * wall that would cross the // horizontal wall. Space v0 = new
+		 * Space(s0.getX() + 1, s0.getY() + 1); Wall
+		 * correspondingTempVerticalWall = new Wall(v0, s1); for (int i = 0; i <
+		 * this.placedWalls.size(); i++) { if
+		 * (correspondingTempVerticalWall.isEqual(placedWalls.get(i))) {
+		 * System.out.println("369"); return false; } } } else if
+		 * (temp.isVertical()) { // Construct the corresponding perpendicular
+		 * horizontal wall that // would be crossed by the vertical wall. Space
+		 * h0 = new Space(s0.getX() - 1, s0.getY() - 1); Wall
+		 * correspondingTempHorizontalWall = new Wall(h0, s1); for (int i = 0; i
+		 * < this.placedWalls.size(); i++) { if
+		 * (correspondingTempHorizontalWall.isEqual(placedWalls.get(i))) {
+		 * System.out.println("379"); return false; } } }
+		 */
 
 		// 4. If the wall that wants to be placed would block a player from
 		// reaching the end, return false.
@@ -550,9 +543,12 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	 *            A space on one side of the wall-half being tested
 	 * @param startingSpace2
 	 *            A space on the opposite of the wall-half being tested
+	 * @param mode
+	 *            1 if placing wall, 0 if making move
 	 * @return True if a wall is between the spaces; False if not.
 	 */
-	public boolean isWallHere(Space startingSpace1, Space startingSpace2) {
+	public boolean isWallHere(Space startingSpace1, Space startingSpace2,
+			int mode) {
 		/*
 		 * int startingX = startingSpace1.getX(); int startingY =
 		 * startingSpace1.getY(); int otherSideX = startingSpace2.getX(); int
@@ -570,62 +566,119 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 		 * (boardConfiguration.spaceAt(startingX, startingY) .getBottomNode() ==
 		 * null) return true; } return false;
 		 */
+
 		Wall originalWall = new Wall(startingSpace1, startingSpace2);
 
-		Wall tempWall2 = new Wall(startingSpace2, startingSpace1);
-		for (Wall comparison : placedWalls) {
-			/*if (comparison.isEqual(originalWall)
-					|| comparison.isEqual(tempWall2)) {
-				return true;
-			}*/
-			
-			//Walls cannot have overlapping spaces
-			if ((comparison.isHorizontal() && originalWall.isHorizontal())
-					|| (comparison.isVertical() && originalWall.isVertical())) {
-				if (comparison.getS0().equals(originalWall.getS0())
-						|| comparison.getS0().equals(originalWall.getS1())
-						|| comparison.getS1().equals(originalWall.getS0())
-						|| comparison.getS1().equals(originalWall.getS1())) {
+		/*
+		 * if(originalWall.isHorizontal()) { Space potentialSpace1 = new
+		 * Space(startingSpace1.getX(), startingSpace1.getY() - 1);
+		 * 
+		 * ///////Wall potentialWall = new Wall() }
+		 */
+
+		// Utilizing wall methods to determine the direction of the players
+		// movement
+
+		switch (mode) {
+
+		case 0:
+			if (originalWall.isHorizontal()) {
+				int difference = startingSpace1.getX() - startingSpace2.getX();
+				if (difference == -1) {
+					if (this.boardConfiguration.spaceAt(startingSpace1.getX(),
+							startingSpace1.getY()).getRightNode() == null) {
+						return true;
+					}
+				} else if (difference == 1) {
+					if (this.boardConfiguration.spaceAt(startingSpace1.getX(),
+							startingSpace1.getY()).getLeftNode() == null) {
+						return true;
+					}
+				} else {
+					return true;
+				}
+			} else if (originalWall.isVertical()) {
+				int difference = startingSpace1.getY() - startingSpace2.getY();
+				if (difference == -1) {
+					if (this.boardConfiguration.spaceAt(startingSpace1.getX(),
+							startingSpace1.getY()).getTopNode() == null) {
+						return true;
+					}
+				} else if (difference == 1) {
+					if (this.boardConfiguration.spaceAt(startingSpace1.getX(),
+							startingSpace1.getY()).getBottomNode() == null) {
+						return true;
+					}
+				} else {
 					return true;
 				}
 			}
+			break;
 			
-			Space minSpace;
-			if(comparison.isHorizontal() && originalWall.isVertical()) {
-				
-				if(originalWall.getS0().getY() < originalWall.getS1().getY()) {
-					minSpace = originalWall.getS0();
-				} else {
-					minSpace = originalWall.getS1();
-				}
-				
-				if (minSpace.equals(comparison.getS0()) || minSpace.equals(comparison.getS1())) {
-					Space minSpaceCross = new Space(minSpace.getX() + 1, minSpace.getY());
-					Wall crossedWall = new Wall(minSpace, minSpaceCross);
-					if (crossedWall.isEqual(comparison)) {
-						return true;
-					}
-				}
-				
-			} else if(comparison.isVertical() && originalWall.isHorizontal()) {
-				
-				if(originalWall.getS0().getX() < originalWall.getS1().getX()) {
-					minSpace = originalWall.getS0();
-				} else {
-					minSpace = originalWall.getS1();
-				}
-				
-				if (minSpace.equals(comparison.getS0()) || minSpace.equals(comparison.getS1())) {
-					Space minSpaceCross = new Space(minSpace.getX(), minSpace.getY() + 1);
-					Wall crossedWall = new Wall(minSpace, minSpaceCross);
-					if (crossedWall.isEqual(comparison)) {
-						return true;
-					}
-				}	
-			}
-			
-		}
+		case 1:
+			Wall tempWall2 = new Wall(startingSpace2, startingSpace1);
+			for (Wall comparison : placedWalls) {
+				/*
+				 * if (comparison.isEqual(originalWall) ||
+				 * comparison.isEqual(tempWall2)) { return true; }
+				 */
 
+				// Walls cannot have overlapping spaces
+				if ((comparison.isHorizontal() && originalWall.isHorizontal())
+						|| (comparison.isVertical() && originalWall
+								.isVertical())) {
+					if (comparison.getS0().equals(originalWall.getS0())
+							|| comparison.getS0().equals(originalWall.getS1())
+							|| comparison.getS1().equals(originalWall.getS0())
+							|| comparison.getS1().equals(originalWall.getS1())) {
+						return true;
+					}
+				}
+
+				Space minSpace;
+				if (comparison.isHorizontal() && originalWall.isVertical()) {
+
+					if (originalWall.getS0().getY() < originalWall.getS1()
+							.getY()) {
+						minSpace = originalWall.getS0();
+					} else {
+						minSpace = originalWall.getS1();
+					}
+
+					if (minSpace.equals(comparison.getS0())
+							|| minSpace.equals(comparison.getS1())) {
+						Space minSpaceCross = new Space(minSpace.getX() + 1,
+								minSpace.getY());
+						Wall crossedWall = new Wall(minSpace, minSpaceCross);
+						if (crossedWall.isEqual(comparison)) {
+							return true;
+						}
+					}
+
+				} else if (comparison.isVertical()
+						&& originalWall.isHorizontal()) {
+
+					if (originalWall.getS0().getX() < originalWall.getS1()
+							.getX()) {
+						minSpace = originalWall.getS0();
+					} else {
+						minSpace = originalWall.getS1();
+					}
+
+					if (minSpace.equals(comparison.getS0())
+							|| minSpace.equals(comparison.getS1())) {
+						Space minSpaceCross = new Space(minSpace.getX(),
+								minSpace.getY() + 1);
+						Wall crossedWall = new Wall(minSpace, minSpaceCross);
+						if (crossedWall.isEqual(comparison)) {
+							return true;
+						}
+					}
+				}
+
+			}
+			break;
+		}
 		return false;
 	}
 
@@ -699,10 +752,10 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 		int potentialY = potentialPosition.getY();
 
 		if (Math.abs(potentialX - playerX) == 1 && potentialY - playerY == 0) {
-			return !this.isWallHere(currentPlayer, potentialPosition);
+			return !this.isWallHere(currentPlayer, potentialPosition, 0);
 		} else if (Math.abs(potentialY - playerY) == 1
 				&& potentialX - playerX == 0) {
-			return !this.isWallHere(currentPlayer, potentialPosition);
+			return !this.isWallHere(currentPlayer, potentialPosition, 0);
 		}
 		return false;
 	}
@@ -718,7 +771,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	public Space StringtoCoordinates(String moveString) {
 		// Create the initial arrays to assign indexes to the string values.
 		String[] xArray = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII",
-				"IX" };
+		"IX" };
 		String[] yArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 
 		// Find the index of the - separating the x and y coordinates.
@@ -756,7 +809,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	public String spaceToString(Space space) {
 		// Set up the proper space mappings.
 		String[] xArray = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII",
-				"IX" };
+		"IX" };
 		String[] yArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 
 		String protocolString;
