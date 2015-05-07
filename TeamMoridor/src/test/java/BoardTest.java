@@ -445,9 +445,11 @@ public class BoardTest {
 		Board board = new Board();
 		Space space1 = new Space(3, 4);
 		Space space2 = new Space(4, 4);
-		Space space3 = new Space(4, 5);
-		board.placeWall(space1, space2);
-		board.placeWall(space2, space3);
+		//Space space2AndAHalf = new Space();
+		Space space3 = new Space(3, 5);
+		//board.placeWall(space1, space2);
+		System.out.println(board.boardConfiguration.spaceAt(space1.getX(), space1.getY()));
+		board.placeWall(space1, space3);
 	}
 
 	@Test

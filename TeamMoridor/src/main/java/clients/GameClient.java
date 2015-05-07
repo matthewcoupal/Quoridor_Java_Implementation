@@ -205,6 +205,10 @@ public class GameClient {
 							}catch(NoSuchElementException nsee){
 							nsee.printStackTrace();
 							System.exit(1);
+							} catch (IllegalArgumentException e) {
+								dasBoot(playerNames[currplayer],sout,sin);
+								machineName[currplayer] = "null";
+								numPlay--;
 							}
 						}
 						// Update the GUI's Board Visually
@@ -212,8 +216,14 @@ public class GameClient {
 						gui.updatePositions();
 						//Check if the current player has won the game after their move.
 						victor = board.isWinner(board.currentPlayer());
-								if (victor){
-									winnerIs(playerNames[currplayer],sout,sin);
+								if (numPlay == 1){
+									for (int i = 0; i < machineName.length; i++) {
+										if (machineName[i] != "null") {
+											winnerIs(playerNames[i],sout,sin);
+										}
+									} 
+								}else if (victor) {
+									winnerIs(playerNames[currplayer], sout,sin);
 								}else {
 									//If no then went
 									//Will be a landing cor
