@@ -131,7 +131,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	/**
 	 * Checks to see whether the space being moved is a legal diagonal or not.
 	 * 
-	 * @param currentPosititon
+	 * @param currentPosition
 	 *            The current position of the player.
 	 * @param potentialPosition
 	 *            The position the player wants to move to.
@@ -141,8 +141,52 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	 */
 	public boolean isMoveLegalDiagonal(Space currentPosition,
 			Space potentialPosition) {
-		// FIX IN FUTURE UPDATE: RULE ABOUT MOVING DIAGONALLY WHEN WALLS BECOME
-		// IMPLEMENTED
+		
+		if (currentPosition.equals(potentialPosition)) {
+			return true;
+		}
+		SpaceNode potential = this.boardConfiguration.spaceAt(
+				potentialPosition.getX(), potentialPosition.getY());
+
+		for (Space comparison : this.occupiedSpaces) {
+			
+			SpaceNode comparisonNode = this.boardConfiguration.spaceAt(
+					comparison.getX(), comparison.getY());
+			
+			ArrayList<Space> knownOccupiedSpaces = new ArrayList<Space>();
+			
+			if (comparisonNode.equals(potential.getLeftNode())) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+			if (comparisonNode.equals(potential.getRightNode())) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+			if (comparisonNode.equals(potential.getTopNode())) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+			if (comparisonNode.equals(potential.getBottomNode())) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+			// return false;
+		}
+		return false;
+
 		/*
 		 * if(potentialPosition.getX() - currentPosition.getX() != 0) { int
 		 * slope = (potentialPosition.getY() - currentPosition.getY()/
@@ -160,6 +204,73 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 		 * Space(potentialPosition.getX() + 1, potentialPosition.getY())); } } }
 		 * }
 		 */
+		// return false;
+	}
+
+	/**
+	 * @deprecated This is not used in the program, although it is still
+	 *             functional. It was a helper method for isMoveLegalDiagonal;
+	 *             determined if a space is inside an List of spaces
+	 * @param given
+	 *            The space needed to be checked
+	 * @param knownSpaces
+	 *            The list of spaces to compare against
+	 * @return True if in the list; False if not in the list.
+	 */
+	public boolean isSpaceAccountedFor(Space given, ArrayList<Space> knownSpaces) {
+		for (int i = 0; i < knownSpaces.size(); i++) {
+			if (given.equals(knownSpaces.get(i))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isMoveLegalDiagonal(Space currentPosition,
+			Space potentialPosition, ArrayList<Space> knownOccupiedSpaces) {
+		if (currentPosition.equals(potentialPosition)) {
+			return true;
+		}
+		SpaceNode potential = this.boardConfiguration.spaceAt(
+				potentialPosition.getX(), potentialPosition.getY());
+
+		for (Space comparison : this.occupiedSpaces) {
+			SpaceNode comparisonNode = this.boardConfiguration.spaceAt(
+					comparison.getX(), comparison.getY());
+
+			if (comparisonNode.equals(potential.getLeftNode())
+					&& !knownOccupiedSpaces.contains(comparison)) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+			if (comparisonNode.equals(potential.getRightNode())
+					&& !knownOccupiedSpaces.contains(comparison)) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+			if (comparisonNode.equals(potential.getTopNode())
+					&& !knownOccupiedSpaces.contains(comparison)) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+			if (comparisonNode.equals(potential.getBottomNode())
+					&& !knownOccupiedSpaces.contains(comparison)) {
+				knownOccupiedSpaces.add(potentialPosition);
+				if (isMoveLegalDiagonal(currentPosition, comparison,
+						knownOccupiedSpaces)) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
@@ -217,7 +328,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	/**
 	 * Checks if a move meets all the move criteria
 	 * 
-	 * @param currentPosition
+	 * @param currentPlayer
 	 *            The current space the player moving is positioned
 	 * @param potentialPosition
 	 *            The space the player wants to move to
@@ -614,7 +725,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 				}
 			}
 			break;
-			
+
 		case 1:
 			Wall tempWall2 = new Wall(startingSpace2, startingSpace1);
 			for (Wall comparison : placedWalls) {
@@ -710,7 +821,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	 * Gets the wall at a certain index in the array list of placed walls
 	 * 
 	 * @param index
-	 * @return
+	 * @return the walls at the specified index
 	 */
 	public Wall getPlacedWalls(int index) {
 		return placedWalls.get(index);
@@ -743,7 +854,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 		return this.currentPlayer;
 	}
 
-	@Override
+	// @Override
 	public boolean isLegalSingleMove(Player currentPlayer,
 			Space potentialPosition) {
 		int playerX = currentPlayer.getX();
@@ -771,7 +882,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	public Space StringtoCoordinates(String moveString) {
 		// Create the initial arrays to assign indexes to the string values.
 		String[] xArray = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII",
-		"IX" };
+				"IX" };
 		String[] yArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 
 		// Find the index of the - separating the x and y coordinates.
@@ -809,7 +920,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	public String spaceToString(Space space) {
 		// Set up the proper space mappings.
 		String[] xArray = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII",
-		"IX" };
+				"IX" };
 		String[] yArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 
 		String protocolString;

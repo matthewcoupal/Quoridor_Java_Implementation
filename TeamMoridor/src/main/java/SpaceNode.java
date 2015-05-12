@@ -164,5 +164,14 @@ public class SpaceNode {
 		return "Node: " + nodeX + "," + nodeY + "\nTop: " + topX + "," + topY +
 				"\nRight: " + rightX + "," + rightY + "\nBottom: " + bottomX + "," + bottomY + "\nLeft: " + leftX + "," + leftY;
 	}
+	
+	public boolean equals(SpaceNode comparison) {
+		//int compX = comparison.getCoordinates().getX();
+		//int compY = comparison.getCoordinates().getY();
+		if(comparison == null) {
+			return false;
+		}
+		return this.coordinates.equals(comparison.getCoordinates());
+	}
 
 }

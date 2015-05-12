@@ -33,8 +33,8 @@ import org.powermock.modules.testng.PowerMockTestCase;
 import org.powermock.reflect.Whitebox;
 import static org.mockito.Mockito.times;
 
-@PrepareForTest({Board.class})
-@RunWith(PowerMockRunner.class)
+//@PrepareForTest({Board.class})
+//@RunWith(PowerMockRunner.class)
 
 public class BoardTest {
 
@@ -480,5 +480,33 @@ public class BoardTest {
 		System.out.println(board.boardConfiguration.spaceAt(0, 1));
 		System.out.println(board.boardConfiguration.spaceAt(2, 1));
 		System.out.println(board.boardConfiguration.spaceAt(1, 2));
+	}
+	
+	@Test
+	public void BoardCanSeeIfPlayerIsOnASpace () {
+		Board board = new Board(4);
+		board.setCurrentPlayer(0);
+		Player player1 = board.currentPlayer();
+		board.makeMove(player1, new Space(4,1));
+		board.makeMove(player1, new Space(4,2));
+		board.makeMove(player1, new Space(4,3));
+		board.makeMove(player1, new Space(4,4));
+		board.setCurrentPlayer(1);
+		Player player2 = board.currentPlayer();
+		board.makeMove(player2, new Space(4,7));
+		board.makeMove(player2, new Space(4,6));
+		board.makeMove(player2, new Space(4,5));
+		board.setCurrentPlayer(2);
+		Player player3 = board.currentPlayer();
+		board.makeMove(player3, new Space(1,4));
+		board.makeMove(player3, new Space(2,4));
+		board.makeMove(player3, new Space(3,4));
+		board.setCurrentPlayer(3);
+		Player player4 = board.currentPlayer();
+		board.makeMove(player4, new Space(7,4));
+		board.makeMove(player4, new Space(6,4));
+		board.makeMove(player4, new Space(5,4));
+		board.makeMove(player4, new Space(4,3));
+		
 	}
 }
