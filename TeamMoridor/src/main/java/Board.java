@@ -141,7 +141,7 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	 */
 	public boolean isMoveLegalDiagonal(Space currentPosition,
 			Space potentialPosition) {
-		
+
 		if (currentPosition.equals(potentialPosition)) {
 			return true;
 		}
@@ -149,12 +149,12 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 				potentialPosition.getX(), potentialPosition.getY());
 
 		for (Space comparison : this.occupiedSpaces) {
-			
+
 			SpaceNode comparisonNode = this.boardConfiguration.spaceAt(
 					comparison.getX(), comparison.getY());
-			
+
 			ArrayList<Space> knownOccupiedSpaces = new ArrayList<Space>();
-			
+
 			if (comparisonNode.equals(potential.getLeftNode())) {
 				knownOccupiedSpaces.add(potentialPosition);
 				if (isMoveLegalDiagonal(currentPosition, comparison,
@@ -380,21 +380,32 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 	 *         player is in the direction. False otherwise.
 	 */
 	public boolean isDoubleJumpLegal(Player player, Space space) {
+		if (this.isWallHere(player, space, 0)) {
+			return false;
+		}
 		if ((space.getX() - player.getX()) == 2
 				&& (space.getY() - player.getY()) == 0) {
-			if (isPlayerHere(new Space(player.getX() + 1, player.getY())))
+			if (isPlayerHere(new Space(player.getX() + 1, player.getY()))
+					&& !isWallHere(player,
+							new Space(player.getX() + 1, player.getY()), 0))
 				return true;
 		} else if (space.getX() - player.getX() == -2
 				&& (space.getY() - player.getY()) == 0) {
-			if (isPlayerHere(new Space(player.getX() - 1, player.getY())))
+			if (isPlayerHere(new Space(player.getX() - 1, player.getY()))
+					&& !isWallHere(player,
+							new Space(player.getX() - 1, player.getY()), 0))
 				return true;
 		} else if (space.getY() - player.getY() == 2
 				&& space.getX() - player.getX() == 0) {
-			if (isPlayerHere(new Space(player.getX(), player.getY() + 1)))
+			if (isPlayerHere(new Space(player.getX(), player.getY() + 1))
+					&& !isWallHere(player,
+							new Space(player.getX(), player.getY() + 1), 0))
 				return true;
 		} else if (space.getY() - player.getY() == -2
 				&& (space.getX() - player.getX()) == 0) {
-			if (isPlayerHere(new Space(player.getX(), player.getY() - 1)))
+			if (isPlayerHere(new Space(player.getX(), player.getY() - 1))
+					&& !isWallHere(player,
+							new Space(player.getX(), player.getY() - 1), 0))
 				return true;
 		}
 		return false;

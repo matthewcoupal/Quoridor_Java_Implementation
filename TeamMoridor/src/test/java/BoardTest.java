@@ -506,7 +506,10 @@ public class BoardTest {
 		board.makeMove(player4, new Space(7,4));
 		board.makeMove(player4, new Space(6,4));
 		board.makeMove(player4, new Space(5,4));
-		board.makeMove(player4, new Space(4,3));
+		//board.makeMove(player4, new Space(4,3));
+		board.placeWall(new Space(3,3), new Space(3,4));
+		board.makeMove(player3, new Space(6,4));
+		
 		
 	}
 }
