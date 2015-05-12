@@ -6,6 +6,9 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -71,8 +74,10 @@ public class GameBoard extends Board{
 		frame.setResizable( false );
 		frame.setLocation( 100, 100 );
 		frame.setVisible( true );
+		frame.setJMenuBar( getJMenuBar());
 		frame.pack();
 		updatePositions();
+		
 	}
 
     /**
@@ -197,6 +202,23 @@ public class GameBoard extends Board{
 		};
 	}
 
+	public JMenuBar getJMenuBar(){
+		JMenuBar jmb = new JMenuBar();
+		JMenu jm = new JMenu( "File" );
+
+		JMenuItem jmi = new JMenuItem( "Start" );
+		jm.add( jmi );
+
+		jmi = new JMenuItem( "Hello" );
+		jm.add( jmi );
+
+		jmi = new JMenuItem( "Exit" );
+		jm.add( jmi );
+
+		jmb.add( jm );
+
+		return jmb;
+	}
 	/**
 	 * Checks the occupied spaces on the board and sets the background of the
 	 * space occupied by the current player to RED and sets the text on all occupied spaces
