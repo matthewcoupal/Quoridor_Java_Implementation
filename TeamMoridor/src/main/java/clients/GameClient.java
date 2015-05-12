@@ -376,7 +376,8 @@ public class GameClient {
 				sin[i].close();
 			}
 		}
-		//board.bootPlayer(board.currentPlayer());
+		board.bootPlayer(board.currentPlayer());
+		gui.bootPlayer(gui.currentPlayer());
 	}
 
 	//sets names list

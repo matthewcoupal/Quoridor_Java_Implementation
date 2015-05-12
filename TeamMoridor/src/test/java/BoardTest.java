@@ -33,8 +33,8 @@ import org.powermock.modules.testng.PowerMockTestCase;
 import org.powermock.reflect.Whitebox;
 import static org.mockito.Mockito.times;
 
-//@PrepareForTest({Board.class})
-//@RunWith(PowerMockRunner.class)
+@PrepareForTest({Board.class})
+@RunWith(PowerMockRunner.class)
 
 public class BoardTest {
 

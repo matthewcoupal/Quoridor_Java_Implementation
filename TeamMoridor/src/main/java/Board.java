@@ -349,6 +349,11 @@ public class Board implements BoardInterface, RulesInterface, MasterInterface {
 		}
 		return false;
 	}
+	
+	public void bootPlayer(Player currentPlayer) {
+		//this.occupiedSpaces.remove(this.occupiedSpaces.indexOf(currentPlayer));
+		this.occupiedSpaces.set(this.occupiedSpaces.indexOf(currentPlayer), null);
+	}
 
 	/**
 	 * Checks if the player's current position is within a victory space

@@ -208,11 +208,17 @@ public class GameBoard extends Board{
 		int xCoordinate = 0;
 		int yCoordinate = 0;
 		for(int i = 0; i < this.occupiedSpaces.size(); i++) {
+			if(this.occupiedSpaces.get(i) != null) {
 			xCoordinate = this.occupiedSpaces.get(i).getX();
 			yCoordinate = this.occupiedSpaces.get(i).getY();
 			setBackground(boardGrid[xCoordinate][yCoordinate], i);
+			}
 		}
 		currentPlayerNum = turn[currTurn % this.occupiedSpaces.size()];
+		while(this.occupiedSpaces.get(currentPlayerNum) == null) {
+			currTurn++;
+			currentPlayerNum = turn[currTurn % this.occupiedSpaces.size()];
+		}
 		xCoordinate = this.occupiedSpaces.get(currentPlayerNum).getX();
         yCoordinate = this.occupiedSpaces.get(currentPlayerNum).getY();
         boardGrid[xCoordinate][yCoordinate].setBackground(Color.RED);

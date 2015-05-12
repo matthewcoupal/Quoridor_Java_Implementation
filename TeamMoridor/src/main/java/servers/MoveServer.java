@@ -1,10 +1,10 @@
 package main.java.servers;
 import java.io.IOException;
 import java.io.PrintStream;
-
 import java.lang.System;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 import main.java.Board;
 import main.java.Space;
 import main.java.AI;
@@ -12,6 +12,9 @@ import main.java.AI;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+//import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Occurs;
+
 import main.java.UI.GameBoard;
 import main.java.Player;
 
@@ -294,6 +297,8 @@ public class MoveServer {
 					numPlayers--;
 				}
 			}
+			board.bootPlayer(board.currentPlayer());
+			gui.bootPlayer(gui.currentPlayer());
 		}
 	}
 
