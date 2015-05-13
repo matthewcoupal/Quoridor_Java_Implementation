@@ -42,4 +42,38 @@ public class GameMenu {
 	}
 }
 
-	
+class NumbButton extends JButton{
+
+	private String name = "";
+	private int colorIndex;
+	private Color[] bckgrndColor = new Color[] {
+			Color.RED		/*0*/, 
+			Color.ORANGE	/*1*/,
+			Color.YELLOW	/*2*/,
+			Color.GREEN		/*3*/,
+			Color.CYAN		/*4*/,
+			Color.MAGENTA	/*5*/,
+			Color.BLACK, 	/*6*/
+			new Color( 150, 75, 0 )/*7 BROWN*/,
+			Color.LIGHT_GRAY/*8*/,
+			Color.WHITE		/*9*/ 
+	}; 
+
+	public NumbButton(){
+		super();
+		colorIndex = 8;
+	}
+
+	public NumbButton( String name){
+		super("Name");
+		this.name = name;
+		colorIndex = 7;
+	}
+
+	public void paint( Graphics g ){
+		g.setColor( bckgrndColor[ colorIndex ] );
+		g.fillRect(0, 0, this.getWidth(), this.getHeight() );
+		g.setColor(Color.BLACK);
+		g.drawString( name, this.getWidth()*1/3, this.getHeight()*2/3 );
+	}
+} 
