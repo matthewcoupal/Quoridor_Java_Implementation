@@ -64,7 +64,65 @@ public class GameMenu {
 		frame.setVisible( true );
 		frame.pack();
 	}
+	public void DemoScreen2(){
+		frame.dispose();
+		frame = new JFrame( "HELLO");
+		JPanel panel = new JPanel();
+		GridLayout grid = new GridLayout(5, 3, 0, 0);
+		panel.setLayout( grid );
+		panel.setPreferredSize( new Dimension( 500, 200 ) );
+
+		/*Row 1*/
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+
+		/*Row 2*/
+		panel.add( new NumbButton() );
+		JButton btn1 = new JButton( "2 - Players" );
+		btn1.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		panel.add( btn1 );
+		panel.add( new NumbButton() );
+
+		/*Row 3*/
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+
+		/*Row 4*/
+		panel.add( new NumbButton() );
+		JButton btn2 = new JButton( "4 - Players" );
+		btn2.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+
+			}
+		});
+		panel.add( btn2 );
+		panel.add( new NumbButton() );
+
+		/*Row 5*/
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+
+		frame.add( panel );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.setResizable( false );
+		frame.setLocation( 100, 100 );
+		frame.setVisible( true );
+		frame.pack();
+	}
 }
+
 
 class NumbButton extends JButton{
 
