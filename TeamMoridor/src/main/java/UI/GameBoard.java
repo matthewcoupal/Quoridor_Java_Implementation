@@ -78,7 +78,6 @@ public class GameBoard extends Board{
 		frame.setResizable( false );
 		frame.setLocation( 100, 100 );
 		frame.setVisible( true );
-		frame.setJMenuBar( getJMenuBar());
 		frame.pack();
 		updatePositions();
 		
@@ -206,44 +205,7 @@ public class GameBoard extends Board{
 		};
 	}
 
-	public JMenuBar getJMenuBar(){
-		JMenuBar jmb = new JMenuBar();
-		JMenu jm = new JMenu( "File" );
-		JMenu jm1 = new JMenu("About");
-		
-
-		JMenuItem jmi = new JMenuItem( "Start" );
-		jm.add( jmi );
-
-		jmi = new JMenuItem( "About" );
-		jm.add( jmi );
-		jm1.addMenuListener(new MenuListener() {
-		
-		@Override
-        public void menuSelected(MenuEvent arg0) {
-			JOptionPane.showMessageDialog(null, "Team Moridor","About", JOptionPane.ERROR_MESSAGE);
-        }
-
-		@Override
-		public void menuDeselected(MenuEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void menuCanceled(MenuEvent e) {
-			// TODO Auto-generated method stub
-			
-		};
-		});
-
-		jmi = new JMenuItem( "Exit" );
-		jm.add( jmi );
-
-		jmb.add( jm );
-
-		return jmb;
-	}
+	
 	/**
 	 * Checks the occupied spaces on the board and sets the background of the
 	 * space occupied by the current player to RED and sets the text on all occupied spaces
