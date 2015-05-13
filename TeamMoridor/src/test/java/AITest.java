@@ -33,7 +33,7 @@ public class AITest {
 		assertEquals(1, Emily.getPlayerNumber());
 	}
 	
-	@Test
+	/*@Test
 	public void aiCanChooseItsShortestPath() {
 	    //Board board = new Board(4);
 	    AI Travis = new AI(4,1);
@@ -46,6 +46,6 @@ public class AITest {
 	    assertEquals(Popo.spaceToString(Popo.boardConfiguration.spaceAt(7, 4).getCoordinates()), Popo.considerMove(Popo));
 	    AI Terry = new AI(2);
 	    assertEquals(Terry.spaceToString(Terry.boardConfiguration.spaceAt(4,7).getCoordinates()), Terry.considerMove(Terry));
-	}
+	}*/
 
 }

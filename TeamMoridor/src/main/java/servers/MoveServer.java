@@ -63,7 +63,7 @@ public class MoveServer {
 	public static String DEFAULT_PLAYER_NAME = "POPO"  ;
 	public static String DEFAULT_MACHINE_NAME = "localhost";
 	public static int port = 9090;
-	public static boolean IS_HUMAN = true;
+	public static boolean IS_HUMAN;
 
 	public final static String MY_TURN ="GO?";
 	public String[] opponents;
@@ -72,7 +72,7 @@ public class MoveServer {
 	public int numPlayers;
 	public Board board;
 	public GameBoard gui;
-	//public ai gladus;
+	public AI gladus;
 
 	/**
 	 * Creates a new <code>TCPServer</code> instance. TCPServer is
@@ -109,6 +109,7 @@ public class MoveServer {
 					port = Integer.parseInt(args[argNdx]);
 				}else{
 					if (curr.equals(ARG_NAME)) {
+						IS_HUMAN = true;
 						argNdx++;
 						DEFAULT_PLAYER_NAME = args[argNdx];
 					}else{
@@ -221,7 +222,7 @@ public class MoveServer {
 			if(msg[i].equals(DEFAULT_PLAYER_NAME)){
 				System.out.println(i-1);
 				playNum = i-1;
-				//gladus = new AI(playNum, (msg.length - 1));
+				gladus = new AI((msg.length - 1), playNum);
 			}
 		}
 		addOpponents(opponents, (playNum));
@@ -238,7 +239,7 @@ public class MoveServer {
 				moveString = gui.getMove();
 			}
 		}else{
-			//moveString = gladus.considerMove(board);
+			moveString = gladus.considerMove(board);
 		}
 		System.out.println(moveString);
 		if(moveString.contains(" ")){
