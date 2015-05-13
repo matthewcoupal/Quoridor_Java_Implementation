@@ -4,6 +4,8 @@ package main.java;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
+import java.util.Random;
+import main.java.SpaceNode;
 
 /**
  * The artificial intelligence working to beat its opponents. Extends board rather than player since the methods of the board are much more valuable.
@@ -116,11 +118,41 @@ public class AI extends Board {
      * @return The move-string for the best move.
      */
     public String considerMove (Board board) {
-    SpaceNode current = board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber() - 1).getX(), board.occupiedSpaces.get(this.getPlayerNumber() - 1).getY());
-	if(board.occupiedSpaces.get(this.getPlayerNumber() - 1).getWalls() != 0) {
-	SpaceNode moveSpace = this.makeMove(board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber() - 1).getX(), board.occupiedSpaces.get(this.getPlayerNumber() - 1).getY()));
+    SpaceNode current = board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber()).getX(), board.occupiedSpaces.get(this.getPlayerNumber()).getY());
+	/*if(board.occupiedSpaces.get(this.getPlayerNumber()).getWalls() != 0) {
+	SpaceNode moveSpace = this.makeMove(board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber()).getX(), board.occupiedSpaces.get(this.getPlayerNumber()).getY()));
 	return this.spaceToString(moveSpace.getCoordinates());
+	}*/
+	Random random = new Random();
+	int move = random.nextInt(4);
+	SpaceNode node = board.boardConfiguration.spaceAt(currentPlayer().getX(), currentPlayer().getY());
+	String movestring = "";
+	System.out.println("******"+move+"******"	);
+	switch(move) {
+	case 0:
+		if(this.isLegalMove(currentPlayer(), node.getLeftNode().getCoordinates())) {
+			return this.spaceToString(node.getLeftNode().getCoordinates());
+		}
+		break;
+	case 1:
+		if(this.isLegalMove(currentPlayer(), node.getRightNode().getCoordinates())) {
+			return this.spaceToString(node.getRightNode().getCoordinates());
+		}
+	break;
+	case 2:
+		if(this.isLegalMove(currentPlayer(), node.getTopNode().getCoordinates())) {
+			return this.spaceToString(node.getTopNode().getCoordinates());
+		}
+	break;
+	case 3:
+		if(this.isLegalMove(currentPlayer(), node.getBottomNode().getCoordinates())) {
+			return this.spaceToString(node.getBottomNode().getCoordinates());
+		}
+	break;
+	default:
+	return this.spaceToString(new Space(8, 8));
 	}
+	
     
     //Backup algorithm just in case something goes wrong.
     //int X = current.getCoordinates().getX()+ this.xMultiplier;
@@ -191,15 +223,15 @@ public class AI extends Board {
 	} else {
 	    return new Space(-1,-1);
 	}
-    }
-*/
+    }*/
+
     
     /**
      * Traverses the board until it reaches the first occurrence of a winning space.
      * @param currentSpace The space that the AI is currently on
      * @return The best available space to move to; Null if for some reason any goal position cannot be reached.
      */
-    private SpaceNode makeMove(SpaceNode currentSpace) {//ArrayList<Space> visitedSpaces, ArrayList<Space> currentVisited) {
+    /*private SpaceNode makeMove(SpaceNode currentSpace) {//ArrayList<Space> visitedSpaces, ArrayList<Space> currentVisited) {
     	Stack<SpaceNode> nodesToBeVisited = new Stack<SpaceNode>();
     	ArrayList<SpaceNode> nodesVisited = new ArrayList<SpaceNode>();
     	ArrayList<SpaceNode> allNodesVisited = new ArrayList<SpaceNode>();
@@ -252,9 +284,10 @@ public class AI extends Board {
 
     	}
     	//If can't reach goal
-    	return null;
+    	return new SpaceNode(new Space(8,8))
+;
 
-    }
+    }*/
     
 	/*currentVisited.add(currentSpace);
 	visitedSpaces.add(currentSpace);
