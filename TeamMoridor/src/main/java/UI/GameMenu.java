@@ -121,6 +121,27 @@ public class GameMenu {
 		frame.setVisible( true );
 		frame.pack();
 	}
+	
+	public void DemoScreen3( int nPlayers){
+		frame.dispose();
+		frame = new JFrame( "HELLO");
+		JPanel panel = new JPanel();
+		GridLayout grid = new GridLayout(1, 1, 0, 0);
+		panel.setLayout( grid );
+		panel.setPreferredSize( new Dimension( 500, 200 ) );
+
+		/*Row 1*/
+		JButton btn1 = new JButton( "Hello: " + nPlayers + " players." );
+		panel.add( btn1 );
+
+		frame.add( panel );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.setResizable( false );
+		frame.setLocation( 100, 100 );
+		frame.setVisible( true );
+		frame.pack();
+
+	}
 }
 
 
