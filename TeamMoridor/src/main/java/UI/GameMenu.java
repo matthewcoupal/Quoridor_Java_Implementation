@@ -45,7 +45,7 @@ public class GameMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				DemoScreen2();
 
 			}
 		});
@@ -84,7 +84,7 @@ public class GameMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				DemoScreen3( 2 );
 			}
 		});
 		panel.add( btn1 );
