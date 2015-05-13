@@ -144,11 +144,13 @@ public class GameMenu {
 	}
 }
 
-
+// For different button colors
 class NumbButton extends JButton{
 
 	private String name = "";
 	private int colorIndex;
+	
+	//Colors for background
 	private Color[] bckgrndColor = new Color[] {
 			Color.RED		/*0*/, 
 			Color.ORANGE	/*1*/,
@@ -164,15 +166,17 @@ class NumbButton extends JButton{
 
 	public NumbButton(){
 		super();
-		colorIndex = 8;
+		colorIndex = 3;
 	}
 
+	// For changing color of the buttons
 	public NumbButton( String name){
 		super("Name");
 		this.name = name;
 		colorIndex = 7;
 	}
 
+	//Paints the background
 	public void paint( Graphics g ){
 		g.setColor( bckgrndColor[ colorIndex ] );
 		g.fillRect(0, 0, this.getWidth(), this.getHeight() );
