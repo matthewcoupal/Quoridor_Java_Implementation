@@ -32,6 +32,30 @@ public class GameMenu {
 		GridLayout grid = new GridLayout(3, 3, 0, 0);
 		panel.setLayout( grid );
 		panel.setPreferredSize( new Dimension( 500, 200 ) );
+		
+		/*If More Buttons needed*/
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+
+		/*Row 2*/
+		panel.add( new NumbButton() );
+		JButton start = new JButton( "Start" );
+		start.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+
+			}
+		});
+		panel.add( start );
+		panel.add( new NumbButton() );
+
+		/*Row 3*/
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
+		panel.add( new NumbButton() );
 			
 		frame.add( panel );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
