@@ -1,4 +1,3 @@
-
 package main.java;
 
 import java.util.ArrayList;
@@ -8,167 +7,200 @@ import java.util.Random;
 import main.java.SpaceNode;
 
 /**
- * The artificial intelligence working to beat its opponents. Extends board rather than player since the methods of the board are much more valuable.
+ * The artificial intelligence working to beat its opponents. Extends board rather than player since
+ * the methods of the board are much more valuable.
+ * 
  * @author Matthew Coupal
  *
  */
 public class AI extends Board {
-    //Instance Variables
+  // Instance Variables
 
-    private int playerNumber; //The AI's player number
-    ArrayList<SpaceNode> goal = new ArrayList<SpaceNode>();
-    int xMultiplier = 0;// The values pertaining on the x direction
-    int yMultiplier = 0;// The values pertaining on the y direction
-    
-    
-    
-    /**
-     * Generates the board with the default player number of 2 and creates the AI's win spaces.
-     * @param playerNumber The player number that the AI should be.
+  private int playerNumber; // The AI's player number
+  ArrayList<SpaceNode> goal = new ArrayList<SpaceNode>();
+  int xMultiplier = 0;// The values pertaining on the x direction
+  int yMultiplier = 0;// The values pertaining on the y direction
+
+
+
+  /**
+   * Generates the board with the default player number of 2 and creates the AI's win spaces.
+   * 
+   * @param playerNumber The player number that the AI should be.
+   */
+  public AI(int playerNumber) {
+    super(2);
+    this.setPlayerNumber(playerNumber);
+    switch (this.getPlayerNumber()) {
+      case 1:
+        for (int i = 0; i < 9; i++) {
+          goal.add(this.boardConfiguration.spaceAt(
+              this.occupiedSpaces.get(0).getWinSpace(i).getX(), this.occupiedSpaces.get(0)
+                  .getWinSpace(i).getY()));
+        }
+        yMultiplier = 1;
+        break;
+      case 2:
+        for (int i = 0; i < 9; i++) {
+          goal.add(this.boardConfiguration.spaceAt(
+              this.occupiedSpaces.get(1).getWinSpace(i).getX(), this.occupiedSpaces.get(1)
+                  .getWinSpace(i).getY()));
+        }
+        yMultiplier = -1;
+        break;
+      default:
+        ;
+        break;
+    }
+  }
+
+  /**
+   * Generates the board with the specified number of players and finds the AI's win spaces.
+   * 
+   * @param numberOfPlayers The number of players in the game.
+   * @param playerNumber The player number that the AI should be.
+   */
+  public AI(int numberOfPlayers, int playerNumber) {
+    super(numberOfPlayers);
+    this.setPlayerNumber(playerNumber);
+
+    // Assign the winning spaces based on the player number
+    switch (this.getPlayerNumber()) {
+      case 1:
+        for (int i = 0; i < 9; i++) {
+          goal.add(this.boardConfiguration.spaceAt(
+              this.occupiedSpaces.get(0).getWinSpace(i).getX(), this.occupiedSpaces.get(0)
+                  .getWinSpace(i).getY()));
+        }
+        yMultiplier = 1;
+        break;
+      case 2:
+        for (int i = 0; i < 9; i++) {
+          goal.add(this.boardConfiguration.spaceAt(
+              this.occupiedSpaces.get(1).getWinSpace(i).getX(), this.occupiedSpaces.get(1)
+                  .getWinSpace(i).getY()));
+        }
+        yMultiplier = -1;
+        break;
+      case 3:
+        for (int i = 0; i < 9; i++) {
+          goal.add(this.boardConfiguration.spaceAt(
+              this.occupiedSpaces.get(2).getWinSpace(i).getX(), this.occupiedSpaces.get(2)
+                  .getWinSpace(i).getY()));
+        }
+        xMultiplier = 1;
+        break;
+      case 4:
+        for (int i = 0; i < 9; i++) {
+          goal.add(this.boardConfiguration.spaceAt(
+              this.occupiedSpaces.get(3).getWinSpace(i).getX(), this.occupiedSpaces.get(3)
+                  .getWinSpace(i).getY()));
+        }
+        xMultiplier = -1;
+        break;
+      default:
+        ;
+        break;
+    }
+  }
+
+  /**
+   * Calculates the average number of walls every player has on hand.
+   * 
+   * @return The average of walls left on the board (includes the AI itself).
+   */
+  public int averageWallCount() {
+    int Walls = 0;
+    for (int i = 0; i < this.occupiedSpaces.size(); i++) {
+      if (i != this.getPlayerNumber()) {
+        Walls = Walls + this.occupiedSpaces.get(i).getWalls();
+      }
+    }
+    return Walls / (this.occupiedSpaces.size() - 1);
+  }
+
+  /**
+   * Sets the AI's player number.
+   * 
+   * @param number The player number being assigned.
+   */
+  public void setPlayerNumber(int number) {
+    this.playerNumber = number;
+  }
+
+  /**
+   * Gets the AI's currently set player number.
+   * 
+   * @return the player number of the AI.
+   */
+  public int getPlayerNumber() {
+    return this.playerNumber;
+  }
+
+  /**
+   * Chooses the best move based on the current board configuration
+   * 
+   * @param board The board to be analyzed.
+   * @return The move-string for the best move.
+   */
+  public String considerMove(Board board) {
+    SpaceNode current =
+        board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber()).getX(),
+            board.occupiedSpaces.get(this.getPlayerNumber()).getY());
+    /*
+     * if(board.occupiedSpaces.get(this.getPlayerNumber()).getWalls() != 0) { SpaceNode moveSpace =
+     * this
+     * .makeMove(board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber()
+     * ).getX(), board.occupiedSpaces.get(this.getPlayerNumber()).getY())); return
+     * this.spaceToString(moveSpace.getCoordinates()); }
      */
-    public AI(int playerNumber) {
-	super(2);
-	this.setPlayerNumber(playerNumber);
-	switch (this.getPlayerNumber()) {
-	case 1:  for (int i = 0; i < 9; i++) {
-	    goal.add(this.boardConfiguration.spaceAt(this.occupiedSpaces.get(0).getWinSpace(i).getX(), this.occupiedSpaces.get(0).getWinSpace(i).getY()));
-	}
-	yMultiplier = 1;
-	break;
-	case 2: for (int i = 0; i < 9; i++) {
-	    goal.add(this.boardConfiguration.spaceAt(this.occupiedSpaces.get(1).getWinSpace(i).getX(), this.occupiedSpaces.get(1).getWinSpace(i).getY()));
-	}
-	yMultiplier = -1;
-	break;
-	default: ;
-	break;
-	}
+    Random random = new Random();
+    int move = random.nextInt(4);
+    SpaceNode node =
+        board.boardConfiguration.spaceAt(currentPlayer().getX(), currentPlayer().getY());
+    String movestring = "";
+    System.out.println("******" + move + "******");
+    switch (move) {
+      case 0:
+        if (this.isLegalMove(currentPlayer(), node.getLeftNode().getCoordinates())) {
+          return this.spaceToString(node.getLeftNode().getCoordinates());
+        }
+        break;
+      case 1:
+        if (this.isLegalMove(currentPlayer(), node.getRightNode().getCoordinates())) {
+          return this.spaceToString(node.getRightNode().getCoordinates());
+        }
+        break;
+      case 2:
+        if (this.isLegalMove(currentPlayer(), node.getTopNode().getCoordinates())) {
+          return this.spaceToString(node.getTopNode().getCoordinates());
+        }
+        break;
+      case 3:
+        if (this.isLegalMove(currentPlayer(), node.getBottomNode().getCoordinates())) {
+          return this.spaceToString(node.getBottomNode().getCoordinates());
+        }
+        break;
+      default:
+        return this.spaceToString(new Space(8, 8));
     }
 
-    /**
-     * Generates the board with the specified number of players and finds the AI's win spaces.
-     * @param numberOfPlayers The number of players in the game.
-     * @param playerNumber The player number that the AI should be.
-     */
-    public AI(int numberOfPlayers, int playerNumber) {
-	super(numberOfPlayers);
-	this.setPlayerNumber(playerNumber);
 
-	// Assign the winning spaces based on the player number
-	switch (this.getPlayerNumber()) {
-	case 1:  for (int i = 0; i < 9; i++) {
-	    goal.add(this.boardConfiguration.spaceAt(this.occupiedSpaces.get(0).getWinSpace(i).getX(), this.occupiedSpaces.get(0).getWinSpace(i).getY()));
-	}
-	yMultiplier = 1;
-	break;
-	case 2: for (int i = 0; i < 9; i++) {
-	    goal.add(this.boardConfiguration.spaceAt(this.occupiedSpaces.get(1).getWinSpace(i).getX(), this.occupiedSpaces.get(1).getWinSpace(i).getY()));
-	}
-	yMultiplier = -1;
-	break;
-	case 3:
-		for (int i = 0; i < 9; i++) {
-	    goal.add(this.boardConfiguration.spaceAt(this.occupiedSpaces.get(2).getWinSpace(i).getX(), this.occupiedSpaces.get(2).getWinSpace(i).getY()));
-	}
-	xMultiplier = 1;
-	break;
-	case 4:  for (int i = 0; i < 9; i++) {
-	    goal.add(this.boardConfiguration.spaceAt(this.occupiedSpaces.get(3).getWinSpace(i).getX(), this.occupiedSpaces.get(3).getWinSpace(i).getY()));
-	}
-	xMultiplier = -1;
-	break;
-	default: ;
-	break;
-	}
-    }
-    
-    /**
-     * Calculates the average number of walls every player has on hand.
-     * @return The average of walls left on the board (includes the AI itself).
-     */
-    public int averageWallCount() {
-	int Walls = 0;
-	for(int i = 0; i < this.occupiedSpaces.size(); i++) {
-	    if(i != this.getPlayerNumber()) {
-		Walls = Walls + this.occupiedSpaces.get(i).getWalls();
-	    }
-	}
-	return Walls/(this.occupiedSpaces.size() - 1);
-    }
-
-    /**
-     * Sets the AI's player number.
-     * @param number The player number being assigned.
-     */
-    public void setPlayerNumber(int number) {
-	this.playerNumber = number;
-    }
-
-    /**
-     * Gets the AI's currently set player number.
-     * @return the player number of the AI.
-     */
-    public int getPlayerNumber() {
-	return this.playerNumber;
-    }
-
-    /**
-     * Chooses the best move based on the current board configuration
-     * @param board The board to be analyzed.
-     * @return The move-string for the best move.
-     */
-    public String considerMove (Board board) {
-    SpaceNode current = board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber()).getX(), board.occupiedSpaces.get(this.getPlayerNumber()).getY());
-	/*if(board.occupiedSpaces.get(this.getPlayerNumber()).getWalls() != 0) {
-	SpaceNode moveSpace = this.makeMove(board.boardConfiguration.spaceAt(board.occupiedSpaces.get(this.getPlayerNumber()).getX(), board.occupiedSpaces.get(this.getPlayerNumber()).getY()));
-	return this.spaceToString(moveSpace.getCoordinates());
-	}*/
-	Random random = new Random();
-	int move = random.nextInt(4);
-	SpaceNode node = board.boardConfiguration.spaceAt(currentPlayer().getX(), currentPlayer().getY());
-	String movestring = "";
-	System.out.println("******"+move+"******"	);
-	switch(move) {
-	case 0:
-		if(this.isLegalMove(currentPlayer(), node.getLeftNode().getCoordinates())) {
-			return this.spaceToString(node.getLeftNode().getCoordinates());
-		}
-		break;
-	case 1:
-		if(this.isLegalMove(currentPlayer(), node.getRightNode().getCoordinates())) {
-			return this.spaceToString(node.getRightNode().getCoordinates());
-		}
-	break;
-	case 2:
-		if(this.isLegalMove(currentPlayer(), node.getTopNode().getCoordinates())) {
-			return this.spaceToString(node.getTopNode().getCoordinates());
-		}
-	break;
-	case 3:
-		if(this.isLegalMove(currentPlayer(), node.getBottomNode().getCoordinates())) {
-			return this.spaceToString(node.getBottomNode().getCoordinates());
-		}
-	break;
-	default:
-	return this.spaceToString(new Space(8, 8));
-	}
-	
-    
     //Backup algorithm just in case something goes wrong.
     //int X = current.getCoordinates().getX()+ this.xMultiplier;
     //int Y = current.getCoordinates().getY()+ this.yMultiplier;
     //SpaceNode best = boardConfiguration.spaceAt(X , Y );
     //String move = board.spaceToString(best.getCoordinates());
-	//return move;
-	return "";
-    }
+    //return move;
+    return "";
+  }
 
-    /*/**
-     * 
-     * @param currentNode
-     * @return
-     */
-   /* private Space makeMove(SpaceNode currentNode) {
+  /*/**
+   * 
+   * @param currentNode
+   * @return
+   */
+  /* private Space makeMove(SpaceNode currentNode) {
 	// Set default values
 	int left = 9001;
 	int right = 9001;
@@ -225,13 +257,13 @@ public class AI extends Board {
 	}
     }*/
 
-    
-    /**
-     * Traverses the board until it reaches the first occurrence of a winning space.
-     * @param currentSpace The space that the AI is currently on
-     * @return The best available space to move to; Null if for some reason any goal position cannot be reached.
-     */
-    /*private SpaceNode makeMove(SpaceNode currentSpace) {//ArrayList<Space> visitedSpaces, ArrayList<Space> currentVisited) {
+
+  /**
+   * Traverses the board until it reaches the first occurrence of a winning space.
+   * @param currentSpace The space that the AI is currently on
+   * @return The best available space to move to; Null if for some reason any goal position cannot be reached.
+   */
+  /*private SpaceNode makeMove(SpaceNode currentSpace) {//ArrayList<Space> visitedSpaces, ArrayList<Space> currentVisited) {
     	Stack<SpaceNode> nodesToBeVisited = new Stack<SpaceNode>();
     	ArrayList<SpaceNode> nodesVisited = new ArrayList<SpaceNode>();
     	ArrayList<SpaceNode> allNodesVisited = new ArrayList<SpaceNode>();
@@ -288,8 +320,8 @@ public class AI extends Board {
 ;
 
     }*/
-    
-	/*currentVisited.add(currentSpace);
+
+  /*currentVisited.add(currentSpace);
 	visitedSpaces.add(currentSpace);
 	SpaceNode currentNode = this.boardConfiguration.spaceAt(currentSpace.getX(), currentSpace.getY());
 
@@ -309,8 +341,8 @@ public class AI extends Board {
 		    return 1;
 		}
 	    }
-	    
-	    
+
+
 	    //leftList.addAll(visitedSpaces);
 	    left = this.makeMove(currentNode.getLeftNode().getCoordinates(), visitedSpaces, currentVisited);
 	}
@@ -346,5 +378,5 @@ public class AI extends Board {
 
 	return min + 1; 
 	}*/
-    
+
 }
